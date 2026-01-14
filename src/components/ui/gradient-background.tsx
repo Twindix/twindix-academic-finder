@@ -13,10 +13,11 @@ export default function GradientBackground({ variant, className = '' }: Gradient
             <div
                 className="absolute bottom-0 left-1/2 -translate-x-1/2"
                 style={{
-                    width: '800px',
-                    maxWidth: '90%',
-                    height: '45vh',
-                    background: `radial-gradient(ellipse 100% 100% at 50% 100%, rgba(${color}, 0.7) 0%, rgba(${color}, 0.4) 30%, rgba(${color}, 0.15) 50%, transparent 70%)`,
+                    width: '900px',
+                    maxWidth: '95%',
+                    height: '50vh',
+                    background: `radial-gradient(ellipse 100% 80% at 50% 100%, rgba(${color}, 0.55) 0%, rgba(${color}, 0.35) 20%, rgba(${color}, 0.2) 35%, rgba(${color}, 0.1) 50%, rgba(${color}, 0.03) 65%, transparent 80%)`,
+                    filter: 'blur(2px)',
                 }}
             />
         </div>
