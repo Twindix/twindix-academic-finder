@@ -12,7 +12,6 @@ export default function Sidebar() {
         try {
             await logout();
         } catch {
-            // Error handled by hook
         } finally {
             setIsLoggingOut(false);
         }
@@ -20,15 +19,12 @@ export default function Sidebar() {
 
     return (
         <aside className="w-64 min-h-screen bg-surface border-r border-gray-100 flex flex-col">
-            {/* Logo */}
             <div className="p-6">
                 <Logo size="md" />
             </div>
 
-            {/* Spacer */}
             <div className="flex-1" />
 
-            {/* Logout button */}
             <div className="p-6">
                 <button
                     onClick={handleLogout}

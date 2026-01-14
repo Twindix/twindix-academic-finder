@@ -9,7 +9,6 @@ interface ChatBoxProps {
 export default function ChatBox({ userName, content, onCopy }: ChatBoxProps) {
     return (
         <div className="bg-surface rounded-[14px] border border-gray-100 overflow-hidden">
-            {/* Header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
                 <h2 className="text-lg font-semibold text-primary">{userName}</h2>
                 <div className="flex items-center gap-4">
@@ -31,7 +30,6 @@ export default function ChatBox({ userName, content, onCopy }: ChatBoxProps) {
                 </div>
             </div>
 
-            {/* Content */}
             <div className="px-6 py-4 max-h-[60vh] overflow-y-auto">
                 <ul className="space-y-4">
                     {content.map((item, index) => (

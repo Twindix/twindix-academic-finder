@@ -1,20 +1,13 @@
-/**
- * Application string constants
- * Centralized location for all UI text
- */
-
 export const strings = {
-    // App info
     appName: 'Twindix Academic Gate',
     companyName: 'Twindix Global Inc.',
 
-    // Login page
     login: {
         title: 'Login',
         welcome: 'Welcome',
         welcomeSuffix: 'Back Please enter The Details For Your Account',
         emailLabel: 'E-mail',
-        emailPlaceholder: 'Write here',
+        emailPlaceholder: 'Enter E-mail here',
         passwordLabel: 'Password',
         passwordPlaceholder: 'Enter Password here',
         forgotPassword: 'Forget your password?',
@@ -22,13 +15,11 @@ export const strings = {
         submitButton: 'Login',
     },
 
-    // Auth layout (left side)
     authLayout: {
         welcomeTitle: 'Welcome Back to Twindix',
         welcomeDescription: 'Accurate recommendations for suitable academic and career paths, along with practical steps to help both the parent and the student make a confident, decisive choice.',
     },
 
-    // Code page
     code: {
         titleEnter: 'Enter Code',
         titleSuffix: 'Job Bar to Display its',
@@ -43,14 +34,12 @@ export const strings = {
         errorDefault: 'Re Enter the Code Again.',
     },
 
-    // Result page
     result: {
         copiedMessage: 'Copied to clipboard!',
         buttonReset: 'Reset',
         loading: 'Loading...',
     },
 
-    // Profile page
     profile: {
         title: 'Profile',
         nameLabel: 'Name',
@@ -59,7 +48,6 @@ export const strings = {
         notAvailable: 'N/A',
     },
 
-    // Common
     common: {
         logout: 'Log out',
         loggingOut: 'Logging out...',
@@ -67,7 +55,6 @@ export const strings = {
         copy: 'Copy',
     },
 
-    // Validation messages
     validation: {
         emailRequired: 'Email is required',
         emailInvalid: 'Please enter a valid email address',
@@ -79,7 +66,6 @@ export const strings = {
         codeMinLength: 'Code must be at least 3 characters',
     },
 
-    // Error messages
     errors: {
         invalidCredentials: 'Invalid credentials',
         examNotFound: 'Exam not found',
