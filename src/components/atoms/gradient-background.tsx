@@ -1,9 +1,7 @@
-interface GradientBackgroundProps {
+export default function GradientBackground({ variant, className = '' }: {
     variant: 'loading' | 'error',
     className?: string,
-}
-
-export default function GradientBackground({ variant, className = '' }: GradientBackgroundProps) {
+}) {
     const isLoading = variant === 'loading';
 
     const color = isLoading ? '19, 86, 188' : '239, 68, 68';

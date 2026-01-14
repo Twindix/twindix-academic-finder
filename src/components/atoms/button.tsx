@@ -1,12 +1,5 @@
 import { ButtonHTMLAttributes, ReactNode } from 'react';
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-    variant?: 'primary' | 'muted' | 'danger',
-    loading?: boolean,
-    fullWidth?: boolean,
-    children: ReactNode,
-}
-
 export default function Button({
     variant = 'primary',
     loading = false,
@@ -15,7 +8,12 @@ export default function Button({
     children,
     className = '',
     ...props
-}: ButtonProps) {
+}: ButtonHTMLAttributes<HTMLButtonElement> & {
+    variant?: 'primary' | 'muted' | 'danger',
+    loading?: boolean,
+    fullWidth?: boolean,
+    children: ReactNode,
+}) {
     const baseStyles = 'px-8 py-3 rounded-[14px] font-medium transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2';
 
     const variants = {

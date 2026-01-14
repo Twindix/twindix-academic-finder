@@ -1,12 +1,5 @@
 import { InputHTMLAttributes, useState } from 'react';
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-    label?: string,
-    error?: boolean,
-    errorMessage?: string,
-    showPasswordToggle?: boolean,
-}
-
 export default function Input({
     label,
     error = false,
@@ -15,7 +8,12 @@ export default function Input({
     type = 'text',
     className = '',
     ...props
-}: InputProps) {
+}: InputHTMLAttributes<HTMLInputElement> & {
+    label?: string,
+    error?: boolean,
+    errorMessage?: string,
+    showPasswordToggle?: boolean,
+}) {
     const [showPassword, setShowPassword] = useState(false);
 
     const inputType = showPasswordToggle ? (showPassword ? 'text' : 'password') : type;

@@ -3,12 +3,10 @@ import { Logo } from '@/components/atoms';
 import { useAuth } from '@/hooks';
 import { strings } from '@/constants';
 
-interface CodeLayoutProps {
+export default function CodeLayout({ children, variant = 'default' }: {
     children: ReactNode,
     variant?: 'default' | 'error',
-}
-
-export default function CodeLayout({ children, variant = 'default' }: CodeLayoutProps) {
+}) {
     const { logout } = useAuth();
     const [isLoggingOut, setIsLoggingOut] = useState(false);
 

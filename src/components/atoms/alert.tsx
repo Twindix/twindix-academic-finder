@@ -1,18 +1,16 @@
 import { ReactNode } from 'react';
 
-interface AlertProps {
-    variant?: 'error' | 'warning' | 'success' | 'info',
-    children: ReactNode,
-    className?: string,
-    onClose?: () => void,
-}
-
 export default function Alert({
     variant = 'error',
     children,
     className = '',
     onClose,
-}: AlertProps) {
+}: {
+    variant?: 'error' | 'warning' | 'success' | 'info',
+    children: ReactNode,
+    className?: string,
+    onClose?: () => void,
+}) {
     const variants = {
         error: 'bg-error/10 border-error text-error',
         warning: 'bg-yellow-50 border-yellow-500 text-yellow-700',

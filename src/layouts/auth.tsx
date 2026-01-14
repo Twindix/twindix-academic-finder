@@ -3,11 +3,9 @@ import { Logo } from '@/components/atoms';
 import { strings } from '@/constants';
 import starIcon from '@/assets/icons/star.svg';
 
-interface AuthLayoutProps {
+export default function AuthLayout({ children }: {
     children: ReactNode,
-}
-
-export default function AuthLayout({ children }: AuthLayoutProps) {
+}) {
     return (
         <div className="min-h-screen bg-surface flex flex-col">
             <header className="p-6">

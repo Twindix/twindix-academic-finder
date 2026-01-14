@@ -1,12 +1,10 @@
 import { strings } from '@/constants';
 
-interface ChatBoxProps {
+export default function ChatBox({ userName, content, onCopy }: {
     userName: string,
     content: string[],
     onCopy: () => void,
-}
-
-export default function ChatBox({ userName, content, onCopy }: ChatBoxProps) {
+}) {
     return (
         <div className="bg-surface rounded-[14px] border border-gray-100 overflow-hidden">
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">

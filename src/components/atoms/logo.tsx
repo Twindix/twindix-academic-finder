@@ -1,11 +1,9 @@
 import logoImage from '@/assets/images/logo.png';
 
-interface LogoProps {
+export default function Logo({ size = 'md', className = '' }: {
     size?: 'sm' | 'md' | 'lg',
     className?: string,
-}
-
-export default function Logo({ size = 'md', className = '' }: LogoProps) {
+}) {
     const sizes = {
         sm: 'h-10',
         md: 'h-16',
