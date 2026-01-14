@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { User } from '@/types';
-import { api } from '@/services';
+import { api, setToken, removeToken } from '@/services';
 
 interface AuthState {
     user: User | null;
@@ -28,12 +28,12 @@ export const useAuthStore = create<AuthState>()(
 
             /**
              * Initialize auth state on app load
-             * Syncs token with API service
+             * Syncs token with cookie storage
              */
             initializeAuth: () => {
                 const { token } = get();
                 if (token) {
-                    api.setToken(token);
+                    setToken(token);
                 }
             },
 
@@ -121,7 +121,7 @@ export const useAuthStore = create<AuthState>()(
                         isLoading: false,
                     });
 
-                    api.setToken(null);
+                    removeToken();
                 }
             },
 
@@ -147,9 +147,9 @@ export const useAuthStore = create<AuthState>()(
                 isAuthenticated: state.isAuthenticated,
             }),
             onRehydrateStorage: () => (state) => {
-                // When state is rehydrated from storage, sync token with API
+                // When state is rehydrated from storage, sync token with cookie
                 if (state?.token) {
-                    api.setToken(state.token);
+                    setToken(state.token);
                 }
             },
         }

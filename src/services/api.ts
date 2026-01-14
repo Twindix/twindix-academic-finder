@@ -1,3 +1,5 @@
+import axiosClient, { setToken, removeToken, getToken } from './axios-client';
+import { API_ENDPOINTS } from '@/config';
 import type {
     User,
     LoginResponse,
@@ -6,52 +8,12 @@ import type {
     CodeSubmitResponse,
 } from '@/types';
 
-// API base URL from environment
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://acdmicback.twindix.com/api';
-
 class ApiService {
-    private token: string | null = null;
-
-    /**
-     * Set the authentication token for API requests
-     */
-    setToken(token: string | null) {
-        this.token = token;
-    }
-
     /**
      * Get the current token
      */
     getToken(): string | null {
-        return this.token;
-    }
-
-    /**
-     * Build request headers with optional authentication
-     */
-    private getHeaders(includeAuth: boolean = true): HeadersInit {
-        const headers: HeadersInit = {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-        };
-
-        if (includeAuth && this.token) {
-            headers['Authorization'] = `Bearer ${this.token}`;
-        }
-
-        return headers;
-    }
-
-    /**
-     * Handle API response and errors
-     */
-    private async handleResponse<T>(response: Response): Promise<T> {
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
-            const errorMessage = errorData.message || `HTTP error ${response.status}`;
-            throw new Error(errorMessage);
-        }
-        return response.json();
+        return getToken();
     }
 
     /**
@@ -59,18 +21,15 @@ class ApiService {
      * Authenticate user with email and password
      */
     async login(email: string, password: string): Promise<LoginResponse> {
-        const response = await fetch(`${API_BASE_URL}/auth/login`, {
-            method: 'POST',
-            headers: this.getHeaders(false),
-            body: JSON.stringify({ email, password }),
-        });
+        const response = await axiosClient.post<LoginResponse>(
+            API_ENDPOINTS.AUTH.LOGIN,
+            { email, password }
+        );
 
-        const data = await this.handleResponse<LoginResponse>(response);
+        // Store token in cookie
+        setToken(response.data.token);
 
-        // Store token for subsequent requests
-        this.setToken(data.token);
-
-        return data;
+        return response.data;
     }
 
     /**
@@ -79,13 +38,10 @@ class ApiService {
      */
     async logout(): Promise<void> {
         try {
-            await fetch(`${API_BASE_URL}/auth/logout`, {
-                method: 'POST',
-                headers: this.getHeaders(),
-            });
+            await axiosClient.post(API_ENDPOINTS.AUTH.LOGOUT);
         } finally {
             // Clear token regardless of response
-            this.setToken(null);
+            removeToken();
         }
     }
 
@@ -94,12 +50,8 @@ class ApiService {
      * Get current authenticated user
      */
     async getCurrentUser(): Promise<User> {
-        const response = await fetch(`${API_BASE_URL}/auth/me`, {
-            method: 'GET',
-            headers: this.getHeaders(),
-        });
-
-        return this.handleResponse<User>(response);
+        const response = await axiosClient.get<User>(API_ENDPOINTS.AUTH.ME);
+        return response.data;
     }
 
     /**
@@ -107,17 +59,14 @@ class ApiService {
      * Refresh authentication token
      */
     async refreshToken(): Promise<{ token: string; token_type: string }> {
-        const response = await fetch(`${API_BASE_URL}/auth/refresh`, {
-            method: 'POST',
-            headers: this.getHeaders(),
-        });
-
-        const data = await this.handleResponse<{ token: string; token_type: string }>(response);
+        const response = await axiosClient.post<{ token: string; token_type: string }>(
+            API_ENDPOINTS.AUTH.REFRESH
+        );
 
         // Update stored token
-        this.setToken(data.token);
+        setToken(response.data.token);
 
-        return data;
+        return response.data;
     }
 
     /**
@@ -126,27 +75,12 @@ class ApiService {
      */
     async submitExamCode(examCode: string): Promise<CodeSubmitResponse> {
         try {
-            const response = await fetch(`${API_BASE_URL}/exam-results/process`, {
-                method: 'POST',
-                headers: this.getHeaders(),
-                body: JSON.stringify({ exam_code: examCode }),
-            });
+            const response = await axiosClient.post<ExamResultResponse>(
+                API_ENDPOINTS.EXAM.PROCESS,
+                { exam_code: examCode }
+            );
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-
-                if (response.status === 404) {
-                    return { success: false, error: 'Exam not found' };
-                }
-
-                if (response.status === 422) {
-                    return { success: false, error: errorData.message || 'Invalid exam code' };
-                }
-
-                return { success: false, error: errorData.message || 'An error occurred' };
-            }
-
-            const data = await response.json() as ExamResultResponse;
+            const data = response.data;
 
             // Transform API response to ChatResult format
             const chatResult: ChatResult = {
@@ -163,10 +97,18 @@ class ApiService {
 
             return { success: true, data: chatResult };
         } catch (error) {
-            return {
-                success: false,
-                error: error instanceof Error ? error.message : 'An error occurred',
-            };
+            const message = error instanceof Error ? error.message : 'An error occurred';
+
+            // Handle specific error cases
+            if (message.includes('404') || message.toLowerCase().includes('not found')) {
+                return { success: false, error: 'Exam not found' };
+            }
+
+            if (message.includes('422') || message.toLowerCase().includes('invalid')) {
+                return { success: false, error: 'Invalid exam code' };
+            }
+
+            return { success: false, error: message };
         }
     }
 
@@ -187,7 +129,7 @@ class ApiService {
             content.push('Selected Career Branches:');
             data.selected_branches.forEach((branch) => {
                 const description = branch.description ? ` - ${branch.description}` : '';
-                content.push(`• ${branch.name}${description}`);
+                content.push(`- ${branch.name}${description}`);
             });
         }
 
@@ -197,7 +139,7 @@ class ApiService {
             content.push('Environment Status:');
             data.environment_status.forEach((env) => {
                 const value = env.value !== undefined ? ` (${env.value}%)` : '';
-                content.push(`• ${env.name}: ${env.status}${value}`);
+                content.push(`- ${env.name}: ${env.status}${value}`);
             });
         }
 
@@ -209,12 +151,10 @@ class ApiService {
      * Get company profile (for company users)
      */
     async getCompanyProfile(): Promise<{ name: string; company_name: string; phone: string }> {
-        const response = await fetch(`${API_BASE_URL}/company/profile`, {
-            method: 'GET',
-            headers: this.getHeaders(),
-        });
-
-        return this.handleResponse(response);
+        const response = await axiosClient.get<{ name: string; company_name: string; phone: string }>(
+            API_ENDPOINTS.COMPANY.PROFILE
+        );
+        return response.data;
     }
 
     /**
@@ -226,13 +166,11 @@ class ApiService {
         company_name?: string;
         phone?: string;
     }): Promise<{ message: string }> {
-        const response = await fetch(`${API_BASE_URL}/company/profile`, {
-            method: 'PUT',
-            headers: this.getHeaders(),
-            body: JSON.stringify(data),
-        });
-
-        return this.handleResponse(response);
+        const response = await axiosClient.put<{ message: string }>(
+            API_ENDPOINTS.COMPANY.PROFILE,
+            data
+        );
+        return response.data;
     }
 }
 
