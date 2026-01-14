@@ -40,9 +40,7 @@ export default function Login() {
     return (
         <AuthLayout>
             <div>
-                <h1 className="text-3xl font-bold mb-2">
-                    <span className="text-gradient underline">{strings.login.title}</span>
-                </h1>
+                <h1 className="text-3xl font-bold mb-2 text-gradient">{strings.login.title}</h1>
                 <p className="mb-8">
                     <span className="text-text-dark font-medium">{strings.login.welcome}</span>{' '}
                     <span className="text-secondary">{strings.login.welcomeSuffix}</span>

@@ -66,34 +66,6 @@ export default function Code() {
         setProgress(0);
     };
 
-    const getHeadingContent = () => {
-        if (status === 'loading') {
-            return (
-                <>
-                    <span className="text-secondary">Load</span>
-                    <span className="text-primary">ing...</span>
-                </>
-            );
-        }
-        if (status === 'error') {
-            return (
-                <>
-                    <span className="text-error font-bold italic">{strings.code.titleIncorrect}</span>
-                    <span className="text-text-primary font-bold"> {strings.code.titleCode}</span>
-                </>
-            );
-        }
-        return (
-            <>
-                <span className="text-secondary underline">{strings.code.titleEnter}</span>
-                <span className="text-text-primary"> {strings.code.titleSuffix}</span>
-                <br />
-                <span className="text-primary underline">{strings.code.titleResult}</span>
-                <span className="text-text-primary">.</span>
-            </>
-        );
-    };
-
     const getButtonText = () => {
         if (status === 'loading') return strings.code.buttonLoading;
         if (status === 'error') return strings.code.buttonReenter;
@@ -109,19 +81,28 @@ export default function Code() {
             )}
 
             <div className="w-full max-w-2xl text-center px-8">
-                <h1 className="text-3xl font-bold mb-2">
-                    {getHeadingContent()}
-                </h1>
+                {status === 'idle' && (
+                    <h1 className="text-3xl font-bold mb-8 text-gradient">
+                        {strings.code.titleEnter} {strings.code.titleSuffix} {strings.code.titleResult}.
+                    </h1>
+                )}
 
                 {status === 'loading' && (
-                    <p className="text-text-muted mb-8">{Math.round(progress)} %</p>
+                    <>
+                        <h1 className="text-3xl font-bold mb-2 text-gradient">Loading...</h1>
+                        <p className="text-text-muted mb-8">{Math.round(progress)} %</p>
+                    </>
                 )}
 
                 {status === 'error' && (
-                    <p className="text-text-muted mb-8">{errorMessage || strings.code.errorDefault}</p>
+                    <>
+                        <h1 className="text-3xl font-bold mb-2">
+                            <span className="text-error italic">{strings.code.titleIncorrect}</span>{' '}
+                            <span className="text-text-primary">{strings.code.titleCode}</span>
+                        </h1>
+                        <p className="text-text-muted mb-8">{errorMessage || strings.code.errorDefault}</p>
+                    </>
                 )}
-
-                {status === 'idle' && <div className="mb-8" />}
 
                 <form onSubmit={handleSubmit} className="flex gap-4 items-center justify-center">
                     <div className="flex-1 max-w-md">
