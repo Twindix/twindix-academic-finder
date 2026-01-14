@@ -20,11 +20,11 @@ export default function Input({
 
     const inputType = showPasswordToggle ? (showPassword ? 'text' : 'password') : type;
 
-    const baseStyles = 'w-full px-4 py-3 rounded-full border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-1';
+    const baseStyles = 'w-full px-4 py-3 rounded-[14px] border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-1';
 
     const stateStyles = error
         ? 'border-error text-error placeholder-error/50 focus:ring-error focus:border-error'
-        : 'border-gray-200 text-text-primary placeholder-text-muted focus:ring-primary-light focus:border-primary-light';
+        : 'border-gray-200 text-text-primary placeholder-text-muted focus:ring-primary focus:border-primary';
 
     return (
         <div className="w-full">
@@ -43,7 +43,7 @@ export default function Input({
                     <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-secondary"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-secondary cursor-pointer"
                     >
                         {showPassword ? (
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

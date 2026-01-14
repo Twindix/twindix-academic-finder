@@ -16,7 +16,7 @@ export default function Button({
     className = '',
     ...props
 }: ButtonProps) {
-    const baseStyles = 'px-8 py-3 rounded-full font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2';
+    const baseStyles = 'px-8 py-3 rounded-[14px] font-medium transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2';
 
     const variants = {
         primary: 'bg-primary text-white hover:bg-primary-dark focus:ring-primary disabled:opacity-50',

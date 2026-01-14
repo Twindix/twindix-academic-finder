@@ -75,7 +75,7 @@ export default function Login() {
 
                     <div className="flex items-center justify-between text-sm">
                         <span className="text-text-secondary">Forget your password?</span>
-                        <button type="button" className="text-primary hover:underline">
+                        <button type="button" className="text-primary hover:underline cursor-pointer">
                             Click here
                         </button>
                     </div>
