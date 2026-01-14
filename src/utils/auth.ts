@@ -2,7 +2,7 @@
  * Authentication utilities
  */
 
-import type { User } from '@/types';
+import type { User } from '@/interfaces';
 import { getStorageItem, setStorageItem, removeStorageItem, clearStorage, STORAGE_KEYS } from './storage';
 import { getToken, removeToken } from '@/services';
 

@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Logo } from '@/components/ui';
-import { STRINGS } from '@/constants';
+import { strings } from '@/constants';
 import starIcon from '@/assets/icons/star.svg';
 
 interface AuthLayoutProps {
@@ -37,9 +37,9 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
 
                     {/* Welcome text */}
                     <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-                        <h1 className="text-3xl font-bold mb-3">{STRINGS.AUTH_LAYOUT.WELCOME_TITLE}</h1>
+                        <h1 className="text-3xl font-bold mb-3">{strings.authLayout.welcomeTitle}</h1>
                         <p className="text-white/90 text-sm leading-relaxed">
-                            {STRINGS.AUTH_LAYOUT.WELCOME_DESCRIPTION}
+                            {strings.authLayout.welcomeDescription}
                         </p>
                     </div>
                 </div>

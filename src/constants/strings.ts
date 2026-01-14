@@ -3,88 +3,88 @@
  * Centralized location for all UI text
  */
 
-export const STRINGS = {
+export const strings = {
     // App info
-    APP_NAME: 'Twindix Academic Gate',
-    COMPANY_NAME: 'Twindix Global Inc.',
+    appName: 'Twindix Academic Gate',
+    companyName: 'Twindix Global Inc.',
 
     // Login page
-    LOGIN: {
-        TITLE: 'Login',
-        WELCOME: 'Welcome',
-        WELCOME_SUFFIX: 'Back Please enter The Details For Your Account',
-        EMAIL_LABEL: 'E-mail',
-        EMAIL_PLACEHOLDER: 'Write here',
-        PASSWORD_LABEL: 'Password',
-        PASSWORD_PLACEHOLDER: 'Enter Password here',
-        FORGOT_PASSWORD: 'Forget your password?',
-        FORGOT_PASSWORD_LINK: 'Click here',
-        SUBMIT_BUTTON: 'Login',
+    login: {
+        title: 'Login',
+        welcome: 'Welcome',
+        welcomeSuffix: 'Back Please enter The Details For Your Account',
+        emailLabel: 'E-mail',
+        emailPlaceholder: 'Write here',
+        passwordLabel: 'Password',
+        passwordPlaceholder: 'Enter Password here',
+        forgotPassword: 'Forget your password?',
+        forgotPasswordLink: 'Click here',
+        submitButton: 'Login',
     },
 
     // Auth layout (left side)
-    AUTH_LAYOUT: {
-        WELCOME_TITLE: 'Welcome Back to Twindix',
-        WELCOME_DESCRIPTION: 'Accurate recommendations for suitable academic and career paths, along with practical steps to help both the parent and the student make a confident, decisive choice.',
+    authLayout: {
+        welcomeTitle: 'Welcome Back to Twindix',
+        welcomeDescription: 'Accurate recommendations for suitable academic and career paths, along with practical steps to help both the parent and the student make a confident, decisive choice.',
     },
 
     // Code page
-    CODE: {
-        TITLE_ENTER: 'Enter Code',
-        TITLE_SUFFIX: 'Job Bar to Display its',
-        TITLE_RESULT: 'Result',
-        TITLE_LOADING: 'Loading...',
-        TITLE_INCORRECT: 'Incorrect',
-        TITLE_CODE: 'Code',
-        INPUT_PLACEHOLDER: 'Enter code Job Bar here',
-        BUTTON_CONFIRM: 'Confirm',
-        BUTTON_LOADING: 'Loading...',
-        BUTTON_REENTER: 'Re-Enter',
-        ERROR_DEFAULT: 'Re Enter the Code Again.',
+    code: {
+        titleEnter: 'Enter Code',
+        titleSuffix: 'Job Bar to Display its',
+        titleResult: 'Result',
+        titleLoading: 'Loading...',
+        titleIncorrect: 'Incorrect',
+        titleCode: 'Code',
+        inputPlaceholder: 'Enter code Job Bar here',
+        buttonConfirm: 'Confirm',
+        buttonLoading: 'Loading...',
+        buttonReenter: 'Re-Enter',
+        errorDefault: 'Re Enter the Code Again.',
     },
 
     // Result page
-    RESULT: {
-        COPIED_MESSAGE: 'Copied to clipboard!',
-        BUTTON_RESET: 'Reset',
-        LOADING: 'Loading...',
+    result: {
+        copiedMessage: 'Copied to clipboard!',
+        buttonReset: 'Reset',
+        loading: 'Loading...',
     },
 
     // Profile page
-    PROFILE: {
-        TITLE: 'Profile',
-        NAME_LABEL: 'Name',
-        EMAIL_LABEL: 'Email',
-        USER_ID_LABEL: 'User ID',
-        NOT_AVAILABLE: 'N/A',
+    profile: {
+        title: 'Profile',
+        nameLabel: 'Name',
+        emailLabel: 'Email',
+        userIdLabel: 'User ID',
+        notAvailable: 'N/A',
     },
 
     // Common
-    COMMON: {
-        LOGOUT: 'Log out',
-        LOGGING_OUT: 'Logging out...',
-        LANGUAGE: 'EN',
-        COPY: 'Copy',
+    common: {
+        logout: 'Log out',
+        loggingOut: 'Logging out...',
+        language: 'EN',
+        copy: 'Copy',
     },
 
     // Validation messages
-    VALIDATION: {
-        EMAIL_REQUIRED: 'Email is required',
-        EMAIL_INVALID: 'Please enter a valid email address',
-        PASSWORD_REQUIRED: 'Password is required',
-        PASSWORD_MIN_LENGTH: 'Password must be at least 6 characters',
-        PASSWORD_LETTER: 'Password must contain at least one letter',
-        PASSWORD_NUMBER: 'Password must contain at least one number',
-        CODE_REQUIRED: 'Please enter a code',
-        CODE_MIN_LENGTH: 'Code must be at least 3 characters',
+    validation: {
+        emailRequired: 'Email is required',
+        emailInvalid: 'Please enter a valid email address',
+        passwordRequired: 'Password is required',
+        passwordMinLength: 'Password must be at least 6 characters',
+        passwordLetter: 'Password must contain at least one letter',
+        passwordNumber: 'Password must contain at least one number',
+        codeRequired: 'Please enter a code',
+        codeMinLength: 'Code must be at least 3 characters',
     },
 
     // Error messages
-    ERRORS: {
-        INVALID_CREDENTIALS: 'Invalid credentials',
-        EXAM_NOT_FOUND: 'Exam not found',
-        INVALID_EXAM_CODE: 'Invalid exam code',
-        GENERIC: 'An error occurred',
-        TRY_AGAIN: 'An error occurred. Please try again.',
+    errors: {
+        invalidCredentials: 'Invalid credentials',
+        examNotFound: 'Exam not found',
+        invalidExamCode: 'Invalid exam code',
+        generic: 'An error occurred',
+        tryAgain: 'An error occurred. Please try again.',
     },
 } as const;

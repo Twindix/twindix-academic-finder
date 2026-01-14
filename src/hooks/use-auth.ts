@@ -4,7 +4,7 @@
  */
 
 import { useState, useCallback, useEffect } from 'react';
-import type { User } from '@/types';
+import type { User } from '@/interfaces';
 import { api } from '@/services';
 import { getStoredUser, saveUser, clearAuth, isAuthenticated as checkAuth } from '@/utils';
 

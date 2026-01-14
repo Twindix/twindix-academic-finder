@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MainLayout, ChatBox, Input, Button } from '@/components';
-import { STRINGS } from '@/constants';
-import type { ChatResult } from '@/types';
+import { strings } from '@/constants';
+import type { ChatResult } from '@/interfaces';
 
 export default function Result() {
     const navigate = useNavigate();
@@ -43,7 +43,7 @@ export default function Result() {
         return (
             <MainLayout>
                 <div className="min-h-screen flex items-center justify-center">
-                    <p className="text-text-muted">{STRINGS.RESULT.LOADING}</p>
+                    <p className="text-text-muted">{strings.result.loading}</p>
                 </div>
             </MainLayout>
         );
@@ -61,7 +61,7 @@ export default function Result() {
                     />
                     {copied && (
                         <p className="text-center text-sm text-primary mt-2">
-                            {STRINGS.RESULT.COPIED_MESSAGE}
+                            {strings.result.copiedMessage}
                         </p>
                     )}
                 </div>
@@ -77,7 +77,7 @@ export default function Result() {
                             />
                         </div>
                         <Button onClick={handleReset}>
-                            {STRINGS.RESULT.BUTTON_RESET}
+                            {strings.result.buttonReset}
                         </Button>
                     </div>
                 </div>

@@ -3,10 +3,41 @@ import { API_ENDPOINTS } from '@/config';
 import type {
     User,
     LoginResponse,
-    ExamResultResponse,
     ChatResult,
     CodeSubmitResponse,
-} from '@/types';
+} from '@/interfaces';
+
+// API response types (snake_case from backend)
+interface ApiLoginResponse {
+    user: {
+        id: number;
+        name: string;
+        email: string;
+        company_name?: string;
+        phone?: string;
+        created_at?: string;
+        updated_at?: string;
+    };
+    token: string;
+    token_type: 'Bearer';
+}
+
+interface ApiExamResultResponse {
+    job_title: string;
+    industry: string;
+    seniority: string;
+    selected_branches: Array<{
+        id: number;
+        name: string;
+        description?: string;
+    }>;
+    environment_status: Array<{
+        id: number;
+        name: string;
+        status: string;
+        value?: number;
+    }>;
+}
 
 class ApiService {
     /**
@@ -17,11 +48,26 @@ class ApiService {
     }
 
     /**
+     * Transform API user response to User interface (snake_case to camelCase)
+     */
+    private transformUser(apiUser: ApiLoginResponse['user']): User {
+        return {
+            id: apiUser.id,
+            name: apiUser.name,
+            email: apiUser.email,
+            companyName: apiUser.company_name,
+            phone: apiUser.phone,
+            createdAt: apiUser.created_at,
+            updatedAt: apiUser.updated_at,
+        };
+    }
+
+    /**
      * POST /api/auth/login
      * Authenticate user with email and password
      */
     async login(email: string, password: string): Promise<LoginResponse> {
-        const response = await axiosClient.post<LoginResponse>(
+        const response = await axiosClient.post<ApiLoginResponse>(
             API_ENDPOINTS.AUTH.LOGIN,
             { email, password }
         );
@@ -29,7 +75,12 @@ class ApiService {
         // Store token in cookie
         setToken(response.data.token);
 
-        return response.data;
+        // Transform to camelCase
+        return {
+            user: this.transformUser(response.data.user),
+            token: response.data.token,
+            tokenType: response.data.token_type,
+        };
     }
 
     /**
@@ -50,15 +101,15 @@ class ApiService {
      * Get current authenticated user
      */
     async getCurrentUser(): Promise<User> {
-        const response = await axiosClient.get<User>(API_ENDPOINTS.AUTH.ME);
-        return response.data;
+        const response = await axiosClient.get<ApiLoginResponse['user']>(API_ENDPOINTS.AUTH.ME);
+        return this.transformUser(response.data);
     }
 
     /**
      * POST /api/auth/refresh
      * Refresh authentication token
      */
-    async refreshToken(): Promise<{ token: string; token_type: string }> {
+    async refreshToken(): Promise<{ token: string; tokenType: string }> {
         const response = await axiosClient.post<{ token: string; token_type: string }>(
             API_ENDPOINTS.AUTH.REFRESH
         );
@@ -66,7 +117,10 @@ class ApiService {
         // Update stored token
         setToken(response.data.token);
 
-        return response.data;
+        return {
+            token: response.data.token,
+            tokenType: response.data.token_type,
+        };
     }
 
     /**
@@ -75,14 +129,14 @@ class ApiService {
      */
     async submitExamCode(examCode: string): Promise<CodeSubmitResponse> {
         try {
-            const response = await axiosClient.post<ExamResultResponse>(
+            const response = await axiosClient.post<ApiExamResultResponse>(
                 API_ENDPOINTS.EXAM.PROCESS,
                 { exam_code: examCode }
             );
 
             const data = response.data;
 
-            // Transform API response to ChatResult format
+            // Transform API response to ChatResult format (snake_case to camelCase)
             const chatResult: ChatResult = {
                 id: crypto.randomUUID(),
                 userName: '', // Will be filled from user state
@@ -90,8 +144,17 @@ class ApiService {
                 industry: data.industry,
                 seniority: data.seniority,
                 code: examCode,
-                branches: data.selected_branches,
-                environmentStatus: data.environment_status,
+                branches: data.selected_branches.map((branch) => ({
+                    id: branch.id,
+                    name: branch.name,
+                    description: branch.description,
+                })),
+                environmentStatus: data.environment_status.map((env) => ({
+                    id: env.id,
+                    name: env.name,
+                    status: env.status,
+                    value: env.value,
+                })),
                 content: this.formatResultContent(data),
             };
 
@@ -115,7 +178,7 @@ class ApiService {
     /**
      * Format exam results into readable content
      */
-    private formatResultContent(data: ExamResultResponse): string[] {
+    private formatResultContent(data: ApiExamResultResponse): string[] {
         const content: string[] = [];
 
         // Job information
@@ -150,11 +213,15 @@ class ApiService {
      * GET /api/company/profile
      * Get company profile (for company users)
      */
-    async getCompanyProfile(): Promise<{ name: string; company_name: string; phone: string }> {
+    async getCompanyProfile(): Promise<{ name: string; companyName: string; phone: string }> {
         const response = await axiosClient.get<{ name: string; company_name: string; phone: string }>(
             API_ENDPOINTS.COMPANY.PROFILE
         );
-        return response.data;
+        return {
+            name: response.data.name,
+            companyName: response.data.company_name,
+            phone: response.data.phone,
+        };
     }
 
     /**
@@ -163,12 +230,16 @@ class ApiService {
      */
     async updateCompanyProfile(data: {
         name?: string;
-        company_name?: string;
+        companyName?: string;
         phone?: string;
     }): Promise<{ message: string }> {
         const response = await axiosClient.put<{ message: string }>(
             API_ENDPOINTS.COMPANY.PROFILE,
-            data
+            {
+                name: data.name,
+                company_name: data.companyName,
+                phone: data.phone,
+            }
         );
         return response.data;
     }

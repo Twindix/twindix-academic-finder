@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { CodeLayout, Input, Button, GradientBackground } from '@/components';
 import { api } from '@/services';
 import { useAuth } from '@/hooks';
-import { STRINGS } from '@/constants';
+import { strings } from '@/constants';
 import type { CodePageStatus } from '@/types';
 
 export default function Code() {
@@ -53,12 +53,12 @@ export default function Code() {
                 setTimeout(() => navigate('/result'), 500);
             } else {
                 setStatus('error');
-                setErrorMessage(response.error || STRINGS.ERRORS.INVALID_EXAM_CODE);
+                setErrorMessage(response.error || strings.errors.invalidExamCode);
             }
         } catch {
             clearInterval(progressInterval);
             setStatus('error');
-            setErrorMessage(STRINGS.ERRORS.TRY_AGAIN);
+            setErrorMessage(strings.errors.tryAgain);
         }
     };
 
@@ -81,26 +81,26 @@ export default function Code() {
         if (status === 'error') {
             return (
                 <>
-                    <span className="text-error italic">{STRINGS.CODE.TITLE_INCORRECT}</span>
-                    <span className="text-text-primary"> {STRINGS.CODE.TITLE_CODE}</span>
+                    <span className="text-error italic">{strings.code.titleIncorrect}</span>
+                    <span className="text-text-primary"> {strings.code.titleCode}</span>
                 </>
             );
         }
         return (
             <>
-                <span className="text-secondary underline">{STRINGS.CODE.TITLE_ENTER}</span>
-                <span className="text-text-primary"> {STRINGS.CODE.TITLE_SUFFIX}</span>
+                <span className="text-secondary underline">{strings.code.titleEnter}</span>
+                <span className="text-text-primary"> {strings.code.titleSuffix}</span>
                 <br />
-                <span className="text-primary underline">{STRINGS.CODE.TITLE_RESULT}</span>
+                <span className="text-primary underline">{strings.code.titleResult}</span>
                 <span className="text-text-primary">.</span>
             </>
         );
     };
 
     const getButtonText = () => {
-        if (status === 'loading') return STRINGS.CODE.BUTTON_LOADING;
-        if (status === 'error') return STRINGS.CODE.BUTTON_REENTER;
-        return STRINGS.CODE.BUTTON_CONFIRM;
+        if (status === 'loading') return strings.code.buttonLoading;
+        if (status === 'error') return strings.code.buttonReenter;
+        return strings.code.buttonConfirm;
     };
 
     return (
@@ -119,7 +119,7 @@ export default function Code() {
                 )}
 
                 {status === 'error' && (
-                    <p className="text-text-muted mb-8">{errorMessage || STRINGS.CODE.ERROR_DEFAULT}</p>
+                    <p className="text-text-muted mb-8">{errorMessage || strings.code.errorDefault}</p>
                 )}
 
                 {status === 'idle' && <div className="mb-8" />}
@@ -128,7 +128,7 @@ export default function Code() {
                     <div className="flex-1 max-w-md">
                         <Input
                             type="text"
-                            placeholder={STRINGS.CODE.INPUT_PLACEHOLDER}
+                            placeholder={strings.code.inputPlaceholder}
                             value={code}
                             onChange={(e) => setCode(e.target.value)}
                             error={status === 'error'}
