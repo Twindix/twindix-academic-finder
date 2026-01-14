@@ -1,5 +1,5 @@
-export type { User } from './user.interface';
-export type { LoginRequest, LoginResponse } from './auth.interface';
+export type { User } from './user';
+export type { LoginRequest, LoginResponse } from './auth';
 export type {
     ExamResultRequest,
     ExamResultResponse,
@@ -7,5 +7,5 @@ export type {
     EnvironmentStatus,
     ChatResult,
     CodeSubmitResponse,
-} from './exam.interface';
-export type { ApiError, ValidationResult } from './api.interface';
+} from './exam';
+export type { ApiError, ValidationResult } from './api';
