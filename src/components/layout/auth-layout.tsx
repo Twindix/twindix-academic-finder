@@ -21,7 +21,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
                     <div
                         className="absolute inset-0 rounded-tr-3xl"
                         style={{
-                            background: 'linear-gradient(to bottom, #FFFFFF 0%, #FFFFFF 5%, #a8c4f5 25%, #4a7fd4 50%, #2557b8 70%, #1a3f8a 85%, #152d6b 100%)',
+                            background: 'linear-gradient(to top, #0025BA 0%, #0025BA 15%, #2557b8 35%, #4a7fd4 55%, #a8c4f5 75%, #FFFFFF 100%)',
                         }}
                     >
                         {/* Decorative stars */}

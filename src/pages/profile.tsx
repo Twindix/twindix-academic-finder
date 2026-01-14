@@ -8,7 +8,7 @@ export default function Profile() {
         <MainLayout>
             <div className="min-h-screen flex flex-col items-center justify-center px-8">
                 <div className="w-full max-w-md bg-surface rounded-lg border border-gray-100 p-8">
-                    <h1 className="text-2xl font-bold text-primary mb-6">Profile</h1>
+                    <h1 className="text-2xl font-bold text-secondary mb-6">Profile</h1>
 
                     <div className="space-y-4">
                         <div>

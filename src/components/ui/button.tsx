@@ -19,9 +19,9 @@ export default function Button({
     const baseStyles = 'px-8 py-3 rounded-full font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2';
 
     const variants = {
-        primary: 'bg-primary-dark text-white hover:bg-primary focus:ring-primary-dark disabled:opacity-50',
+        primary: 'bg-primary text-white hover:bg-primary-dark focus:ring-primary disabled:opacity-50',
         muted: 'bg-muted text-white hover:bg-muted/90 focus:ring-muted disabled:opacity-50',
-        danger: 'bg-primary-dark text-white hover:bg-primary focus:ring-primary-dark disabled:opacity-50',
+        danger: 'bg-error text-white hover:bg-error-light focus:ring-error disabled:opacity-50',
     };
 
     const widthStyles = fullWidth ? 'w-full' : '';

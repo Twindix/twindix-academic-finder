@@ -59,7 +59,7 @@ export default function Result() {
                         onCopy={handleCopy}
                     />
                     {copied && (
-                        <p className="text-center text-sm text-primary-light mt-2">
+                        <p className="text-center text-sm text-primary mt-2">
                             Copied to clipboard!
                         </p>
                     )}

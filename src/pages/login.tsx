@@ -39,12 +39,12 @@ export default function Login() {
     return (
         <AuthLayout>
             <div>
-                <h1 className="text-3xl font-bold text-primary mb-2">
+                <h1 className="text-3xl font-bold text-secondary mb-2">
                     <span className="underline">Login</span>
                 </h1>
-                <p className="text-text-primary mb-8">
-                    Welcome{' '}
-                    <span className="text-primary-light">Back Please enter The Details For Your Account</span>
+                <p className="mb-8">
+                    <span className="text-gradient font-medium">Welcome Back</span>{' '}
+                    <span className="text-text-secondary">Please enter The Details For Your Account</span>
                 </p>
 
                 <form onSubmit={handleSubmit} className="space-y-5">
@@ -75,7 +75,7 @@ export default function Login() {
 
                     <div className="flex items-center justify-between text-sm">
                         <span className="text-text-secondary">Forget your password?</span>
-                        <button type="button" className="text-primary-light hover:underline">
+                        <button type="button" className="text-primary hover:underline">
                             Click here
                         </button>
                     </div>

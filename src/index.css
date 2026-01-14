@@ -2,9 +2,10 @@
 
 @theme {
     /* Primary colors */
-    --color-primary: #1E3A8A;
-    --color-primary-light: #3B82F6;
-    --color-primary-dark: #1D4ED8;
+    --color-primary: #1356BC;
+    --color-primary-dark: #0025BA;
+    --color-primary-light: #4A7FD4;
+    --color-secondary: #0025BA;
 
     /* Accent colors */
     --color-muted: #7C8FBA;
@@ -16,21 +17,70 @@
     --color-surface: #FFFFFF;
 
     /* Text colors */
-    --color-text-primary: #1E3A8A;
+    --color-text-primary: #0025BA;
     --color-text-secondary: #6B7280;
     --color-text-muted: #9CA3AF;
+    --color-text-dark: #000000;
+
+    /* Border radius */
+    --radius-default: 14px;
 
     /* Font family */
-    --font-family-sans: 'Inter', sans-serif;
+    --font-family-sans: 'Roboto', sans-serif;
+
+    /* Font sizes - consistent hierarchy */
+    --font-size-h1: 2.25rem;      /* 36px */
+    --font-size-h2: 1.875rem;     /* 30px */
+    --font-size-h3: 1.5rem;       /* 24px */
+    --font-size-h4: 1.25rem;      /* 20px */
+    --font-size-h5: 1.125rem;     /* 18px */
+    --font-size-h6: 1rem;         /* 16px */
+    --font-size-body: 1rem;       /* 16px */
+    --font-size-small: 0.875rem;  /* 14px */
+    --font-size-xs: 0.75rem;      /* 12px */
 }
 
+/* Base styles */
 body {
     font-family: var(--font-family-sans);
+    font-size: var(--font-size-body);
     background-color: var(--color-background);
     margin: 0;
     padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 #root {
     min-height: 100vh;
+}
+
+/* Typography classes */
+.text-gradient {
+    background: linear-gradient(to right, #000000, #0025BA);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Gradient backgrounds */
+.bg-gradient-login {
+    background: linear-gradient(to top, #0025BA 0%, #4a7fd4 40%, #a8c4f5 70%, #FFFFFF 100%);
+}
+
+/* Font weight utilities */
+.font-regular {
+    font-weight: 400;
+}
+
+.font-medium {
+    font-weight: 500;
+}
+
+.font-semibold {
+    font-weight: 600;
+}
+
+.font-bold {
+    font-weight: 700;
 }

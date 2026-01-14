@@ -72,8 +72,8 @@ export default function Code() {
         if (status === 'loading') {
             return (
                 <>
-                    <span className="text-primary">Load</span>
-                    <span className="text-primary-light">ing...</span>
+                    <span className="text-secondary">Load</span>
+                    <span className="text-primary">ing...</span>
                 </>
             );
         }
@@ -87,10 +87,10 @@ export default function Code() {
         }
         return (
             <>
-                <span className="text-primary underline">Enter Code</span>
+                <span className="text-secondary underline">Enter Code</span>
                 <span className="text-text-primary"> Job Bar to Display its</span>
                 <br />
-                <span className="text-primary-light underline">Result</span>
+                <span className="text-primary underline">Result</span>
                 <span className="text-text-primary">.</span>
             </>
         );
