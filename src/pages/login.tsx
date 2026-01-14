@@ -81,9 +81,9 @@ export default function Login() {
 
                     <div className="flex items-center justify-between text-sm">
                         <span className="text-text-secondary">{strings.login.forgotPassword}</span>
-                        <button type="button" className="text-primary hover:underline cursor-pointer">
+                        <Button variant="link" size="sm" type="button">
                             {strings.login.forgotPasswordLink}
-                        </button>
+                        </Button>
                     </div>
 
                     <Button

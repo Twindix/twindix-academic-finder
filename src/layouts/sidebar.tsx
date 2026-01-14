@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Logo } from '@/components/atoms';
+import { Logo, Button } from '@/components/atoms';
 import { useAuth } from '@/hooks';
 import { strings } from '@/constants';
 
@@ -26,18 +26,17 @@ export default function Sidebar() {
             <div className="flex-1" />
 
             <div className="p-6">
-                <button
+                <Button
+                    variant="ghost-danger"
                     onClick={handleLogout}
                     disabled={isLoggingOut}
-                    className="flex items-center gap-2 text-error hover:text-error-light transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex items-center gap-2"
                 >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                     </svg>
-                    <span className="font-medium">
-                        {isLoggingOut ? strings.common.loggingOut : strings.common.logout}
-                    </span>
-                </button>
+                    {isLoggingOut ? strings.common.loggingOut : strings.common.logout}
+                </Button>
             </div>
         </aside>
     );
