@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Logo } from '@/components/atoms';
+import { Logo } from '@/atoms';
 import { strings } from '@/constants';
 import starIcon from '@/assets/icons/star.svg';
 

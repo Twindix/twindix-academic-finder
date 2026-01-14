@@ -1,4 +1,4 @@
-import { Button } from '@/components/atoms';
+import { Button } from '@/atoms';
 import { strings } from '@/constants';
 import languageIcon from '@/assets/icons/language.svg';
 import copyIcon from '@/assets/icons/copy.svg';

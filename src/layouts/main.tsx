@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import Sidebar from './sidebar';
+import { Sidebar } from '@/components';
 
 export default function MainLayout({ children, showSidebar = true }: {
     children: ReactNode,

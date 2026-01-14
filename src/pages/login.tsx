@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthLayout } from '@/layouts';
-import { Button, Input, Alert } from '@/components';
+import { Button, Input, Alert } from '@/atoms';
 import { useAuth } from '@/hooks';
 import { validateLoginForm } from '@/utils';
 import { strings } from '@/constants';
