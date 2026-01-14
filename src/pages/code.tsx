@@ -90,7 +90,7 @@ export default function Code() {
                 {status === 'loading' && (
                     <>
                         <h1 className="text-3xl font-bold mb-2 text-gradient">Loading...</h1>
-                        <p className="text-text-muted mb-8">{Math.round(progress)} %</p>
+                        <span className="block text-text-muted mb-8">{Math.round(progress)} %</span>
                     </>
                 )}
 
@@ -100,7 +100,7 @@ export default function Code() {
                             <span className="text-error italic">{strings.code.titleIncorrect}</span>{' '}
                             <span className="text-text-primary">{strings.code.titleCode}</span>
                         </h1>
-                        <p className="text-text-muted mb-8">{errorMessage || strings.code.errorDefault}</p>
+                        <span className="block text-text-muted mb-8">{errorMessage || strings.code.errorDefault}</span>
                     </>
                 )}
 

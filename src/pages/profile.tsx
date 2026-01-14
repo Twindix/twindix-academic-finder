@@ -13,30 +13,30 @@ export default function Profile() {
 
                     <div className="space-y-4">
                         <div>
-                            <h2 className="text-sm font-medium text-text-secondary mb-1">
+                            <label className="block text-sm font-medium text-text-secondary mb-1">
                                 {strings.profile.nameLabel}
-                            </h2>
-                            <p className="text-text-primary font-medium">
+                            </label>
+                            <span className="text-text-primary font-medium">
                                 {user?.name || strings.profile.notAvailable}
-                            </p>
+                            </span>
                         </div>
 
                         <div>
-                            <h2 className="text-sm font-medium text-text-secondary mb-1">
+                            <label className="block text-sm font-medium text-text-secondary mb-1">
                                 {strings.profile.emailLabel}
-                            </h2>
-                            <p className="text-text-primary font-medium">
+                            </label>
+                            <span className="text-text-primary font-medium">
                                 {user?.email || strings.profile.notAvailable}
-                            </p>
+                            </span>
                         </div>
 
                         <div>
-                            <h2 className="text-sm font-medium text-text-secondary mb-1">
+                            <label className="block text-sm font-medium text-text-secondary mb-1">
                                 {strings.profile.userIdLabel}
-                            </h2>
-                            <p className="text-text-primary font-medium">
+                            </label>
+                            <span className="text-text-primary font-medium">
                                 {user?.id || strings.profile.notAvailable}
-                            </p>
+                            </span>
                         </div>
                     </div>
                 </div>

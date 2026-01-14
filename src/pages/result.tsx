@@ -40,7 +40,7 @@ export default function Result() {
         return (
             <MainLayout>
                 <div className="min-h-screen flex items-center justify-center">
-                    <p className="text-text-muted">{strings.result.loading}</p>
+                    <span className="text-text-muted">{strings.result.loading}</span>
                 </div>
             </MainLayout>
         );
@@ -56,9 +56,9 @@ export default function Result() {
                         onCopy={handleCopy}
                     />
                     {copied && (
-                        <p className="text-center text-sm text-primary mt-2">
+                        <span className="block text-center text-sm text-primary mt-2">
                             {strings.result.copiedMessage}
-                        </p>
+                        </span>
                     )}
                 </div>
 
