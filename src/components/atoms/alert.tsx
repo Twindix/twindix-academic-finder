@@ -1,10 +1,10 @@
 import { ReactNode } from 'react';
 
 interface AlertProps {
-    variant?: 'error' | 'warning' | 'success' | 'info';
-    children: ReactNode;
-    className?: string;
-    onClose?: () => void;
+    variant?: 'error' | 'warning' | 'success' | 'info',
+    children: ReactNode,
+    className?: string,
+    onClose?: () => void,
 }
 
 export default function Alert({

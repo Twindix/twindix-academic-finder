@@ -1,6 +1,6 @@
 interface GradientBackgroundProps {
-    variant: 'loading' | 'error';
-    className?: string;
+    variant: 'loading' | 'error',
+    className?: string,
 }
 
 export default function GradientBackground({ variant, className = '' }: GradientBackgroundProps) {

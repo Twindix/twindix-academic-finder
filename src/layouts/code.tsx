@@ -4,8 +4,8 @@ import { useAuth } from '@/hooks';
 import { strings } from '@/constants';
 
 interface CodeLayoutProps {
-    children: ReactNode;
-    variant?: 'default' | 'error';
+    children: ReactNode,
+    variant?: 'default' | 'error',
 }
 
 export default function CodeLayout({ children, variant = 'default' }: CodeLayoutProps) {

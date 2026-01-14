@@ -1,9 +1,9 @@
 import { strings } from '@/constants';
 
 interface ChatBoxProps {
-    userName: string;
-    content: string[];
-    onCopy: () => void;
+    userName: string,
+    content: string[],
+    onCopy: () => void,
 }
 
 export default function ChatBox({ userName, content, onCopy }: ChatBoxProps) {

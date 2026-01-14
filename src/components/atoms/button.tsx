@@ -1,10 +1,10 @@
 import { ButtonHTMLAttributes, ReactNode } from 'react';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-    variant?: 'primary' | 'muted' | 'danger';
-    loading?: boolean;
-    fullWidth?: boolean;
-    children: ReactNode;
+    variant?: 'primary' | 'muted' | 'danger',
+    loading?: boolean,
+    fullWidth?: boolean,
+    children: ReactNode,
 }
 
 export default function Button({

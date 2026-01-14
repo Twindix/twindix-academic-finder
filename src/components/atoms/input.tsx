@@ -1,10 +1,10 @@
 import { InputHTMLAttributes, useState } from 'react';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-    label?: string;
-    error?: boolean;
-    errorMessage?: string;
-    showPasswordToggle?: boolean;
+    label?: string,
+    error?: boolean,
+    errorMessage?: string,
+    showPasswordToggle?: boolean,
 }
 
 export default function Input({

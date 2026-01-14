@@ -4,7 +4,7 @@ import { strings } from '@/constants';
 import starIcon from '@/assets/icons/star.svg';
 
 interface AuthLayoutProps {
-    children: ReactNode;
+    children: ReactNode,
 }
 
 export default function AuthLayout({ children }: AuthLayoutProps) {

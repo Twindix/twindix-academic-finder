@@ -2,8 +2,8 @@ import { ReactNode } from 'react';
 import Sidebar from './sidebar';
 
 interface MainLayoutProps {
-    children: ReactNode;
-    showSidebar?: boolean;
+    children: ReactNode,
+    showSidebar?: boolean,
 }
 
 export default function MainLayout({ children, showSidebar = true }: MainLayoutProps) {
