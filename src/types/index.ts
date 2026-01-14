@@ -21,17 +21,6 @@ export interface LoginResponse {
     token_type: 'Bearer';
 }
 
-export interface AuthState {
-    user: User | null;
-    token: string | null;
-    isAuthenticated: boolean;
-    isLoading: boolean;
-    login: (email: string, password: string) => Promise<void>;
-    logout: () => Promise<void>;
-    fetchUser: () => Promise<void>;
-    setUser: (user: User | null) => void;
-}
-
 // Exam/Code types
 export interface ExamResultRequest {
     exam_code: string;
