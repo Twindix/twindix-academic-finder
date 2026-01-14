@@ -28,7 +28,7 @@ export default function CodeLayout({ children, variant = 'default' }: CodeLayout
 
     return (
         <div className="min-h-screen bg-surface">
-            <div className="min-h-screen flex flex-col relative mx-4">
+            <div className="min-h-screen flex flex-col relative mx-12">
                 <div
                     className="absolute left-0 top-0 bottom-0 w-[2px]"
                     style={{ background: lineGradient }}
