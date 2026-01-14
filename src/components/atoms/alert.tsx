@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import Button from './button';
 
 export default function Alert({
     variant = 'error',
@@ -49,15 +50,16 @@ export default function Alert({
             {icons[variant]}
             <div className="flex-1 text-sm font-medium">{children}</div>
             {onClose && (
-                <button
+                <Button
+                    variant="ghost"
                     onClick={onClose}
-                    className="flex-shrink-0 cursor-pointer hover:opacity-70 transition-opacity"
+                    className="flex-shrink-0"
                     aria-label="Close alert"
                 >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                     </svg>
-                </button>
+                </Button>
             )}
         </div>
     );
