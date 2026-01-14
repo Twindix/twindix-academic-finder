@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { CodeLayout, Input, Button, GradientBackground } from '@/components';
 import { api } from '@/services';
 import { useAuth } from '@/hooks';
+import { STRINGS } from '@/constants';
 import type { CodePageStatus } from '@/types';
 
 export default function Code() {
@@ -52,12 +53,12 @@ export default function Code() {
                 setTimeout(() => navigate('/result'), 500);
             } else {
                 setStatus('error');
-                setErrorMessage(response.error || 'Invalid code');
+                setErrorMessage(response.error || STRINGS.ERRORS.INVALID_EXAM_CODE);
             }
         } catch {
             clearInterval(progressInterval);
             setStatus('error');
-            setErrorMessage('An error occurred. Please try again.');
+            setErrorMessage(STRINGS.ERRORS.TRY_AGAIN);
         }
     };
 
@@ -80,26 +81,26 @@ export default function Code() {
         if (status === 'error') {
             return (
                 <>
-                    <span className="text-error italic">Incorrect</span>
-                    <span className="text-text-primary"> Code</span>
+                    <span className="text-error italic">{STRINGS.CODE.TITLE_INCORRECT}</span>
+                    <span className="text-text-primary"> {STRINGS.CODE.TITLE_CODE}</span>
                 </>
             );
         }
         return (
             <>
-                <span className="text-secondary underline">Enter Code</span>
-                <span className="text-text-primary"> Job Bar to Display its</span>
+                <span className="text-secondary underline">{STRINGS.CODE.TITLE_ENTER}</span>
+                <span className="text-text-primary"> {STRINGS.CODE.TITLE_SUFFIX}</span>
                 <br />
-                <span className="text-primary underline">Result</span>
+                <span className="text-primary underline">{STRINGS.CODE.TITLE_RESULT}</span>
                 <span className="text-text-primary">.</span>
             </>
         );
     };
 
     const getButtonText = () => {
-        if (status === 'loading') return 'Loading...';
-        if (status === 'error') return 'Re-Enter';
-        return 'Confirm';
+        if (status === 'loading') return STRINGS.CODE.BUTTON_LOADING;
+        if (status === 'error') return STRINGS.CODE.BUTTON_REENTER;
+        return STRINGS.CODE.BUTTON_CONFIRM;
     };
 
     return (
@@ -118,7 +119,7 @@ export default function Code() {
                 )}
 
                 {status === 'error' && (
-                    <p className="text-text-muted mb-8">{errorMessage || 'Re Enter the Code Again.'}</p>
+                    <p className="text-text-muted mb-8">{errorMessage || STRINGS.CODE.ERROR_DEFAULT}</p>
                 )}
 
                 {status === 'idle' && <div className="mb-8" />}
@@ -127,7 +128,7 @@ export default function Code() {
                     <div className="flex-1 max-w-md">
                         <Input
                             type="text"
-                            placeholder="Enter code Job Bar here"
+                            placeholder={STRINGS.CODE.INPUT_PLACEHOLDER}
                             value={code}
                             onChange={(e) => setCode(e.target.value)}
                             error={status === 'error'}

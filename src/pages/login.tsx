@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthLayout, Button, Input, Alert } from '@/components';
 import { useAuth } from '@/hooks';
 import { validateLoginForm } from '@/utils';
+import { STRINGS } from '@/constants';
 
 export default function Login() {
     const navigate = useNavigate();
@@ -41,12 +42,12 @@ export default function Login() {
     return (
         <AuthLayout>
             <div>
-                <h1 className="text-3xl font-bold text-secondary mb-2">
-                    <span className="underline">Login</span>
+                <h1 className="text-3xl font-bold mb-2">
+                    <span className="text-gradient underline">{STRINGS.LOGIN.TITLE}</span>
                 </h1>
                 <p className="mb-8">
-                    <span className="text-gradient font-medium">Welcome Back</span>{' '}
-                    <span className="text-text-secondary">Please enter The Details For Your Account</span>
+                    <span className="text-text-dark font-medium">{STRINGS.LOGIN.WELCOME}</span>{' '}
+                    <span className="text-secondary">{STRINGS.LOGIN.WELCOME_SUFFIX}</span>
                 </p>
 
                 {displayError && (
@@ -57,9 +58,9 @@ export default function Login() {
 
                 <form onSubmit={handleSubmit} className="space-y-5">
                     <Input
-                        label="E-mail"
+                        label={STRINGS.LOGIN.EMAIL_LABEL}
                         type="email"
-                        placeholder="Write here"
+                        placeholder={STRINGS.LOGIN.EMAIL_PLACEHOLDER}
                         value={email}
                         onChange={(e) => {
                             setEmail(e.target.value);
@@ -69,9 +70,9 @@ export default function Login() {
                     />
 
                     <Input
-                        label="Password"
+                        label={STRINGS.LOGIN.PASSWORD_LABEL}
                         type="password"
-                        placeholder="Enter Password here"
+                        placeholder={STRINGS.LOGIN.PASSWORD_PLACEHOLDER}
                         value={password}
                         onChange={(e) => {
                             setPassword(e.target.value);
@@ -82,9 +83,9 @@ export default function Login() {
                     />
 
                     <div className="flex items-center justify-between text-sm">
-                        <span className="text-text-secondary">Forget your password?</span>
+                        <span className="text-text-secondary">{STRINGS.LOGIN.FORGOT_PASSWORD}</span>
                         <button type="button" className="text-primary hover:underline cursor-pointer">
-                            Click here
+                            {STRINGS.LOGIN.FORGOT_PASSWORD_LINK}
                         </button>
                     </div>
 
@@ -93,7 +94,7 @@ export default function Login() {
                         fullWidth
                         loading={isLoading}
                     >
-                        Login
+                        {STRINGS.LOGIN.SUBMIT_BUTTON}
                     </Button>
                 </form>
             </div>

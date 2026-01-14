@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MainLayout, ChatBox, Input, Button } from '@/components';
+import { STRINGS } from '@/constants';
 import type { ChatResult } from '@/types';
 
 export default function Result() {
@@ -42,7 +43,7 @@ export default function Result() {
         return (
             <MainLayout>
                 <div className="min-h-screen flex items-center justify-center">
-                    <p className="text-text-muted">Loading...</p>
+                    <p className="text-text-muted">{STRINGS.RESULT.LOADING}</p>
                 </div>
             </MainLayout>
         );
@@ -60,7 +61,7 @@ export default function Result() {
                     />
                     {copied && (
                         <p className="text-center text-sm text-primary mt-2">
-                            Copied to clipboard!
+                            {STRINGS.RESULT.COPIED_MESSAGE}
                         </p>
                     )}
                 </div>
@@ -76,7 +77,7 @@ export default function Result() {
                             />
                         </div>
                         <Button onClick={handleReset}>
-                            Reset
+                            {STRINGS.RESULT.BUTTON_RESET}
                         </Button>
                     </div>
                 </div>

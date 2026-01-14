@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { Logo } from '@/components/ui';
+import { STRINGS } from '@/constants';
 import starIcon from '@/assets/icons/star.svg';
 
 interface AuthLayoutProps {
@@ -36,10 +37,9 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
 
                     {/* Welcome text */}
                     <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-                        <h1 className="text-3xl font-bold mb-3">Welcome Back to Twindix</h1>
+                        <h1 className="text-3xl font-bold mb-3">{STRINGS.AUTH_LAYOUT.WELCOME_TITLE}</h1>
                         <p className="text-white/90 text-sm leading-relaxed">
-                            Accurate recommendations for suitable academic and career paths, along with practical
-                            steps to help both the parent and the student make a confident, decisive choice.
+                            {STRINGS.AUTH_LAYOUT.WELCOME_DESCRIPTION}
                         </p>
                     </div>
                 </div>

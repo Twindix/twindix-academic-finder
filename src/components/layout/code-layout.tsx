@@ -1,6 +1,7 @@
 import { ReactNode, useState } from 'react';
 import { Logo } from '@/components/ui';
 import { useAuth } from '@/hooks';
+import { STRINGS } from '@/constants';
 
 interface CodeLayoutProps {
     children: ReactNode;
@@ -49,7 +50,7 @@ export default function CodeLayout({ children }: CodeLayoutProps) {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                         </svg>
                         <span className="font-medium">
-                            {isLoggingOut ? 'Logging out...' : 'Log out'}
+                            {isLoggingOut ? STRINGS.COMMON.LOGGING_OUT : STRINGS.COMMON.LOGOUT}
                         </span>
                     </button>
                 </footer>
