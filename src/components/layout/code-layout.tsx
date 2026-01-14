@@ -22,13 +22,21 @@ export default function CodeLayout({ children, variant = 'default' }: CodeLayout
         }
     };
 
-    const lineColor = variant === 'error' ? 'bg-error' : 'bg-secondary';
+    const lineColor = variant === 'error' ? '#DC2626' : '#0025BA';
+
+    const lineGradient = `linear-gradient(to bottom, transparent 0%, ${lineColor} 30%, ${lineColor} 70%, transparent 100%)`;
 
     return (
         <div className="min-h-screen bg-surface">
             <div className="min-h-screen flex flex-col relative mx-4">
-                <div className={`absolute left-0 top-0 bottom-0 w-[2px] ${lineColor}`} />
-                <div className={`absolute right-0 top-0 bottom-0 w-[2px] ${lineColor}`} />
+                <div
+                    className="absolute left-0 top-0 bottom-0 w-[2px]"
+                    style={{ background: lineGradient }}
+                />
+                <div
+                    className="absolute right-0 top-0 bottom-0 w-[2px]"
+                    style={{ background: lineGradient }}
+                />
 
                 <header className="p-6">
                     <Logo size="md" />
