@@ -4,14 +4,33 @@ interface GradientBackgroundProps {
 }
 
 export default function GradientBackground({ variant, className = '' }: GradientBackgroundProps) {
+    const isLoading = variant === 'loading';
+
     return (
-        <div
-            className={`fixed bottom-0 left-0 right-0 h-[60vh] pointer-events-none ${className}`}
-            style={{
-                background: variant === 'loading'
-                    ? 'radial-gradient(ellipse at 50% 100%, rgba(59, 130, 246, 0.4) 0%, rgba(59, 130, 246, 0.1) 40%, transparent 70%)'
-                    : 'radial-gradient(ellipse at 50% 100%, rgba(220, 38, 38, 0.4) 0%, rgba(239, 68, 68, 0.1) 40%, transparent 70%)',
-            }}
-        />
+        <div className={`fixed inset-0 pointer-events-none overflow-hidden ${className}`}>
+            {/* Half-circle gradient at bottom */}
+            <div
+                className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-[200vw] h-[100vh] ${
+                    isLoading ? 'animate-pulse' : ''
+                }`}
+                style={{
+                    borderRadius: '100% 100% 0 0',
+                    background: isLoading
+                        ? 'radial-gradient(ellipse at 50% 100%, #1356BC 0%, #0025BA 30%, rgba(0, 37, 186, 0.3) 50%, transparent 70%)'
+                        : 'radial-gradient(ellipse at 50% 100%, #DC2626 0%, #EF4444 30%, rgba(220, 38, 38, 0.3) 50%, transparent 70%)',
+                    transform: 'translateX(-50%) translateY(50%)',
+                }}
+            />
+
+            {/* Secondary glow effect */}
+            <div
+                className="absolute bottom-0 left-0 right-0 h-[40vh]"
+                style={{
+                    background: isLoading
+                        ? 'linear-gradient(to top, rgba(19, 86, 188, 0.2) 0%, transparent 100%)'
+                        : 'linear-gradient(to top, rgba(220, 38, 38, 0.2) 0%, transparent 100%)',
+                }}
+            />
+        </div>
     );
 }
