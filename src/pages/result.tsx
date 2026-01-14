@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MainLayout, ChatBox, Input, Button } from '@/components';
+import { MainLayout } from '@/layouts';
+import { ChatBox, Input, Button } from '@/components';
 import { strings } from '@/constants';
 import type { ChatResult } from '@/interfaces';
 

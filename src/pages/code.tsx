@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CodeLayout, Input, Button, GradientBackground } from '@/components';
+import { CodeLayout } from '@/layouts';
+import { Input, Button, GradientBackground } from '@/components';
 import { api } from '@/services';
 import { useAuth } from '@/hooks';
 import { strings } from '@/constants';

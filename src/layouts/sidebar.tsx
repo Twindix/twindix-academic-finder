@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Logo } from '@/components/ui';
+import { Logo } from '@/components/atoms';
 import { useAuth } from '@/hooks';
 import { strings } from '@/constants';
 

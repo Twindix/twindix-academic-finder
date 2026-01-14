@@ -1,4 +1,0 @@
-export { default as AuthLayout } from './auth-layout';
-export { default as MainLayout } from './main-layout';
-export { default as CodeLayout } from './code-layout';
-export { default as Sidebar } from './sidebar';

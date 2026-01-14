@@ -1,4 +1,4 @@
-import { MainLayout } from '@/components';
+import { MainLayout } from '@/layouts';
 import { useAuth } from '@/hooks';
 import { strings } from '@/constants';
 
