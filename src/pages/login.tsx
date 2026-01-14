@@ -17,7 +17,6 @@ export default function Login() {
         setValidationError('');
         clearError();
 
-        // Validate form
         const validation = validateLoginForm(email, password);
         if (!validation.isValid) {
             setValidationError(validation.error || 'Please check your input');
@@ -28,7 +27,6 @@ export default function Login() {
             await login(email, password);
             navigate('/code');
         } catch {
-            // Error is handled by the hook
         }
     };
 

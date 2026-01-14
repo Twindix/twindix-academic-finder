@@ -1,9 +1,6 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { API_BASE_URL, API_ENDPOINTS } from '@/config';
 
-/**
- * Cookie utility functions
- */
 const getCookie = (name: string): string | null => {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -23,30 +20,21 @@ const deleteCookie = (name: string): void => {
     document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
 };
 
-/**
- * Token management
- */
 export const TOKEN_KEY = 'auth_token';
 
 export const getToken = (): string | null => getCookie(TOKEN_KEY);
 export const setToken = (token: string): void => setCookie(TOKEN_KEY, token, 7);
 export const removeToken = (): void => deleteCookie(TOKEN_KEY);
 
-/**
- * Create axios instance with base configuration
- */
 const axiosClient = axios.create({
     baseURL: API_BASE_URL,
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
     },
-    timeout: 30000, // 30 seconds
+    timeout: 30000,
 });
 
-/**
- * Flag to prevent multiple refresh token requests
- */
 let isRefreshing = false;
 let failedQueue: Array<{
     resolve: (value?: unknown) => void;
@@ -64,9 +52,6 @@ const processQueue = (error: Error | null, token: string | null = null): void =>
     failedQueue = [];
 };
 
-/**
- * Request interceptor - Attach auth token to requests
- */
 axiosClient.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
         const token = getToken();
@@ -80,17 +65,12 @@ axiosClient.interceptors.request.use(
     }
 );
 
-/**
- * Response interceptor - Handle errors and token refresh
- */
 axiosClient.interceptors.response.use(
     (response) => response,
     async (error: AxiosError) => {
         const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
 
-        // Handle 401 Unauthorized - attempt token refresh
         if (error.response?.status === 401 && !originalRequest._retry) {
-            // Don't retry refresh endpoint
             if (originalRequest.url === API_ENDPOINTS.AUTH.REFRESH) {
                 removeToken();
                 window.location.href = '/login';
@@ -98,7 +78,6 @@ axiosClient.interceptors.response.use(
             }
 
             if (isRefreshing) {
-                // Queue the request while refreshing
                 return new Promise((resolve, reject) => {
                     failedQueue.push({ resolve, reject });
                 }).then((token) => {
@@ -132,7 +111,6 @@ axiosClient.interceptors.response.use(
             }
         }
 
-        // Extract error message from response
         const errorMessage =
             (error.response?.data as { message?: string })?.message ||
             error.message ||

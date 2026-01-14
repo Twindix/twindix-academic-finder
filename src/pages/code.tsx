@@ -22,7 +22,6 @@ export default function Code() {
         setErrorMessage('');
         setProgress(0);
 
-        // Simulate loading progress
         const progressInterval = setInterval(() => {
             setProgress((prev) => {
                 if (prev >= 95) {
@@ -42,13 +41,11 @@ export default function Code() {
             if (response.success && response.data) {
                 setStatus('success');
 
-                // Add user name to result
                 const resultWithUser = {
                     ...response.data,
                     userName: user?.name || 'User',
                 };
 
-                // Store result and navigate
                 sessionStorage.setItem('codeResult', JSON.stringify(resultWithUser));
                 setTimeout(() => navigate('/result'), 500);
             } else {

@@ -10,17 +10,14 @@ export default function Result() {
     const [copied, setCopied] = useState(false);
 
     useEffect(() => {
-        // Get result from session storage
         const storedResult = sessionStorage.getItem('codeResult');
         if (storedResult) {
             try {
                 setResult(JSON.parse(storedResult));
             } catch {
-                // Invalid data, redirect to code page
                 navigate('/code');
             }
         } else {
-            // No result found, redirect to code page
             navigate('/code');
         }
     }, [navigate]);
@@ -52,7 +49,6 @@ export default function Result() {
     return (
         <MainLayout>
             <div className="min-h-screen flex flex-col p-6">
-                {/* Chat box */}
                 <div className="flex-1 max-w-4xl mx-auto w-full">
                     <ChatBox
                         userName={result.userName}
@@ -66,7 +62,6 @@ export default function Result() {
                     )}
                 </div>
 
-                {/* Bottom controls */}
                 <div className="max-w-2xl mx-auto w-full mt-6">
                     <div className="flex gap-4 items-center justify-center">
                         <div className="flex-1 max-w-md">

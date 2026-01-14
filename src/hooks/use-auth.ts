@@ -1,8 +1,3 @@
-/**
- * Custom auth hook to replace Zustand store
- * Uses localStorage for user data and cookies for auth token
- */
-
 import { useState, useCallback, useEffect } from 'react';
 import type { User } from '@/interfaces';
 import { api } from '@/services';
@@ -25,7 +20,6 @@ export function useAuth(): UseAuthReturn {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    // Sync user state with localStorage on mount
     useEffect(() => {
         const storedUser = getStoredUser();
         if (storedUser && checkAuth()) {
@@ -34,19 +28,13 @@ export function useAuth(): UseAuthReturn {
         }
     }, []);
 
-    /**
-     * Login with email and password
-     */
     const login = useCallback(async (email: string, password: string) => {
         setIsLoading(true);
         setError(null);
 
         try {
             const response = await api.login(email, password);
-
-            // Save user to localStorage
             saveUser(response.user);
-
             setUser(response.user);
             setIsAuthenticated(true);
             setIsLoading(false);
@@ -58,32 +46,21 @@ export function useAuth(): UseAuthReturn {
         }
     }, []);
 
-    /**
-     * Logout user and clear all auth data
-     */
     const logout = useCallback(async () => {
         setIsLoading(true);
 
         try {
             await api.logout();
         } catch {
-            // Ignore logout errors, still clear local state
         } finally {
-            // Clear all auth data
             clearAuth();
-
             setUser(null);
             setIsAuthenticated(false);
             setIsLoading(false);
-
-            // Redirect to login
             window.location.href = '/login';
         }
     }, []);
 
-    /**
-     * Fetch current user from API
-     */
     const fetchUser = useCallback(async () => {
         if (!checkAuth()) {
             setIsAuthenticated(false);
@@ -94,26 +71,18 @@ export function useAuth(): UseAuthReturn {
 
         try {
             const fetchedUser = await api.getCurrentUser();
-
-            // Save updated user to localStorage
             saveUser(fetchedUser);
-
             setUser(fetchedUser);
             setIsAuthenticated(true);
             setIsLoading(false);
         } catch {
-            // Token might be invalid, clear auth state
             clearAuth();
-
             setUser(null);
             setIsAuthenticated(false);
             setIsLoading(false);
         }
     }, []);
 
-    /**
-     * Clear error message
-     */
     const clearError = useCallback(() => {
         setError(null);
     }, []);

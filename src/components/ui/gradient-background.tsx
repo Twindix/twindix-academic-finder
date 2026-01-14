@@ -8,7 +8,6 @@ export default function GradientBackground({ variant, className = '' }: Gradient
 
     return (
         <div className={`fixed inset-0 pointer-events-none overflow-hidden ${className}`}>
-            {/* Half-circle gradient at bottom */}
             <div
                 className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-[200vw] h-[100vh] ${
                     isLoading ? 'animate-pulse' : ''
@@ -22,7 +21,6 @@ export default function GradientBackground({ variant, className = '' }: Gradient
                 }}
             />
 
-            {/* Secondary glow effect */}
             <div
                 className="absolute bottom-0 left-0 right-0 h-[40vh]"
                 style={{

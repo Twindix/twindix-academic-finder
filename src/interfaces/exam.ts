@@ -1,22 +1,13 @@
-/**
- * Exam result request interface
- */
 export interface ExamResultRequest {
     examCode: string;
 }
 
-/**
- * Selected branch interface
- */
 export interface SelectedBranch {
     id: number;
     name: string;
     description?: string;
 }
 
-/**
- * Environment status interface
- */
 export interface EnvironmentStatus {
     id: number;
     name: string;
@@ -24,9 +15,6 @@ export interface EnvironmentStatus {
     value?: number;
 }
 
-/**
- * Exam result response interface (from API)
- */
 export interface ExamResultResponse {
     jobTitle: string;
     industry: string;
@@ -35,9 +23,6 @@ export interface ExamResultResponse {
     environmentStatus: EnvironmentStatus[];
 }
 
-/**
- * Chat result interface (for display)
- */
 export interface ChatResult {
     id: string;
     userName: string;
@@ -50,9 +35,6 @@ export interface ChatResult {
     environmentStatus: EnvironmentStatus[];
 }
 
-/**
- * Code submit response interface
- */
 export interface CodeSubmitResponse {
     success: boolean;
     data?: ChatResult;
