@@ -1,0 +1,62 @@
+import { ReactNode, useState } from 'react';
+import { Logo } from '@/components/ui';
+import { useAuth } from '@/hooks';
+
+interface CodeLayoutProps {
+    children: ReactNode;
+}
+
+export default function CodeLayout({ children }: CodeLayoutProps) {
+    const { logout } = useAuth();
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+    const handleLogout = async () => {
+        setIsLoggingOut(true);
+        try {
+            await logout();
+        } catch {
+            // Error handled by hook
+        } finally {
+            setIsLoggingOut(false);
+        }
+    };
+
+    return (
+        <div className="min-h-screen bg-surface flex">
+            {/* Left vertical blue line */}
+            <div className="w-2 bg-secondary" />
+
+            {/* Main content area */}
+            <div className="flex-1 flex flex-col relative">
+                {/* Header with logo */}
+                <header className="p-6">
+                    <Logo size="md" />
+                </header>
+
+                {/* Content */}
+                <main className="flex-1 flex items-center justify-center">
+                    {children}
+                </main>
+
+                {/* Footer with logout button */}
+                <footer className="p-6">
+                    <button
+                        onClick={handleLogout}
+                        disabled={isLoggingOut}
+                        className="flex items-center gap-2 text-error hover:text-error-light transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                        <span className="font-medium">
+                            {isLoggingOut ? 'Logging out...' : 'Log out'}
+                        </span>
+                    </button>
+                </footer>
+            </div>
+
+            {/* Right vertical blue line */}
+            <div className="w-2 bg-secondary" />
+        </div>
+    );
+}

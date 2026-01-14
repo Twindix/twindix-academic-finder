@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MainLayout, Input, Button, GradientBackground } from '@/components';
+import { CodeLayout, Input, Button, GradientBackground } from '@/components';
 import { api } from '@/services';
 import { useAuth } from '@/hooks';
 import type { CodePageStatus } from '@/types';
@@ -103,50 +103,48 @@ export default function Code() {
     };
 
     return (
-        <MainLayout>
+        <CodeLayout>
             {(status === 'loading' || status === 'error') && (
                 <GradientBackground variant={status === 'loading' ? 'loading' : 'error'} />
             )}
 
-            <div className="min-h-screen flex flex-col items-center justify-center px-8">
-                <div className="w-full max-w-2xl text-center">
-                    <h1 className="text-3xl font-bold mb-2">
-                        {getHeadingContent()}
-                    </h1>
+            <div className="w-full max-w-2xl text-center px-8">
+                <h1 className="text-3xl font-bold mb-2">
+                    {getHeadingContent()}
+                </h1>
 
-                    {status === 'loading' && (
-                        <p className="text-text-muted mb-8">{Math.round(progress)} %</p>
-                    )}
+                {status === 'loading' && (
+                    <p className="text-text-muted mb-8">{Math.round(progress)} %</p>
+                )}
 
-                    {status === 'error' && (
-                        <p className="text-text-muted mb-8">{errorMessage || 'Re Enter the Code Again.'}</p>
-                    )}
+                {status === 'error' && (
+                    <p className="text-text-muted mb-8">{errorMessage || 'Re Enter the Code Again.'}</p>
+                )}
 
-                    {status === 'idle' && <div className="mb-8" />}
+                {status === 'idle' && <div className="mb-8" />}
 
-                    <form onSubmit={handleSubmit} className="flex gap-4 items-center justify-center">
-                        <div className="flex-1 max-w-md">
-                            <Input
-                                type="text"
-                                placeholder="Enter code Job Bar here"
-                                value={code}
-                                onChange={(e) => setCode(e.target.value)}
-                                error={status === 'error'}
-                                disabled={status === 'loading'}
-                            />
-                        </div>
-                        <Button
-                            type={status === 'error' ? 'button' : 'submit'}
-                            variant={status === 'error' ? 'danger' : status === 'idle' && !code ? 'muted' : 'primary'}
-                            loading={status === 'loading'}
+                <form onSubmit={handleSubmit} className="flex gap-4 items-center justify-center">
+                    <div className="flex-1 max-w-md">
+                        <Input
+                            type="text"
+                            placeholder="Enter code Job Bar here"
+                            value={code}
+                            onChange={(e) => setCode(e.target.value)}
+                            error={status === 'error'}
                             disabled={status === 'loading'}
-                            onClick={status === 'error' ? handleReset : undefined}
-                        >
-                            {getButtonText()}
-                        </Button>
-                    </form>
-                </div>
+                        />
+                    </div>
+                    <Button
+                        type={status === 'error' ? 'button' : 'submit'}
+                        variant={status === 'error' ? 'danger' : status === 'idle' && !code ? 'muted' : 'primary'}
+                        loading={status === 'loading'}
+                        disabled={status === 'loading'}
+                        onClick={status === 'error' ? handleReset : undefined}
+                    >
+                        {getButtonText()}
+                    </Button>
+                </form>
             </div>
-        </MainLayout>
+        </CodeLayout>
     );
 }
