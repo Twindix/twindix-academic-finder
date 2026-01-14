@@ -1,4 +1,4 @@
-export default function GradientBackground({ variant, className = '' }: {
+export function GradientBackground({ variant, className = '' }: {
     variant: 'loading' | 'error',
     className?: string,
 }) {

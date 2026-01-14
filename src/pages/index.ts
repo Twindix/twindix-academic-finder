@@ -1,4 +1,4 @@
-export { default as Login } from './login';
-export { default as Code } from './code';
-export { default as Result } from './result';
-export { default as Profile } from './profile';
+export { Login } from './login';
+export { Code } from './code';
+export { Result } from './result';
+export { Profile } from './profile';

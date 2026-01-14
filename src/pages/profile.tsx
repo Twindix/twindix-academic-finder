@@ -2,7 +2,7 @@ import { MainLayout } from '@/layouts';
 import { useAuth } from '@/hooks';
 import { strings } from '@/constants';
 
-export default function Profile() {
+export function Profile() {
     const { user } = useAuth();
 
     return (

@@ -1,6 +1,6 @@
 import logoImage from '@/assets/images/logo.png';
 
-export default function Logo({ size = 'md', className = '' }: {
+export function Logo({ size = 'md', className = '' }: {
     size?: 'sm' | 'md' | 'lg',
     className?: string,
 }) {

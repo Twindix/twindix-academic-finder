@@ -4,7 +4,7 @@ import { useAuth } from '@/hooks';
 import { strings } from '@/constants';
 import logoutIcon from '@/assets/icons/logout.svg';
 
-export default function Sidebar() {
+export function Sidebar() {
     const { logout } = useAuth();
     const [isLoggingOut, setIsLoggingOut] = useState(false);
 

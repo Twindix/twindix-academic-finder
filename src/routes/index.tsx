@@ -26,7 +26,7 @@ function PublicRoute({ children }: PublicRouteProps) {
     return <>{children}</>;
 }
 
-export default function AppRoutes() {
+export function AppRoutes() {
     return (
         <Routes>
             <Route

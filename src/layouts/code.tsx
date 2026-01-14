@@ -4,7 +4,7 @@ import { useAuth } from '@/hooks';
 import { strings } from '@/constants';
 import logoutIcon from '@/assets/icons/logout.svg';
 
-export default function CodeLayout({ children, variant = 'default' }: {
+export function CodeLayout({ children, variant = 'default' }: {
     children: ReactNode,
     variant?: 'default' | 'error',
 }) {

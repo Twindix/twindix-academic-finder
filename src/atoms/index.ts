@@ -1,4 +1,4 @@
-export { default as Alert } from './alert';
-export { default as Button } from './button';
-export { default as Input } from './input';
-export { default as Logo } from './logo';
+export { Alert } from './alert';
+export { Button } from './button';
+export { Input } from './input';
+export { Logo } from './logo';

@@ -1,12 +1,12 @@
 import { ReactNode } from 'react';
-import Button from './button';
+import { Button } from './button';
 import errorIcon from '@/assets/icons/error.svg';
 import warningIcon from '@/assets/icons/warning.svg';
 import successIcon from '@/assets/icons/success.svg';
 import infoIcon from '@/assets/icons/info.svg';
 import closeIcon from '@/assets/icons/close.svg';
 
-export default function Alert({
+export function Alert({
     variant = 'error',
     children,
     className = '',

@@ -1,6 +1,6 @@
 import { ButtonHTMLAttributes, ReactNode } from 'react';
 
-export default function Button({
+export function Button({
     variant = 'primary',
     size = 'md',
     loading = false,

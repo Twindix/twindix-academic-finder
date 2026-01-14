@@ -3,7 +3,7 @@ import { strings } from '@/constants';
 import languageIcon from '@/assets/icons/language.svg';
 import copyIcon from '@/assets/icons/copy.svg';
 
-export default function ChatBox({ userName, content, onCopy }: {
+export function ChatBox({ userName, content, onCopy }: {
     userName: string,
     content: string[],
     onCopy: () => void,

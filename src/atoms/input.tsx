@@ -1,9 +1,9 @@
 import { InputHTMLAttributes, useState } from 'react';
-import Button from './button';
+import { Button } from './button';
 import eyeIcon from '@/assets/icons/eye.svg';
 import eyeOffIcon from '@/assets/icons/eye-off.svg';
 
-export default function Input({
+export function Input({
     label,
     error = false,
     errorMessage,

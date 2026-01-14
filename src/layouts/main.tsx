@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { Sidebar } from '@/components';
 
-export default function MainLayout({ children, showSidebar = true }: {
+export function MainLayout({ children, showSidebar = true }: {
     children: ReactNode,
     showSidebar?: boolean,
 }) {

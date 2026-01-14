@@ -3,7 +3,7 @@ import { Logo } from '@/atoms';
 import { strings } from '@/constants';
 import starIcon from '@/assets/icons/star.svg';
 
-export default function AuthLayout({ children }: {
+export function AuthLayout({ children }: {
     children: ReactNode,
 }) {
     return (

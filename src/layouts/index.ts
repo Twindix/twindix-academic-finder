@@ -1,3 +1,3 @@
-export { default as AuthLayout } from './auth';
-export { default as MainLayout } from './main';
-export { default as CodeLayout } from './code';
+export { AuthLayout } from './auth';
+export { MainLayout } from './main';
+export { CodeLayout } from './code';

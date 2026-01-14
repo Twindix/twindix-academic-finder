@@ -120,4 +120,4 @@ axiosClient.interceptors.response.use(
     }
 );
 
-export default axiosClient;
+export { axiosClient };

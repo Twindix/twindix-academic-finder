@@ -8,7 +8,7 @@ import { useAuth } from '@/hooks';
 import { strings } from '@/constants';
 import type { CodePageStatus } from '@/types';
 
-export default function Code() {
+export function Code() {
     const navigate = useNavigate();
     const { user } = useAuth();
     const [code, setCode] = useState('');

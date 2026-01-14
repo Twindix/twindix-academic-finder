@@ -1,4 +1,4 @@
-import axiosClient, { setToken, removeToken, getToken } from './axios-client';
+import { axiosClient, setToken, removeToken, getToken } from './axios-client';
 import { API_ENDPOINTS } from '@/config';
 import type {
     User,
@@ -83,12 +83,12 @@ class ApiService {
                 industry: data.industry,
                 seniority: data.seniority,
                 code: examCode,
-                branches: data.selected_branches.map((branch) => ({
+                branches: data.selected_branches.map((branch: { id: number, name: string, description?: string }) => ({
                     id: branch.id,
                     name: branch.name,
                     description: branch.description,
                 })),
-                environmentStatus: data.environment_status.map((env) => ({
+                environmentStatus: data.environment_status.map((env: { id: number, name: string, status: string, value?: number }) => ({
                     id: env.id,
                     name: env.name,
                     status: env.status,

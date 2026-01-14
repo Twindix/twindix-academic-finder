@@ -6,7 +6,7 @@ import { ChatBox } from '@/components';
 import { strings } from '@/constants';
 import type { ChatResult } from '@/interfaces';
 
-export default function Result() {
+export function Result() {
     const navigate = useNavigate();
     const [result, setResult] = useState<ChatResult | null>(null);
     const [copied, setCopied] = useState(false);

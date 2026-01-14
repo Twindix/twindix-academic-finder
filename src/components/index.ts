@@ -1,3 +1,3 @@
-export { default as ChatBox } from './chat-box';
-export { default as GradientBackground } from './gradient-background';
-export { default as Sidebar } from './sidebar';
+export { ChatBox } from './chat-box';
+export { GradientBackground } from './gradient-background';
+export { Sidebar } from './sidebar';

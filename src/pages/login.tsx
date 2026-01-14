@@ -6,7 +6,7 @@ import { useAuth } from '@/hooks';
 import { validateLoginForm } from '@/utils';
 import { strings } from '@/constants';
 
-export default function Login() {
+export function Login() {
     const navigate = useNavigate();
     const { login, isLoading, error, clearError } = useAuth();
     const [email, setEmail] = useState('');
