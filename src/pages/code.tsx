@@ -78,8 +78,8 @@ export default function Code() {
         if (status === 'error') {
             return (
                 <>
-                    <span className="text-error italic">{strings.code.titleIncorrect}</span>
-                    <span className="text-text-primary"> {strings.code.titleCode}</span>
+                    <span className="text-error font-bold italic">{strings.code.titleIncorrect}</span>
+                    <span className="text-text-primary font-bold"> {strings.code.titleCode}</span>
                 </>
             );
         }
@@ -100,8 +100,10 @@ export default function Code() {
         return strings.code.buttonConfirm;
     };
 
+    const layoutVariant = status === 'error' ? 'error' : 'default';
+
     return (
-        <CodeLayout>
+        <CodeLayout variant={layoutVariant}>
             {(status === 'loading' || status === 'error') && (
                 <GradientBackground variant={status === 'loading' ? 'loading' : 'error'} />
             )}
@@ -134,7 +136,7 @@ export default function Code() {
                     </div>
                     <Button
                         type={status === 'error' ? 'button' : 'submit'}
-                        variant={status === 'error' ? 'danger' : status === 'idle' && !code ? 'muted' : 'primary'}
+                        variant={status === 'error' ? 'primary' : status === 'idle' && !code ? 'muted' : 'primary'}
                         loading={status === 'loading'}
                         disabled={status === 'loading'}
                         onClick={status === 'error' ? handleReset : undefined}

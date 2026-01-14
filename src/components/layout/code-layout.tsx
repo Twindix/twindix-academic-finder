@@ -5,9 +5,10 @@ import { strings } from '@/constants';
 
 interface CodeLayoutProps {
     children: ReactNode;
+    variant?: 'default' | 'error';
 }
 
-export default function CodeLayout({ children }: CodeLayoutProps) {
+export default function CodeLayout({ children, variant = 'default' }: CodeLayoutProps) {
     const { logout } = useAuth();
     const [isLoggingOut, setIsLoggingOut] = useState(false);
 
@@ -16,30 +17,27 @@ export default function CodeLayout({ children }: CodeLayoutProps) {
         try {
             await logout();
         } catch {
-            // Error handled by hook
         } finally {
             setIsLoggingOut(false);
         }
     };
 
-    return (
-        <div className="min-h-screen bg-surface flex">
-            {/* Left vertical blue line */}
-            <div className="w-2 bg-secondary" />
+    const lineColor = variant === 'error' ? 'bg-error' : 'bg-secondary';
 
-            {/* Main content area */}
-            <div className="flex-1 flex flex-col relative">
-                {/* Header with logo */}
+    return (
+        <div className="min-h-screen bg-surface">
+            <div className="min-h-screen flex flex-col relative mx-4">
+                <div className={`absolute left-0 top-0 bottom-0 w-[2px] ${lineColor}`} />
+                <div className={`absolute right-0 top-0 bottom-0 w-[2px] ${lineColor}`} />
+
                 <header className="p-6">
                     <Logo size="md" />
                 </header>
 
-                {/* Content */}
-                <main className="flex-1 flex items-center justify-center">
+                <main className="flex-1 flex items-center justify-center relative z-10">
                     {children}
                 </main>
 
-                {/* Footer with logout button */}
                 <footer className="p-6">
                     <button
                         onClick={handleLogout}
@@ -55,9 +53,6 @@ export default function CodeLayout({ children }: CodeLayoutProps) {
                     </button>
                 </footer>
             </div>
-
-            {/* Right vertical blue line */}
-            <div className="w-2 bg-secondary" />
         </div>
     );
 }
