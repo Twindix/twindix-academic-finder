@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthLayout, Button, Input } from '@/components';
-import { useAuthStore } from '@/store';
+import { useAuth } from '@/hooks';
 
 export default function Login() {
     const navigate = useNavigate();
-    const { login, isLoading, error, clearError } = useAuthStore();
+    const { login, isLoading, error, clearError } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [localError, setLocalError] = useState('');
@@ -30,7 +30,7 @@ export default function Login() {
             await login(email, password);
             navigate('/code');
         } catch {
-            // Error is handled by the store
+            // Error is handled by the hook
         }
     };
 

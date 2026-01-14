@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MainLayout, Input, Button, GradientBackground } from '@/components';
 import { api } from '@/services';
-import { useAuthStore } from '@/store';
+import { useAuth } from '@/hooks';
 import type { CodePageStatus } from '@/types';
 
 export default function Code() {
     const navigate = useNavigate();
-    const user = useAuthStore((state) => state.user);
+    const { user } = useAuth();
     const [code, setCode] = useState('');
     const [status, setStatus] = useState<CodePageStatus>('idle');
     const [progress, setProgress] = useState(0);

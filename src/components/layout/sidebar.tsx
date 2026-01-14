@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Logo } from '@/components/ui';
-import { useAuthStore } from '@/store';
+import { useAuth } from '@/hooks';
 
 export default function Sidebar() {
-    const logout = useAuthStore((state) => state.logout);
+    const { logout } = useAuth();
     const [isLoggingOut, setIsLoggingOut] = useState(false);
 
     const handleLogout = async () => {
@@ -11,7 +11,7 @@ export default function Sidebar() {
         try {
             await logout();
         } catch {
-            // Error handled by store
+            // Error handled by hook
         } finally {
             setIsLoggingOut(false);
         }

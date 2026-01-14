@@ -1,8 +1,8 @@
 import { MainLayout } from '@/components';
-import { useAuthStore } from '@/store';
+import { useAuth } from '@/hooks';
 
 export default function Profile() {
-    const user = useAuthStore((state) => state.user);
+    const { user } = useAuth();
 
     return (
         <MainLayout>

@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { useAuthStore } from '@/store';
+import { isAuthenticated } from '@/utils';
 import { Login, Code, Result, Profile } from '@/pages';
 
 interface ProtectedRouteProps {
@@ -7,9 +7,7 @@ interface ProtectedRouteProps {
 }
 
 function ProtectedRoute({ children }: ProtectedRouteProps) {
-    const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-
-    if (!isAuthenticated) {
+    if (!isAuthenticated()) {
         return <Navigate to="/login" replace />;
     }
 
@@ -21,9 +19,7 @@ interface PublicRouteProps {
 }
 
 function PublicRoute({ children }: PublicRouteProps) {
-    const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-
-    if (isAuthenticated) {
+    if (isAuthenticated()) {
         return <Navigate to="/code" replace />;
     }
 
