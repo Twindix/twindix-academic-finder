@@ -1,18 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
-import type { User } from '@/interfaces';
+import type { User, UseAuthReturn } from '@/interfaces';
 import { api } from '@/services';
 import { getStoredUser, saveUser, clearAuth, isAuthenticated as checkAuth } from '@/utils';
-
-interface UseAuthReturn {
-    user: User | null;
-    isAuthenticated: boolean;
-    isLoading: boolean;
-    error: string | null;
-    login: (email: string, password: string) => Promise<void>;
-    logout: () => Promise<void>;
-    fetchUser: () => Promise<void>;
-    clearError: () => void;
-}
 
 export function useAuth(): UseAuthReturn {
     const [user, setUser] = useState<User | null>(() => getStoredUser());

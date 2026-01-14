@@ -1,12 +1,9 @@
+import type { ValidationResult } from '@/interfaces';
+
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PASSWORD_MIN_LENGTH = 6;
 const PASSWORD_LETTER_REGEX = /[a-zA-Z]/;
 const PASSWORD_NUMBER_REGEX = /\d/;
-
-export interface ValidationResult {
-    isValid: boolean;
-    error: string | null;
-}
 
 export function validateEmail(email: string): ValidationResult {
     if (!email.trim()) {

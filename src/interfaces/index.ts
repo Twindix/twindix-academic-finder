@@ -1,5 +1,5 @@
 export type { User } from './user';
-export type { LoginRequest, LoginResponse } from './auth';
+export type { LoginRequest, LoginResponse, UseAuthReturn } from './auth';
 export type {
     ExamResultRequest,
     ExamResultResponse,
@@ -8,4 +8,4 @@ export type {
     ChatResult,
     CodeSubmitResponse,
 } from './exam';
-export type { ApiError, ValidationResult } from './api';
+export type { ApiError, ValidationResult, ApiLoginResponse, ApiExamResultResponse } from './api';
