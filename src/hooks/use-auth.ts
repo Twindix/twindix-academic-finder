@@ -40,7 +40,8 @@ export function useAuth(): UseAuthReturn {
 
         try {
             await api.logout();
-        } catch {
+        } catch (error) {
+            console.error('Logout failed:', error);
         } finally {
             clearAuth();
             setUser(null);

@@ -27,7 +27,8 @@ export function Login() {
         try {
             await login(email, password);
             navigate('/code');
-        } catch {
+        } catch (error) {
+            console.error('Login failed:', error);
         }
     };
 

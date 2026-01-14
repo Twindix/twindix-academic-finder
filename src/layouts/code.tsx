@@ -15,7 +15,8 @@ export function CodeLayout({ children, variant = 'default' }: {
         setIsLoggingOut(true);
         try {
             await logout();
-        } catch {
+        } catch (error) {
+            console.error('Logout failed:', error);
         } finally {
             setIsLoggingOut(false);
         }
