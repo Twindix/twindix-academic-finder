@@ -18,15 +18,20 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
             <main className="flex-1 flex">
                 {/* Left side - Illustration */}
                 <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-b from-primary-light via-primary to-primary-dark rounded-tr-3xl">
+                    <div
+                        className="absolute inset-0 rounded-tr-3xl"
+                        style={{
+                            background: 'linear-gradient(to bottom, #FFFFFF 0%, #FFFFFF 5%, #a8c4f5 25%, #4a7fd4 50%, #2557b8 70%, #1a3f8a 85%, #152d6b 100%)',
+                        }}
+                    >
                         {/* Decorative stars */}
-                        <img src={starIcon} alt="" className="absolute top-[20%] left-[10%] w-4 h-4 opacity-70" />
-                        <img src={starIcon} alt="" className="absolute top-[35%] left-[45%] w-3 h-3 opacity-50" />
-                        <img src={starIcon} alt="" className="absolute top-[30%] right-[15%] w-6 h-6 opacity-80" />
-                        <img src={starIcon} alt="" className="absolute top-[50%] right-[30%] w-4 h-4 opacity-60" />
-                        <img src={starIcon} alt="" className="absolute bottom-[40%] left-[25%] w-16 h-16 opacity-90" />
-                        <img src={starIcon} alt="" className="absolute bottom-[25%] left-[5%] w-4 h-4 opacity-70" />
-                        <img src={starIcon} alt="" className="absolute bottom-[20%] right-[10%] w-5 h-5 opacity-60" />
+                        <img src={starIcon} alt="" className="absolute top-[20%] left-[10%] w-4 h-4 opacity-60" />
+                        <img src={starIcon} alt="" className="absolute top-[35%] left-[45%] w-4 h-4 opacity-50" />
+                        <img src={starIcon} alt="" className="absolute top-[28%] right-[12%] w-8 h-8 opacity-90" />
+                        <img src={starIcon} alt="" className="absolute top-[45%] right-[25%] w-5 h-5 opacity-60" />
+                        <img src={starIcon} alt="" className="absolute bottom-[38%] left-[28%] w-20 h-20 opacity-100" />
+                        <img src={starIcon} alt="" className="absolute bottom-[22%] left-[5%] w-5 h-5 opacity-70" />
+                        <img src={starIcon} alt="" className="absolute bottom-[18%] right-[8%] w-6 h-6 opacity-60" />
                     </div>
 
                     {/* Welcome text */}
