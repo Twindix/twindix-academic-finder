@@ -1,5 +1,7 @@
 import { Button } from '@/components/atoms';
 import { strings } from '@/constants';
+import languageIcon from '@/assets/icons/language.svg';
+import copyIcon from '@/assets/icons/copy.svg';
 
 export default function ChatBox({ userName, content, onCopy }: {
     userName: string,
@@ -13,15 +15,11 @@ export default function ChatBox({ userName, content, onCopy }: {
                 <div className="flex items-center gap-4">
                     <Button variant="ghost" size="sm" className="flex items-center gap-1">
                         {strings.common.language}
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
-                        </svg>
+                        <img src={languageIcon} alt="" className="w-4 h-4" />
                     </Button>
                     <Button variant="ghost" size="sm" onClick={onCopy} className="flex items-center gap-1">
                         {strings.common.copy}
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                        </svg>
+                        <img src={copyIcon} alt="" className="w-4 h-4" />
                     </Button>
                 </div>
             </div>
