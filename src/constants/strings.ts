@@ -1,5 +1,5 @@
 export const strings = {
-    appName: 'Twindix Academic Gate',
+    appName: 'Twindix Academic Finder',
     companyName: 'Twindix Global Inc.',
 
     login: {

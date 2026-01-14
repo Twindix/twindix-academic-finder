@@ -1,10 +1,10 @@
-# Twindix Academic Gate
+# Twindix Academic Finder
 
 A web application for viewing AI-powered assessment analysis results. Companies and universities can enter student or candidate codes to access detailed AI model analysis outputs based on their assessment answers.
 
 ## Overview
 
-Twindix Academic Gate provides accurate recommendations for suitable academic and career paths, along with practical steps to help both parents and students make confident, decisive choices about their future.
+Twindix Academic Finder provides accurate recommendations for suitable academic and career paths, along with practical steps to help both parents and students make confident, decisive choices about their future.
 
 ### Key Features
 
