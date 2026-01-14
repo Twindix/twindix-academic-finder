@@ -1,28 +1,25 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthLayout, Button, Input } from '@/components';
+import { AuthLayout, Button, Input, Alert } from '@/components';
 import { useAuth } from '@/hooks';
+import { validateLoginForm } from '@/utils';
 
 export default function Login() {
     const navigate = useNavigate();
     const { login, isLoading, error, clearError } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [localError, setLocalError] = useState('');
+    const [validationError, setValidationError] = useState('');
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLocalError('');
+        setValidationError('');
         clearError();
 
-        // Basic validation
-        if (!email.trim()) {
-            setLocalError('Please enter your email');
-            return;
-        }
-
-        if (!password.trim()) {
-            setLocalError('Please enter your password');
+        // Validate form
+        const validation = validateLoginForm(email, password);
+        if (!validation.isValid) {
+            setValidationError(validation.error || 'Please check your input');
             return;
         }
 
@@ -34,7 +31,12 @@ export default function Login() {
         }
     };
 
-    const displayError = localError || error;
+    const displayError = validationError || error;
+
+    const handleDismissError = () => {
+        setValidationError('');
+        clearError();
+    };
 
     return (
         <AuthLayout>
@@ -47,6 +49,12 @@ export default function Login() {
                     <span className="text-text-secondary">Please enter The Details For Your Account</span>
                 </p>
 
+                {displayError && (
+                    <Alert variant="error" className="mb-6" onClose={handleDismissError}>
+                        {displayError}
+                    </Alert>
+                )}
+
                 <form onSubmit={handleSubmit} className="space-y-5">
                     <Input
                         label="E-mail"
@@ -55,7 +63,7 @@ export default function Login() {
                         value={email}
                         onChange={(e) => {
                             setEmail(e.target.value);
-                            setLocalError('');
+                            setValidationError('');
                         }}
                         error={!!displayError}
                     />
@@ -67,7 +75,7 @@ export default function Login() {
                         value={password}
                         onChange={(e) => {
                             setPassword(e.target.value);
-                            setLocalError('');
+                            setValidationError('');
                         }}
                         showPasswordToggle
                         error={!!displayError}
@@ -79,10 +87,6 @@ export default function Login() {
                             Click here
                         </button>
                     </div>
-
-                    {displayError && (
-                        <p className="text-error text-sm">{displayError}</p>
-                    )}
 
                     <Button
                         type="submit"
