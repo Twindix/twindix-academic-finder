@@ -1,5 +1,5 @@
 import { axiosClient, setToken, removeToken, getToken } from './axios-client';
-import { apiEndpoints } from '@/constants';
+import { apiEndpoints, strings } from '@/constants';
 import type {
     User,
     LoginResponse,
@@ -185,14 +185,14 @@ class ApiService {
                 jobId: response.data.data.job_id,
             };
         } catch (error) {
-            const message = error instanceof Error ? error.message : 'An error occurred';
+            const message = error instanceof Error ? error.message : strings.errors.genericError;
 
             if (message.includes('404') || message.toLowerCase().includes('not found')) {
-                return { success: false, error: 'Exam not found' };
+                return { success: false, error: strings.errors.examNotFound };
             }
 
             if (message.includes('422') || message.toLowerCase().includes('invalid')) {
-                return { success: false, error: 'Invalid exam code' };
+                return { success: false, error: strings.errors.invalidExamCode };
             }
 
             return { success: false, error: message };
@@ -235,7 +235,7 @@ class ApiService {
                     status: data.status,
                     progress: data.progress,
                     currentStep: data.current_step,
-                    error: data.error_message || 'Processing failed',
+                    error: data.error_message || strings.errors.processingFailed,
                 };
             }
 
@@ -246,7 +246,7 @@ class ApiService {
                 currentStep: data.current_step,
             };
         } catch (error) {
-            const message = error instanceof Error ? error.message : 'An error occurred';
+            const message = error instanceof Error ? error.message : strings.errors.genericError;
 
             if (message.includes('404') || message.toLowerCase().includes('not found')) {
                 return {
@@ -254,7 +254,7 @@ class ApiService {
                     status: 'failed',
                     progress: 0,
                     currentStep: '',
-                    error: 'Job not found',
+                    error: strings.errors.jobNotFound,
                 };
             }
 
@@ -264,7 +264,7 @@ class ApiService {
                     status: 'failed',
                     progress: 0,
                     currentStep: '',
-                    error: 'Invalid job ID',
+                    error: strings.errors.invalidJobId,
                 };
             }
 

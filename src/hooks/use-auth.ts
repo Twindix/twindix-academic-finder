@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import type { User, UseAuthReturn } from '@/interfaces';
 import { api } from '@/services';
 import { getStoredUser, saveUser, clearAuth, isAuthenticated as checkAuth } from '@/utils';
+import { strings } from '@/constants';
 
 export function useAuth(): UseAuthReturn {
     const [user, setUser] = useState<User | null>(() => getStoredUser());
@@ -38,7 +39,7 @@ export function useAuth(): UseAuthReturn {
 
             setIsLoading(false);
         } catch (err) {
-            const errorMessage = err instanceof Error ? err.message : 'Invalid credentials';
+            const errorMessage = err instanceof Error ? err.message : strings.errors.invalidCredentials;
 
             setError(errorMessage);
 
