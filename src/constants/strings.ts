@@ -1,11 +1,9 @@
 export const strings = {
     appName: 'Twindix Academic Finder',
     companyName: 'Twindix Global Inc.',
-
     login: {
         title: 'Login',
-        welcome: 'Welcome',
-        welcomeSuffix: 'Back Please enter The Details For Your Account',
+        welcome: 'Welcome back, please enter the details for your account',
         emailLabel: 'E-mail',
         emailPlaceholder: 'Enter E-mail here',
         passwordLabel: 'Password',
@@ -14,12 +12,10 @@ export const strings = {
         forgotPasswordLink: 'Click here',
         submitButton: 'Login',
     },
-
     authLayout: {
         welcomeTitle: 'Welcome Back to Twindix',
         welcomeDescription: 'Accurate recommendations for suitable academic and career paths, along with practical steps to help both the parent and the student make a confident, decisive choice.',
     },
-
     code: {
         titleEnter: 'Enter Code',
         titleSuffix: 'Job Bar to Display its',
@@ -33,13 +29,11 @@ export const strings = {
         buttonReenter: 'Re-Enter',
         errorDefault: 'Re Enter the Code Again.',
     },
-
     result: {
         copiedMessage: 'Copied to clipboard!',
         buttonReset: 'Reset',
         loading: 'Loading...',
     },
-
     profile: {
         title: 'Profile',
         nameLabel: 'Name',
@@ -47,14 +41,12 @@ export const strings = {
         userIdLabel: 'User ID',
         notAvailable: 'N/A',
     },
-
     common: {
         logout: 'Log out',
         loggingOut: 'Logging out...',
         language: 'EN',
         copy: 'Copy',
     },
-
     validation: {
         emailRequired: 'Email is required',
         emailInvalid: 'Please enter a valid email address',
@@ -65,7 +57,6 @@ export const strings = {
         codeRequired: 'Please enter a code',
         codeMinLength: 'Code must be at least 3 characters',
     },
-
     errors: {
         invalidCredentials: 'Invalid credentials',
         examNotFound: 'Exam not found',

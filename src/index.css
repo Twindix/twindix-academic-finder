@@ -57,30 +57,8 @@ body {
 
 /* Typography classes */
 .text-gradient {
-    background: linear-gradient(to right, #000000, #0025BA);
+    background: linear-gradient(to right, var(--color-text-dark), var(--color-secondary));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-}
-
-/* Gradient backgrounds */
-.bg-gradient-login {
-    background: linear-gradient(to top, #0025BA 0%, #4a7fd4 40%, #a8c4f5 70%, #FFFFFF 100%);
-}
-
-/* Font weight utilities */
-.font-regular {
-    font-weight: 400;
-}
-
-.font-medium {
-    font-weight: 500;
-}
-
-.font-semibold {
-    font-weight: 600;
-}
-
-.font-bold {
-    font-weight: 700;
 }
