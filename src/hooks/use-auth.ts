@@ -5,32 +5,45 @@ import { getStoredUser, saveUser, clearAuth, isAuthenticated as checkAuth } from
 
 export function useAuth(): UseAuthReturn {
     const [user, setUser] = useState<User | null>(() => getStoredUser());
+
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => checkAuth());
+
     const [isLoading, setIsLoading] = useState(false);
+
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const storedUser = getStoredUser();
+
         if (storedUser && checkAuth()) {
             setUser(storedUser);
+
             setIsAuthenticated(true);
         }
     }, []);
 
     const login = useCallback(async (email: string, password: string) => {
         setIsLoading(true);
+
         setError(null);
 
         try {
             const response = await api.login(email, password);
+
             saveUser(response.user);
+
             setUser(response.user);
+
             setIsAuthenticated(true);
+
             setIsLoading(false);
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : 'Invalid credentials';
+
             setError(errorMessage);
+
             setIsLoading(false);
+
             throw err;
         }
     }, []);
@@ -44,9 +57,13 @@ export function useAuth(): UseAuthReturn {
             console.error('Logout failed:', error);
         } finally {
             clearAuth();
+
             setUser(null);
+
             setIsAuthenticated(false);
+
             setIsLoading(false);
+
             window.location.href = '/login';
         }
     }, []);
@@ -54,6 +71,7 @@ export function useAuth(): UseAuthReturn {
     const fetchUser = useCallback(async () => {
         if (!checkAuth()) {
             setIsAuthenticated(false);
+
             return;
         }
 
@@ -61,14 +79,21 @@ export function useAuth(): UseAuthReturn {
 
         try {
             const fetchedUser = await api.getCurrentUser();
+
             saveUser(fetchedUser);
+
             setUser(fetchedUser);
+
             setIsAuthenticated(true);
+
             setIsLoading(false);
         } catch {
             clearAuth();
+
             setUser(null);
+
             setIsAuthenticated(false);
+
             setIsLoading(false);
         }
     }, []);

@@ -24,7 +24,6 @@ export function ChatBox({ userName, content, onCopy }: {
                     </Button>
                 </div>
             </div>
-
             <div className="px-6 py-4 max-h-[60vh] overflow-y-auto prose prose-sm max-w-none">
                 <ReactMarkdown
                     components={{

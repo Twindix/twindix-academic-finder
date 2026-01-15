@@ -69,7 +69,9 @@ export function Code() {
 
             if (!processResponse.success || !processResponse.jobId) {
                 setStatus('error');
+
                 setErrorMessage(processResponse.error || strings.errors.invalidExamCode);
+
                 return;
             }
 
@@ -188,21 +190,18 @@ export function Code() {
             {(status === 'loading' || status === 'error') && (
                 <GradientBackground variant={status === 'loading' ? 'loading' : 'error'} />
             )}
-
             <div className="w-full max-w-2xl text-center px-8">
                 {status === 'idle' && (
                     <h1 className="text-3xl font-bold mb-8 text-gradient">
                         {strings.code.titleEnter} {strings.code.titleSuffix} {strings.code.titleResult}.
                     </h1>
                 )}
-
                 {status === 'loading' && (
                     <>
                         <h1 className="text-3xl font-bold mb-2 text-gradient">{strings.code.titleLoading}</h1>
                         <span className="block text-text-muted mb-8">{Math.round(progress)} %</span>
                     </>
                 )}
-
                 {status === 'error' && (
                     <>
                         <h1 className="text-3xl font-bold mb-2">
@@ -212,7 +211,6 @@ export function Code() {
                         <span className="block text-text-muted mb-8">{errorMessage || strings.code.errorDefault}</span>
                     </>
                 )}
-
                 <form onSubmit={handleSubmit} className="flex gap-4 items-center justify-center">
                     <div className="flex-1 max-w-md">
                         <Input

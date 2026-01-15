@@ -10,7 +10,6 @@ export function Profile() {
             <div className="min-h-screen flex flex-col items-center justify-center px-8">
                 <div className="w-full max-w-md bg-surface rounded-[14px] border border-gray-100 p-8">
                     <h1 className="text-2xl font-bold text-gradient mb-6">{strings.profile.title}</h1>
-
                     <div className="space-y-4">
                         <div>
                             <label className="block text-sm font-medium text-text-secondary mb-1">
@@ -20,7 +19,6 @@ export function Profile() {
                                 {user?.name || strings.profile.notAvailable}
                             </span>
                         </div>
-
                         <div>
                             <label className="block text-sm font-medium text-text-secondary mb-1">
                                 {strings.profile.emailLabel}
@@ -29,7 +27,6 @@ export function Profile() {
                                 {user?.email || strings.profile.notAvailable}
                             </span>
                         </div>
-
                         <div>
                             <label className="block text-sm font-medium text-text-secondary mb-1">
                                 {strings.profile.userIdLabel}

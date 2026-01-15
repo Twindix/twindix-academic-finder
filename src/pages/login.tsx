@@ -8,24 +8,33 @@ import { strings } from '@/constants';
 
 export function Login() {
     const navigate = useNavigate();
+
     const { login, isLoading, error, clearError } = useAuth();
+
     const [email, setEmail] = useState('');
+
     const [password, setPassword] = useState('');
+
     const [validationError, setValidationError] = useState('');
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
         setValidationError('');
+
         clearError();
 
         const validation = validateLoginForm(email, password);
+
         if (!validation.isValid) {
             setValidationError(validation.error || strings.errors.checkInput);
+
             return;
         }
 
         try {
             await login(email, password);
+
             navigate('/code');
         } catch (error) {
             console.error('Login failed:', error);
@@ -36,6 +45,7 @@ export function Login() {
 
     const handleDismissError = () => {
         setValidationError('');
+
         clearError();
     };
 
@@ -49,7 +59,6 @@ export function Login() {
                         {displayError}
                     </Alert>
                 )}
-
                 <form onSubmit={handleSubmit} className="space-y-5">
                     <Input
                         label={strings.login.emailLabel}
@@ -58,11 +67,11 @@ export function Login() {
                         value={email}
                         onChange={(e) => {
                             setEmail(e.target.value);
+
                             setValidationError('');
                         }}
                         error={!!displayError}
                     />
-
                     <Input
                         label={strings.login.passwordLabel}
                         type="password"
@@ -70,19 +79,18 @@ export function Login() {
                         value={password}
                         onChange={(e) => {
                             setPassword(e.target.value);
+
                             setValidationError('');
                         }}
                         showPasswordToggle
                         error={!!displayError}
                     />
-
                     <div className="flex items-center justify-between text-sm">
                         <span className="text-text-secondary">{strings.login.forgotPassword}</span>
                         <Button variant="link" size="sm" type="button">
                             {strings.login.forgotPasswordLink}
                         </Button>
                     </div>
-
                     <Button
                         type="submit"
                         fullWidth

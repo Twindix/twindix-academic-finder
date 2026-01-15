@@ -9,11 +9,14 @@ import type { ChatResult } from '@/interfaces';
 
 export function Result() {
     const navigate = useNavigate();
+
     const [result, setResult] = useState<ChatResult | null>(null);
+
     const [copied, setCopied] = useState(false);
 
     useEffect(() => {
         const storedResult = sessionStorage.getItem('codeResult');
+
         if (storedResult) {
             try {
                 setResult(JSON.parse(storedResult));
@@ -28,14 +31,18 @@ export function Result() {
     const handleCopy = () => {
         if (result) {
             navigator.clipboard.writeText(result.content);
+
             setCopied(true);
+
             setTimeout(() => setCopied(false), 2000);
         }
     };
 
     const handleReset = () => {
         sessionStorage.removeItem('codeResult');
+
         clearJobId();
+
         navigate('/code');
     };
 
@@ -64,7 +71,6 @@ export function Result() {
                         </span>
                     )}
                 </div>
-
                 <div className="max-w-2xl mx-auto w-full mt-6">
                     <div className="flex gap-4 items-center justify-center">
                         <div className="flex-1 max-w-md">

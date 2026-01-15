@@ -11,7 +11,6 @@ export function AuthLayout({ children }: {
             <header className="p-6">
                 <Logo size="md" />
             </header>
-
             <main className="flex-1 flex">
                 <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
                     <div
@@ -28,7 +27,6 @@ export function AuthLayout({ children }: {
                         <img src={starIcon} alt="Decorative star" className="absolute bottom-[22%] left-[5%] w-5 h-5 opacity-70" aria-hidden="true" />
                         <img src={starIcon} alt="Decorative star" className="absolute bottom-[18%] right-[8%] w-6 h-6 opacity-60" aria-hidden="true" />
                     </div>
-
                     <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
                         <h1 className="text-3xl font-bold mb-3">{strings.authLayout.welcomeTitle}</h1>
                         <p className="text-white/90 text-sm leading-relaxed">
@@ -36,7 +34,6 @@ export function AuthLayout({ children }: {
                         </p>
                     </div>
                 </div>
-
                 <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
                     <div className="w-full max-w-md">
                         {children}

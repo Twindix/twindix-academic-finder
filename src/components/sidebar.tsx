@@ -6,10 +6,12 @@ import logoutIcon from '@/assets/icons/logout.svg';
 
 export function Sidebar() {
     const { logout } = useAuth();
+
     const [isLoggingOut, setIsLoggingOut] = useState(false);
 
     const handleLogout = async () => {
         setIsLoggingOut(true);
+
         try {
             await logout();
         } catch (error) {
@@ -24,9 +26,7 @@ export function Sidebar() {
             <div className="p-6">
                 <Logo size="md" />
             </div>
-
             <div className="flex-1" />
-
             <div className="p-6">
                 <Button
                     variant="ghost-danger"
