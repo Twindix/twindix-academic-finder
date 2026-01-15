@@ -14,13 +14,21 @@ const maxPollingAttempts = 5;
 
 export function Code() {
     const navigate = useNavigate();
+
     const { user } = useAuth();
+
     const [code, setCode] = useState('');
+
     const [status, setStatus] = useState<CodePageStatus>('idle');
+
     const [progress, setProgress] = useState(0);
+
     const [errorMessage, setErrorMessage] = useState('');
+
     const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
     const jobIdRef = useRef<string | null>(null);
+
     const pollingCountRef = useRef<number>(0);
 
     useEffect(() => {
@@ -34,19 +42,26 @@ export function Code() {
     const stopPolling = () => {
         if (pollingRef.current) {
             clearInterval(pollingRef.current);
+
             pollingRef.current = null;
         }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
         if (!code.trim()) return;
 
         clearJobId();
+
         jobIdRef.current = null;
+
         pollingCountRef.current = 0;
+
         setStatus('loading');
+
         setErrorMessage('');
+
         setProgress(0);
 
         try {
@@ -59,12 +74,15 @@ export function Code() {
             }
 
             const jobId = processResponse.jobId;
+
             jobIdRef.current = jobId;
+
             saveJobId(jobId);
 
             pollingRef.current = setInterval(async () => {
                 if (!jobIdRef.current) {
                     stopPolling();
+
                     return;
                 }
 
@@ -72,15 +90,20 @@ export function Code() {
 
                 if (pollingCountRef.current >= maxPollingAttempts) {
                     stopPolling();
+
                     const demoResult = api.getDemoResult(
                         code,
                         user?.name || strings.code.defaultUserName
                     );
+
                     setProgress(100);
+
                     setStatus('success');
 
                     sessionStorage.setItem('codeResult', JSON.stringify(demoResult));
+
                     setTimeout(() => navigate('/result'), 500);
+
                     return;
                 }
 
@@ -95,47 +118,66 @@ export function Code() {
 
                     if (statusResponse.status === 'completed' && statusResponse.result) {
                         stopPolling();
+
                         setProgress(100);
+
                         setStatus('success');
 
                         sessionStorage.setItem('codeResult', JSON.stringify(statusResponse.result));
+
                         setTimeout(() => navigate('/result'), 500);
+
                         return;
                     }
 
                     if (!statusResponse.success || statusResponse.status === 'failed') {
                         stopPolling();
+
                         setStatus('error');
+
                         setErrorMessage(statusResponse.error || strings.errors.tryAgain);
+
                         return;
                     }
                 } catch (error) {
                     stopPolling();
+
                     setStatus('error');
+
                     setErrorMessage(error instanceof Error ? error.message : strings.errors.tryAgain);
                 }
             }, pollingInterval);
 
         } catch {
             setStatus('error');
+
             setErrorMessage(strings.errors.tryAgain);
         }
     };
 
     const handleReset = () => {
         stopPolling();
+
         clearJobId();
+
         jobIdRef.current = null;
+
         pollingCountRef.current = 0;
+
         setCode('');
+
         setStatus('idle');
+
         setErrorMessage('');
+
         setProgress(0);
     };
 
     const getButtonText = () => {
         if (status === 'loading') return strings.code.buttonLoading;
+
         if (status === 'error') return strings.code.buttonReenter;
+
         return strings.code.buttonConfirm;
     };
 

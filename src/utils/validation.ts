@@ -39,6 +39,7 @@ export function validatePassword(password: string): ValidationResult {
 
 export function validateLoginForm(email: string, password: string): ValidationResult {
     const emailValidation = validateEmail(email);
+
     if (!emailValidation.isValid) {
         return emailValidation;
     }

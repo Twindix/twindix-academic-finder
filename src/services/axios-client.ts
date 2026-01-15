@@ -3,16 +3,21 @@ import { apiBaseUrl, apiEndpoints } from '@/config';
 
 const getCookie = (name: string): string | null => {
     const value = `; ${document.cookie}`;
+
     const parts = value.split(`; ${name}=`);
+
     if (parts.length === 2) {
         return parts.pop()?.split(';').shift() || null;
     }
+
     return null;
 };
 
 const setCookie = (name: string, value: string, days: number = 7): void => {
     const expires = new Date();
+
     expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+
     document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/;SameSite=Strict`;
 };
 
@@ -49,15 +54,18 @@ const processQueue = (error: Error | null, token: string | null = null): void =>
             prom.resolve(token);
         }
     });
+
     failedQueue = [];
 };
 
 axiosClient.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
         const token = getToken();
+
         if (token && config.headers) {
             config.headers.Authorization = `Bearer ${token}`;
         }
+
         return config;
     },
     (error: AxiosError) => {
@@ -73,7 +81,9 @@ axiosClient.interceptors.response.use(
         if (error.response?.status === 401 && !originalRequest._retry) {
             if (originalRequest.url === apiEndpoints.auth.refresh) {
                 removeToken();
+
                 window.location.href = '/login';
+
                 return Promise.reject(error);
             }
 
@@ -89,22 +99,30 @@ axiosClient.interceptors.response.use(
             }
 
             originalRequest._retry = true;
+
             isRefreshing = true;
 
             try {
                 const response = await axiosClient.post<{ token: string }>(apiEndpoints.auth.refresh);
+
                 const newToken = response.data.token;
+
                 setToken(newToken);
+
                 processQueue(null, newToken);
 
                 if (originalRequest.headers) {
                     originalRequest.headers.Authorization = `Bearer ${newToken}`;
                 }
+
                 return axiosClient(originalRequest);
             } catch (refreshError) {
                 processQueue(refreshError as Error, null);
+
                 removeToken();
+
                 window.location.href = '/login';
+
                 return Promise.reject(refreshError);
             } finally {
                 isRefreshing = false;

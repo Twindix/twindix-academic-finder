@@ -258,6 +258,7 @@ class ApiService {
         const response = await axiosClient.get<{ name: string; company_name: string; phone: string }>(
             apiEndpoints.company.profile
         );
+
         return {
             name: response.data.name,
             companyName: response.data.company_name,
@@ -278,6 +279,7 @@ class ApiService {
                 phone: data.phone,
             }
         );
+
         return response.data;
     }
 }

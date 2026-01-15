@@ -3,6 +3,7 @@ const storagePrefix = 'twindix_';
 export function getStorageItem<T>(key: string): T | null {
     try {
         const item = localStorage.getItem(`${storagePrefix}${key}`);
+
         return item ? JSON.parse(item) : null;
     } catch {
         return null;
@@ -23,12 +24,15 @@ export function removeStorageItem(key: string): void {
 
 export function clearStorage(): void {
     const keysToRemove: string[] = [];
+
     for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
+
         if (key?.startsWith(storagePrefix)) {
             keysToRemove.push(key);
         }
     }
+
     keysToRemove.forEach((key) => localStorage.removeItem(key));
 }
 
