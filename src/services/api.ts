@@ -3,6 +3,8 @@ import { apiEndpoints } from '@/constants';
 import type {
     User,
     LoginResponse,
+    ForgotPasswordResponse,
+    ResetPasswordResponse,
     ChatResult,
     ProcessResponse,
     StatusResponse,
@@ -136,6 +138,38 @@ class ApiService {
         return {
             token: response.data.token,
             tokenType: response.data.token_type,
+        };
+    }
+
+    async forgotPassword(email: string): Promise<ForgotPasswordResponse> {
+        const response = await axiosClient.post<{ message: string }>(
+            apiEndpoints.auth.forgotPassword,
+            { email }
+        );
+
+        return {
+            message: response.data.message,
+        };
+    }
+
+    async resetPassword(
+        token: string,
+        email: string,
+        password: string,
+        passwordConfirmation: string
+    ): Promise<ResetPasswordResponse> {
+        const response = await axiosClient.post<{ message: string }>(
+            apiEndpoints.auth.resetPassword,
+            {
+                token,
+                email,
+                password,
+                password_confirmation: passwordConfirmation,
+            }
+        );
+
+        return {
+            message: response.data.message,
         };
     }
 
