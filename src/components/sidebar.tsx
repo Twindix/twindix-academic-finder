@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { Logo, Button } from '@/atoms';
+import { Logo, Button, LogoutIcon } from '@/atoms';
 import { useAuth } from '@/hooks';
 import { strings } from '@/constants';
-import logoutIcon from '@/assets/icons/logout.svg';
 
 export function Sidebar() {
     const { logout } = useAuth();
@@ -34,7 +33,7 @@ export function Sidebar() {
                     disabled={isLoggingOut}
                     className="flex items-center gap-2"
                 >
-                    <img src={logoutIcon} alt="" className="w-5 h-5" />
+                    <LogoutIcon className="w-5 h-5" />
                     {isLoggingOut ? strings.common.loggingOut : strings.common.logout}
                 </Button>
             </div>
