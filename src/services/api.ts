@@ -1,5 +1,5 @@
 import { axiosClient, setToken, removeToken, getToken } from './axios-client';
-import { apiEndpoints } from '@/config';
+import { apiEndpoints } from '@/constants';
 import type {
     User,
     LoginResponse,

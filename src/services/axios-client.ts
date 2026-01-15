@@ -1,5 +1,5 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
-import { apiBaseUrl, apiEndpoints } from '@/config';
+import { apiBaseUrl, apiEndpoints } from '@/constants';
 
 const getCookie = (name: string): string | null => {
     const value = `; ${document.cookie}`;
