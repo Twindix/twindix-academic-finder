@@ -39,3 +39,10 @@ body {
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
+
+.text-gradient-error {
+    background: linear-gradient(to right, var(--color-error), var(--color-text-dark));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}

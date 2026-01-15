@@ -5,7 +5,6 @@ import { Input, Button } from '@/atoms';
 import { GradientBackground } from '@/components';
 import { api } from '@/services';
 import { useAuth } from '@/hooks';
-import { saveJobId, clearJobId } from '@/utils';
 import { strings } from '@/constants';
 import type { CodePageStatus } from '@/types';
 
@@ -52,8 +51,6 @@ export function Code() {
 
         if (!code.trim()) return;
 
-        clearJobId();
-
         jobIdRef.current = null;
 
         pollingCountRef.current = 0;
@@ -79,9 +76,7 @@ export function Code() {
 
             jobIdRef.current = jobId;
 
-            saveJobId(jobId);
-
-            pollingRef.current = setInterval(async () => {
+            const pollForStatus = async () => {
                 if (!jobIdRef.current) {
                     stopPolling();
 
@@ -90,7 +85,7 @@ export function Code() {
 
                 pollingCountRef.current += 1;
 
-                if (pollingCountRef.current >= maxPollingAttempts) {
+                if (pollingCountRef.current > maxPollingAttempts) {
                     stopPolling();
 
                     const demoResult = api.getDemoResult(
@@ -104,7 +99,7 @@ export function Code() {
 
                     sessionStorage.setItem('codeResult', JSON.stringify(demoResult));
 
-                    setTimeout(() => navigate('/result'), 500);
+                    setTimeout(() => navigate(`/result?jobId=${jobId}&code=${encodeURIComponent(code)}`), 500);
 
                     return;
                 }
@@ -127,7 +122,7 @@ export function Code() {
 
                         sessionStorage.setItem('codeResult', JSON.stringify(statusResponse.result));
 
-                        setTimeout(() => navigate('/result'), 500);
+                        setTimeout(() => navigate(`/result?jobId=${jobId}&code=${encodeURIComponent(code)}`), 500);
 
                         return;
                     }
@@ -148,7 +143,13 @@ export function Code() {
 
                     setErrorMessage(error instanceof Error ? error.message : strings.errors.tryAgain);
                 }
-            }, pollingInterval);
+            };
+
+            await pollForStatus();
+
+            if (jobIdRef.current && pollingCountRef.current <= maxPollingAttempts) {
+                pollingRef.current = setInterval(pollForStatus, pollingInterval);
+            }
 
         } catch {
             setStatus('error');
@@ -159,8 +160,6 @@ export function Code() {
 
     const handleReset = () => {
         stopPolling();
-
-        clearJobId();
 
         jobIdRef.current = null;
 
@@ -204,11 +203,10 @@ export function Code() {
                 )}
                 {status === 'error' && (
                     <>
-                        <h1 className="text-3xl font-bold mb-2">
-                            <span className="text-error italic">{strings.code.titleIncorrect}</span>{' '}
-                            <span className="text-text-primary">{strings.code.titleCode}</span>
+                        <h1 className="text-3xl font-bold mb-2 text-gradient-error italic">
+                            {errorMessage || strings.code.errorDefault}
                         </h1>
-                        <span className="block text-text-muted mb-8">{errorMessage || strings.code.errorDefault}</span>
+                        <span className="block text-text-muted mb-8">{strings.code.errorSubtitle}</span>
                     </>
                 )}
                 <form onSubmit={handleSubmit} className="flex gap-4 items-center justify-center">

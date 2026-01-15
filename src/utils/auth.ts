@@ -31,15 +31,3 @@ export function clearAuth(): void {
 
     clearStorage();
 }
-
-export function getStoredJobId(): string | null {
-    return getStorageItem<string>(storageKeys.jobId);
-}
-
-export function saveJobId(jobId: string): void {
-    setStorageItem(storageKeys.jobId, jobId);
-}
-
-export function clearJobId(): void {
-    removeStorageItem(storageKeys.jobId);
-}

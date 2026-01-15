@@ -26,7 +26,8 @@ export const strings = {
         buttonConfirm: 'Confirm',
         buttonLoading: 'Loading...',
         buttonReenter: 'Re-Enter',
-        errorDefault: 'Re Enter the Code Again.',
+        errorDefault: 'An error occurred',
+        errorSubtitle: 'Re-Enter the Code Again',
         defaultUserName: 'User',
     },
     result: {
