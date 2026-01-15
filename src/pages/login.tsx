@@ -87,7 +87,7 @@ export function Login() {
                     />
                     <div className="flex items-center justify-between text-sm">
                         <span className="text-text-secondary">{strings.login.forgotPassword}</span>
-                        <Button variant="link" size="sm" type="button">
+                        <Button variant="link" size="sm" type="button" onClick={() => navigate('/forgot-password')}>
                             {strings.login.forgotPasswordLink}
                         </Button>
                     </div>
