@@ -1,49 +1,27 @@
 @import "tailwindcss";
 
 @theme {
-    /* Primary colors */
     --color-primary: #1356BC;
     --color-primary-dark: #0025BA;
     --color-primary-light: #4A7FD4;
     --color-secondary: #0025BA;
-
-    /* Accent colors */
     --color-muted: #7C8FBA;
     --color-error: #DC2626;
     --color-error-light: #EF4444;
-
-    /* Background colors */
     --color-background: #F8FAFC;
     --color-surface: #FFFFFF;
-
-    /* Text colors */
     --color-text-primary: #0025BA;
     --color-text-secondary: #6B7280;
     --color-text-muted: #9CA3AF;
     --color-text-dark: #000000;
 
-    /* Border radius */
     --radius-default: 14px;
 
-    /* Font family */
-    --font-family-sans: 'Roboto', sans-serif;
-
-    /* Font sizes - consistent hierarchy */
-    --font-size-h1: 2.25rem;      /* 36px */
-    --font-size-h2: 1.875rem;     /* 30px */
-    --font-size-h3: 1.5rem;       /* 24px */
-    --font-size-h4: 1.25rem;      /* 20px */
-    --font-size-h5: 1.125rem;     /* 18px */
-    --font-size-h6: 1rem;         /* 16px */
-    --font-size-body: 1rem;       /* 16px */
-    --font-size-small: 0.875rem;  /* 14px */
-    --font-size-xs: 0.75rem;      /* 12px */
+    --font-family-roboto: 'Roboto', sans-serif;
 }
 
-/* Base styles */
 body {
-    font-family: var(--font-family-sans);
-    font-size: var(--font-size-body);
+    font-family: var(--font-family-roboto);
     background-color: var(--color-background);
     margin: 0;
     padding: 0;
@@ -55,7 +33,6 @@ body {
     min-height: 100vh;
 }
 
-/* Typography classes */
 .text-gradient {
     background: linear-gradient(to right, var(--color-text-dark), var(--color-secondary));
     -webkit-background-clip: text;

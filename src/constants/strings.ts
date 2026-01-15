@@ -1,6 +1,4 @@
 export const strings = {
-    appName: 'Twindix Academic Finder',
-    companyName: 'Twindix Global Inc.',
     login: {
         title: 'Login',
         welcome: 'Welcome back, please enter the details for your account',
@@ -20,7 +18,6 @@ export const strings = {
         titleEnter: 'Enter Code',
         titleSuffix: 'Job Bar to Display its',
         titleResult: 'Result',
-        titleLoading: 'Loading...',
         titleIncorrect: 'Incorrect',
         titleCode: 'Code',
         inputPlaceholder: 'Enter code Job Bar here',
@@ -47,21 +44,8 @@ export const strings = {
         language: 'EN',
         copy: 'Copy',
     },
-    validation: {
-        emailRequired: 'Email is required',
-        emailInvalid: 'Please enter a valid email address',
-        passwordRequired: 'Password is required',
-        passwordMinLength: 'Password must be at least 6 characters',
-        passwordLetter: 'Password must contain at least one letter',
-        passwordNumber: 'Password must contain at least one number',
-        codeRequired: 'Please enter a code',
-        codeMinLength: 'Code must be at least 3 characters',
-    },
     errors: {
-        invalidCredentials: 'Invalid credentials',
-        examNotFound: 'Exam not found',
         invalidExamCode: 'Invalid exam code',
-        generic: 'An error occurred',
         tryAgain: 'An error occurred. Please try again.',
     },
 } as const;
