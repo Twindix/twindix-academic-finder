@@ -10,6 +10,7 @@ import { strings } from '@/constants';
 import type { CodePageStatus } from '@/types';
 
 const POLLING_INTERVAL = 5000;
+const MAX_POLLING_ATTEMPTS = 5;
 
 export function Code() {
     const navigate = useNavigate();
@@ -20,6 +21,7 @@ export function Code() {
     const [errorMessage, setErrorMessage] = useState('');
     const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
     const jobIdRef = useRef<string | null>(null);
+    const pollingCountRef = useRef<number>(0);
 
     useEffect(() => {
         return () => {
@@ -42,6 +44,7 @@ export function Code() {
 
         clearJobId();
         jobIdRef.current = null;
+        pollingCountRef.current = 0;
         setStatus('loading');
         setErrorMessage('');
         setProgress(0);
@@ -65,6 +68,22 @@ export function Code() {
                     return;
                 }
 
+                pollingCountRef.current += 1;
+
+                if (pollingCountRef.current >= MAX_POLLING_ATTEMPTS) {
+                    stopPolling();
+                    const demoResult = api.getDemoResult(
+                        code,
+                        user?.name || strings.code.defaultUserName
+                    );
+                    setProgress(100);
+                    setStatus('success');
+
+                    sessionStorage.setItem('codeResult', JSON.stringify(demoResult));
+                    setTimeout(() => navigate('/result'), 500);
+                    return;
+                }
+
                 try {
                     const statusResponse = await api.getExamStatus(
                         jobIdRef.current,
@@ -84,38 +103,16 @@ export function Code() {
                         return;
                     }
 
-                    if (statusResponse.status === 'failed') {
+                    if (!statusResponse.success || statusResponse.status === 'failed') {
                         stopPolling();
-
-                        if (statusResponse.error?.includes('not found') ||
-                            statusResponse.error?.includes('invalid') ||
-                            statusResponse.error?.includes('Invalid')) {
-                            setStatus('error');
-                            setErrorMessage(statusResponse.error || strings.errors.invalidExamCode);
-                        } else {
-                            const demoResult = api.getDemoResult(
-                                code,
-                                user?.name || strings.code.defaultUserName
-                            );
-                            setProgress(100);
-                            setStatus('success');
-
-                            sessionStorage.setItem('codeResult', JSON.stringify(demoResult));
-                            setTimeout(() => navigate('/result'), 500);
-                        }
+                        setStatus('error');
+                        setErrorMessage(statusResponse.error || strings.errors.tryAgain);
                         return;
                     }
-                } catch {
+                } catch (error) {
                     stopPolling();
-                    const demoResult = api.getDemoResult(
-                        code,
-                        user?.name || strings.code.defaultUserName
-                    );
-                    setProgress(100);
-                    setStatus('success');
-
-                    sessionStorage.setItem('codeResult', JSON.stringify(demoResult));
-                    setTimeout(() => navigate('/result'), 500);
+                    setStatus('error');
+                    setErrorMessage(error instanceof Error ? error.message : strings.errors.tryAgain);
                 }
             }, POLLING_INTERVAL);
 
@@ -129,6 +126,7 @@ export function Code() {
         stopPolling();
         clearJobId();
         jobIdRef.current = null;
+        pollingCountRef.current = 0;
         setCode('');
         setStatus('idle');
         setErrorMessage('');
