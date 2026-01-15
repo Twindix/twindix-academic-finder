@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { MainLayout } from '@/layouts';
 import { Input, Button } from '@/atoms';
 import { ChatBox } from '@/components';
+import { clearJobId } from '@/utils';
 import { strings } from '@/constants';
 import type { ChatResult } from '@/interfaces';
 
@@ -26,8 +27,7 @@ export function Result() {
 
     const handleCopy = () => {
         if (result) {
-            const text = result.content.join('\n\n');
-            navigator.clipboard.writeText(text);
+            navigator.clipboard.writeText(result.content);
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);
         }
@@ -35,6 +35,7 @@ export function Result() {
 
     const handleReset = () => {
         sessionStorage.removeItem('codeResult');
+        clearJobId();
         navigate('/code');
     };
 

@@ -35,4 +35,5 @@ export function clearStorage(): void {
 export const STORAGE_KEYS = {
     USER: 'user',
     IS_AUTHENTICATED: 'is_authenticated',
+    JOB_ID: 'job_id',
 } as const;

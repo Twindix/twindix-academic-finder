@@ -1,42 +1,24 @@
-export interface ExamResultRequest {
-    examCode: string,
-}
-
-export interface SelectedBranch {
-    id: number,
-    name: string,
-    description?: string,
-}
-
-export interface EnvironmentStatus {
-    id: number,
-    name: string,
-    status: string,
-    value?: number,
-}
-
-export interface ExamResultResponse {
-    jobTitle: string,
-    industry: string,
-    seniority: string,
-    selectedBranches: SelectedBranch[],
-    environmentStatus: EnvironmentStatus[],
-}
+import type { RecommendedJob } from './api';
 
 export interface ChatResult {
     id: string,
     userName: string,
-    jobTitle: string,
-    industry: string,
-    seniority: string,
-    content: string[],
     code: string,
-    branches: SelectedBranch[],
-    environmentStatus: EnvironmentStatus[],
+    content: string,
+    recommendedJobs: RecommendedJob[],
 }
 
-export interface CodeSubmitResponse {
+export interface ProcessResponse {
     success: boolean,
-    data?: ChatResult,
+    jobId?: string,
+    error?: string,
+}
+
+export interface StatusResponse {
+    success: boolean,
+    status: 'pending' | 'processing' | 'completed' | 'failed',
+    progress: number,
+    currentStep: string,
+    result?: ChatResult,
     error?: string,
 }

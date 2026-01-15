@@ -1,11 +1,16 @@
 export type { User } from './user';
 export type { LoginRequest, LoginResponse, UseAuthReturn } from './auth';
 export type {
-    ExamResultRequest,
-    ExamResultResponse,
-    SelectedBranch,
-    EnvironmentStatus,
     ChatResult,
-    CodeSubmitResponse,
+    ProcessResponse,
+    StatusResponse,
 } from './exam';
-export type { ApiError, ValidationResult, ApiLoginResponse, ApiExamResultResponse } from './api';
+export type {
+    ApiError,
+    ValidationResult,
+    ApiLoginResponse,
+    ApiProcessResponse,
+    ApiStatusResponse,
+    RecommendedJob,
+    RecommendedJobsResult,
+} from './api';

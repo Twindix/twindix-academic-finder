@@ -26,3 +26,15 @@ export function clearAuth(): void {
     removeToken();
     clearStorage();
 }
+
+export function getStoredJobId(): string | null {
+    return getStorageItem<string>(STORAGE_KEYS.JOB_ID);
+}
+
+export function saveJobId(jobId: string): void {
+    setStorageItem(STORAGE_KEYS.JOB_ID, jobId);
+}
+
+export function clearJobId(): void {
+    removeStorageItem(STORAGE_KEYS.JOB_ID);
+}

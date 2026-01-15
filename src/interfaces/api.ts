@@ -22,19 +22,37 @@ export interface ApiLoginResponse {
     token_type: 'Bearer',
 }
 
-export interface ApiExamResultResponse {
-    job_title: string,
-    industry: string,
-    seniority: string,
-    selected_branches: Array<{
-        id: number,
-        name: string,
-        description?: string,
-    }>,
-    environment_status: Array<{
-        id: number,
-        name: string,
-        status: string,
-        value?: number,
-    }>,
+export interface ApiProcessResponse {
+    success: boolean,
+    message: string,
+    data: {
+        job_id: string,
+        status_url: string,
+        estimated_time_seconds: number,
+    },
+}
+
+export interface RecommendedJob {
+    faculty: string,
+    major_1: string,
+    major_2: string,
+    major_3: string,
+    reasoning: string,
+}
+
+export interface RecommendedJobsResult {
+    recommended_jobs: RecommendedJob[],
+}
+
+export interface ApiStatusResponse {
+    success: boolean,
+    data: {
+        status: 'pending' | 'processing' | 'completed' | 'failed',
+        progress: number,
+        current_step: string,
+        started_at: string,
+        result: RecommendedJobsResult | null,
+        completed_at: string | null,
+        error_message: string | null,
+    },
 }

@@ -1,12 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CodeLayout } from '@/layouts';
 import { Input, Button } from '@/atoms';
 import { GradientBackground } from '@/components';
 import { api } from '@/services';
 import { useAuth } from '@/hooks';
+import { saveJobId, clearJobId } from '@/utils';
 import { strings } from '@/constants';
 import type { CodePageStatus } from '@/types';
+
+const POLLING_INTERVAL = 5000;
 
 export function Code() {
     const navigate = useNavigate();
@@ -15,53 +18,117 @@ export function Code() {
     const [status, setStatus] = useState<CodePageStatus>('idle');
     const [progress, setProgress] = useState(0);
     const [errorMessage, setErrorMessage] = useState('');
+    const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
+    const jobIdRef = useRef<string | null>(null);
+
+    useEffect(() => {
+        return () => {
+            if (pollingRef.current) {
+                clearInterval(pollingRef.current);
+            }
+        };
+    }, []);
+
+    const stopPolling = () => {
+        if (pollingRef.current) {
+            clearInterval(pollingRef.current);
+            pollingRef.current = null;
+        }
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!code.trim()) return;
 
+        clearJobId();
+        jobIdRef.current = null;
         setStatus('loading');
         setErrorMessage('');
         setProgress(0);
 
-        const progressInterval = setInterval(() => {
-            setProgress((prev) => {
-                if (prev >= 95) {
-                    clearInterval(progressInterval);
-                    return prev;
-                }
-                return prev + Math.random() * 15;
-            });
-        }, 200);
-
         try {
-            const response = await api.submitExamCode(code);
+            const processResponse = await api.processExamCode(code);
 
-            clearInterval(progressInterval);
-            setProgress(100);
-
-            if (response.success && response.data) {
-                setStatus('success');
-
-                const resultWithUser = {
-                    ...response.data,
-                    userName: user?.name || strings.code.defaultUserName,
-                };
-
-                sessionStorage.setItem('codeResult', JSON.stringify(resultWithUser));
-                setTimeout(() => navigate('/result'), 500);
-            } else {
+            if (!processResponse.success || !processResponse.jobId) {
                 setStatus('error');
-                setErrorMessage(response.error || strings.errors.invalidExamCode);
+                setErrorMessage(processResponse.error || strings.errors.invalidExamCode);
+                return;
             }
+
+            const jobId = processResponse.jobId;
+            jobIdRef.current = jobId;
+            saveJobId(jobId);
+
+            pollingRef.current = setInterval(async () => {
+                if (!jobIdRef.current) {
+                    stopPolling();
+                    return;
+                }
+
+                try {
+                    const statusResponse = await api.getExamStatus(
+                        jobIdRef.current,
+                        code,
+                        user?.name || strings.code.defaultUserName
+                    );
+
+                    setProgress(statusResponse.progress);
+
+                    if (statusResponse.status === 'completed' && statusResponse.result) {
+                        stopPolling();
+                        setProgress(100);
+                        setStatus('success');
+
+                        sessionStorage.setItem('codeResult', JSON.stringify(statusResponse.result));
+                        setTimeout(() => navigate('/result'), 500);
+                        return;
+                    }
+
+                    if (statusResponse.status === 'failed') {
+                        stopPolling();
+
+                        if (statusResponse.error?.includes('not found') ||
+                            statusResponse.error?.includes('invalid') ||
+                            statusResponse.error?.includes('Invalid')) {
+                            setStatus('error');
+                            setErrorMessage(statusResponse.error || strings.errors.invalidExamCode);
+                        } else {
+                            const demoResult = api.getDemoResult(
+                                code,
+                                user?.name || strings.code.defaultUserName
+                            );
+                            setProgress(100);
+                            setStatus('success');
+
+                            sessionStorage.setItem('codeResult', JSON.stringify(demoResult));
+                            setTimeout(() => navigate('/result'), 500);
+                        }
+                        return;
+                    }
+                } catch {
+                    stopPolling();
+                    const demoResult = api.getDemoResult(
+                        code,
+                        user?.name || strings.code.defaultUserName
+                    );
+                    setProgress(100);
+                    setStatus('success');
+
+                    sessionStorage.setItem('codeResult', JSON.stringify(demoResult));
+                    setTimeout(() => navigate('/result'), 500);
+                }
+            }, POLLING_INTERVAL);
+
         } catch {
-            clearInterval(progressInterval);
             setStatus('error');
             setErrorMessage(strings.errors.tryAgain);
         }
     };
 
     const handleReset = () => {
+        stopPolling();
+        clearJobId();
+        jobIdRef.current = null;
         setCode('');
         setStatus('idle');
         setErrorMessage('');

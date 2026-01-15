@@ -9,6 +9,7 @@ export const API_ENDPOINTS = {
     },
     EXAM: {
         PROCESS: '/exam-results/process',
+        STATUS: '/exam-results/status',
     },
     COMPANY: {
         PROFILE: '/company/profile',
