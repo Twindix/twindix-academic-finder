@@ -1,5 +1,5 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
-import { API_BASE_URL, API_ENDPOINTS } from '@/config';
+import { apiBaseUrl, apiEndpoints } from '@/config';
 
 const getCookie = (name: string): string | null => {
     const value = `; ${document.cookie}`;
@@ -20,14 +20,14 @@ const deleteCookie = (name: string): void => {
     document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
 };
 
-export const TOKEN_KEY = 'auth_token';
+export const tokenKey = 'auth_token';
 
-export const getToken = (): string | null => getCookie(TOKEN_KEY);
-export const setToken = (token: string): void => setCookie(TOKEN_KEY, token, 7);
-export const removeToken = (): void => deleteCookie(TOKEN_KEY);
+export const getToken = (): string | null => getCookie(tokenKey);
+export const setToken = (token: string): void => setCookie(tokenKey, token, 7);
+export const removeToken = (): void => deleteCookie(tokenKey);
 
 const axiosClient = axios.create({
-    baseURL: API_BASE_URL,
+    baseURL: apiBaseUrl,
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -71,7 +71,7 @@ axiosClient.interceptors.response.use(
         const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
 
         if (error.response?.status === 401 && !originalRequest._retry) {
-            if (originalRequest.url === API_ENDPOINTS.AUTH.REFRESH) {
+            if (originalRequest.url === apiEndpoints.auth.refresh) {
                 removeToken();
                 window.location.href = '/login';
                 return Promise.reject(error);
@@ -92,7 +92,7 @@ axiosClient.interceptors.response.use(
             isRefreshing = true;
 
             try {
-                const response = await axiosClient.post<{ token: string }>(API_ENDPOINTS.AUTH.REFRESH);
+                const response = await axiosClient.post<{ token: string }>(apiEndpoints.auth.refresh);
                 const newToken = response.data.token;
                 setToken(newToken);
                 processQueue(null, newToken);

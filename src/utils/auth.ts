@@ -1,24 +1,24 @@
 import type { User } from '@/interfaces';
-import { getStorageItem, setStorageItem, removeStorageItem, clearStorage, STORAGE_KEYS } from './storage';
+import { getStorageItem, setStorageItem, removeStorageItem, clearStorage, storageKeys } from './storage';
 import { getToken, removeToken } from '@/services';
 
 export function getStoredUser(): User | null {
-    return getStorageItem<User>(STORAGE_KEYS.USER);
+    return getStorageItem<User>(storageKeys.user);
 }
 
 export function saveUser(user: User): void {
-    setStorageItem(STORAGE_KEYS.USER, user);
-    setStorageItem(STORAGE_KEYS.IS_AUTHENTICATED, true);
+    setStorageItem(storageKeys.user, user);
+    setStorageItem(storageKeys.isAuthenticated, true);
 }
 
 export function removeUser(): void {
-    removeStorageItem(STORAGE_KEYS.USER);
-    removeStorageItem(STORAGE_KEYS.IS_AUTHENTICATED);
+    removeStorageItem(storageKeys.user);
+    removeStorageItem(storageKeys.isAuthenticated);
 }
 
 export function isAuthenticated(): boolean {
     const token = getToken();
-    const isAuth = getStorageItem<boolean>(STORAGE_KEYS.IS_AUTHENTICATED);
+    const isAuth = getStorageItem<boolean>(storageKeys.isAuthenticated);
     return !!token && !!isAuth;
 }
 
@@ -28,13 +28,13 @@ export function clearAuth(): void {
 }
 
 export function getStoredJobId(): string | null {
-    return getStorageItem<string>(STORAGE_KEYS.JOB_ID);
+    return getStorageItem<string>(storageKeys.jobId);
 }
 
 export function saveJobId(jobId: string): void {
-    setStorageItem(STORAGE_KEYS.JOB_ID, jobId);
+    setStorageItem(storageKeys.jobId, jobId);
 }
 
 export function clearJobId(): void {
-    removeStorageItem(STORAGE_KEYS.JOB_ID);
+    removeStorageItem(storageKeys.jobId);
 }

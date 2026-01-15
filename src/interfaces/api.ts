@@ -34,6 +34,14 @@ export interface ApiProcessResponse {
 
 export interface RecommendedJob {
     faculty: string,
+    major1: string,
+    major2: string,
+    major3: string,
+    reasoning: string,
+}
+
+export interface ApiRecommendedJob {
+    faculty: string,
     major_1: string,
     major_2: string,
     major_3: string,
@@ -41,7 +49,7 @@ export interface RecommendedJob {
 }
 
 export interface RecommendedJobsResult {
-    recommended_jobs: RecommendedJob[],
+    recommended_jobs: ApiRecommendedJob[],
 }
 
 export interface ApiStatusResponse {

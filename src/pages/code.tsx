@@ -9,8 +9,8 @@ import { saveJobId, clearJobId } from '@/utils';
 import { strings } from '@/constants';
 import type { CodePageStatus } from '@/types';
 
-const POLLING_INTERVAL = 5000;
-const MAX_POLLING_ATTEMPTS = 5;
+const pollingInterval = 5000;
+const maxPollingAttempts = 5;
 
 export function Code() {
     const navigate = useNavigate();
@@ -70,7 +70,7 @@ export function Code() {
 
                 pollingCountRef.current += 1;
 
-                if (pollingCountRef.current >= MAX_POLLING_ATTEMPTS) {
+                if (pollingCountRef.current >= maxPollingAttempts) {
                     stopPolling();
                     const demoResult = api.getDemoResult(
                         code,
@@ -114,7 +114,7 @@ export function Code() {
                     setStatus('error');
                     setErrorMessage(error instanceof Error ? error.message : strings.errors.tryAgain);
                 }
-            }, POLLING_INTERVAL);
+            }, pollingInterval);
 
         } catch {
             setStatus('error');

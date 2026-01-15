@@ -1,1 +1,1 @@
-export { API_BASE_URL, API_ENDPOINTS } from './api-endpoints';
+export { apiBaseUrl, apiEndpoints } from './api-endpoints';

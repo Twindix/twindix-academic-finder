@@ -1,16 +1,16 @@
 import type { ValidationResult } from '@/interfaces';
 
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const PASSWORD_MIN_LENGTH = 6;
-const PASSWORD_LETTER_REGEX = /[a-zA-Z]/;
-const PASSWORD_NUMBER_REGEX = /\d/;
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const passwordMinLength = 6;
+const passwordLetterRegex = /[a-zA-Z]/;
+const passwordNumberRegex = /\d/;
 
 export function validateEmail(email: string): ValidationResult {
     if (!email.trim()) {
         return { isValid: false, error: 'Email is required' };
     }
 
-    if (!EMAIL_REGEX.test(email)) {
+    if (!emailRegex.test(email)) {
         return { isValid: false, error: 'Please enter a valid email address' };
     }
 
@@ -22,15 +22,15 @@ export function validatePassword(password: string): ValidationResult {
         return { isValid: false, error: 'Password is required' };
     }
 
-    if (password.length < PASSWORD_MIN_LENGTH) {
-        return { isValid: false, error: `Password must be at least ${PASSWORD_MIN_LENGTH} characters` };
+    if (password.length < passwordMinLength) {
+        return { isValid: false, error: `Password must be at least ${passwordMinLength} characters` };
     }
 
-    if (!PASSWORD_LETTER_REGEX.test(password)) {
+    if (!passwordLetterRegex.test(password)) {
         return { isValid: false, error: 'Password must contain at least one letter' };
     }
 
-    if (!PASSWORD_NUMBER_REGEX.test(password)) {
+    if (!passwordNumberRegex.test(password)) {
         return { isValid: false, error: 'Password must contain at least one number' };
     }
 
