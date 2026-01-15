@@ -1,4 +1,5 @@
 export const strings = {
+    companyName: 'Twindix Global Inc.',
     login: {
         title: 'Login',
         welcome: 'Welcome back, please enter the details for your account',
@@ -18,6 +19,7 @@ export const strings = {
         titleEnter: 'Enter Code',
         titleSuffix: 'Job Bar to Display its',
         titleResult: 'Result',
+        titleLoading: 'Loading...',
         titleIncorrect: 'Incorrect',
         titleCode: 'Code',
         inputPlaceholder: 'Enter code Job Bar here',
@@ -25,6 +27,7 @@ export const strings = {
         buttonLoading: 'Loading...',
         buttonReenter: 'Re-Enter',
         errorDefault: 'Re Enter the Code Again.',
+        defaultUserName: 'User',
     },
     result: {
         copiedMessage: 'Copied to clipboard!',
@@ -41,11 +44,13 @@ export const strings = {
     common: {
         logout: 'Log out',
         loggingOut: 'Logging out...',
+        loading: 'Loading...',
         language: 'EN',
         copy: 'Copy',
     },
     errors: {
         invalidExamCode: 'Invalid exam code',
         tryAgain: 'An error occurred. Please try again.',
+        checkInput: 'Please check your input',
     },
 } as const;

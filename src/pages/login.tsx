@@ -20,7 +20,7 @@ export function Login() {
 
         const validation = validateLoginForm(email, password);
         if (!validation.isValid) {
-            setValidationError(validation.error || 'Please check your input');
+            setValidationError(validation.error || strings.errors.checkInput);
             return;
         }
 

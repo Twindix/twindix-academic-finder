@@ -1,4 +1,5 @@
 import { ButtonHTMLAttributes, ReactNode } from 'react';
+import { strings } from '@/constants';
 
 export function Button({
     variant = 'primary',
@@ -41,7 +42,7 @@ export function Button({
             disabled={disabled || loading}
             {...props}
         >
-            {loading ? 'Loading...' : children}
+            {loading ? strings.common.loading : children}
         </button>
     );
 }

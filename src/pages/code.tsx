@@ -45,7 +45,7 @@ export function Code() {
 
                 const resultWithUser = {
                     ...response.data,
-                    userName: user?.name || 'User',
+                    userName: user?.name || strings.code.defaultUserName,
                 };
 
                 sessionStorage.setItem('codeResult', JSON.stringify(resultWithUser));
@@ -91,7 +91,7 @@ export function Code() {
 
                 {status === 'loading' && (
                     <>
-                        <h1 className="text-3xl font-bold mb-2 text-gradient">Loading...</h1>
+                        <h1 className="text-3xl font-bold mb-2 text-gradient">{strings.code.titleLoading}</h1>
                         <span className="block text-text-muted mb-8">{Math.round(progress)} %</span>
                     </>
                 )}

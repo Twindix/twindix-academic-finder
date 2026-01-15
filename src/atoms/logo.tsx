@@ -1,4 +1,5 @@
 import logoImage from '@/assets/images/logo.png';
+import { strings } from '@/constants';
 
 export function Logo({ size = 'md', className = '' }: {
     size?: 'sm' | 'md' | 'lg',
@@ -13,7 +14,7 @@ export function Logo({ size = 'md', className = '' }: {
     return (
         <img
             src={logoImage}
-            alt="Twindix Global Inc."
+            alt={strings.companyName}
             className={`${sizes[size]} w-auto object-contain ${className}`}
         />
     );
