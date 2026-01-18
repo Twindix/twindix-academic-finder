@@ -3,9 +3,13 @@ import { Logo } from '@/atoms';
 import { strings } from '@/constants';
 import starIcon from '@/assets/icons/star.svg';
 
-export function AuthLayout({ children }: {
-    children: ReactNode,
-}) {
+interface AuthLayoutProps {
+    children: ReactNode;
+    title?: string;
+    description?: string;
+}
+
+export function AuthLayout({ children, title, description }: AuthLayoutProps) {
     return (
         <div className="min-h-screen bg-surface flex flex-col">
             <header className="p-6">
@@ -28,9 +32,9 @@ export function AuthLayout({ children }: {
                         <img src={starIcon} alt="Decorative star" className="absolute bottom-[18%] right-[8%] w-6 h-6 opacity-60" aria-hidden="true" />
                     </div>
                     <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-                        <h1 className="text-3xl font-bold mb-3">{strings.authLayout.welcomeTitle}</h1>
+                        <h1 className="text-3xl font-bold mb-3">{title || strings.login.sidebarTitle}</h1>
                         <p className="text-white/90 text-sm leading-relaxed">
-                            {strings.authLayout.welcomeDescription}
+                            {description || strings.login.sidebarDescription}
                         </p>
                     </div>
                 </div>

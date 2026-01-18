@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { isAuthenticated } from '@/utils';
-import { Login, Code, Result, Profile, ForgotPassword, ResetPassword } from '@/pages';
+import { Login, Code, Result, Profile, ForgotPassword, ResetPassword, Register } from '@/pages';
 
 interface ProtectedRouteProps {
     children: React.ReactNode;
@@ -50,6 +50,14 @@ export function AppRoutes() {
                 element={
                     <PublicRoute>
                         <ResetPassword />
+                    </PublicRoute>
+                }
+            />
+            <Route
+                path="/register"
+                element={
+                    <PublicRoute>
+                        <Register />
                     </PublicRoute>
                 }
             />

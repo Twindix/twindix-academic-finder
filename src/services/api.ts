@@ -173,6 +173,34 @@ class ApiService {
         };
     }
 
+    async acceptInvitation(
+        token: string,
+        data: {
+            name: string;
+            email: string;
+            companyName: string;
+            phone: string;
+            password: string;
+            passwordConfirmation: string;
+        }
+    ): Promise<{ message: string }> {
+        const response = await axiosClient.post<{ message: string }>(
+            `${apiEndpoints.invitations.accept}/${token}`,
+            {
+                name: data.name,
+                email: data.email,
+                company_name: data.companyName,
+                phone: data.phone,
+                password: data.password,
+                password_confirmation: data.passwordConfirmation,
+            }
+        );
+
+        return {
+            message: response.data.message,
+        };
+    }
+
     async processExamCode(examCode: string): Promise<ProcessResponse> {
         try {
             const response = await axiosClient.post<ApiProcessResponse>(

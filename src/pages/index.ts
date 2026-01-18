@@ -4,3 +4,4 @@ export { Result } from './result';
 export { Profile } from './profile';
 export { ForgotPassword } from './forgot-password';
 export { ResetPassword } from './reset-password';
+export { Register } from './register';

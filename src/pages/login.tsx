@@ -53,7 +53,7 @@ export function Login() {
         <AuthLayout>
             <div>
                 <h1 className="text-3xl font-bold mb-2 text-gradient">{strings.login.title}</h1>
-                <p className="mb-8 text-gradient font-medium">{strings.login.welcome}</p>{' '}
+                <p className="mb-8 text-gradient font-medium">{strings.login.description}</p>{' '}
                 {displayError && (
                     <Alert variant="error" className="mb-6" onClose={handleDismissError}>
                         {displayError}

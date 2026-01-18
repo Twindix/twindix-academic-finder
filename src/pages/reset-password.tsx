@@ -87,7 +87,7 @@ export function ResetPassword() {
 
     if (isSuccess) {
         return (
-            <AuthLayout>
+            <AuthLayout title={strings.resetPassword.sidebarTitle} description={strings.resetPassword.sidebarDescription}>
                 <div>
                     <h1 className="text-3xl font-bold mb-2 text-gradient">{strings.resetPassword.title}</h1>
                     <Alert variant="success" className="mb-6">
@@ -103,7 +103,7 @@ export function ResetPassword() {
 
     if (!token || !email) {
         return (
-            <AuthLayout>
+            <AuthLayout title={strings.resetPassword.sidebarTitle} description={strings.resetPassword.sidebarDescription}>
                 <div>
                     <h1 className="text-3xl font-bold mb-2 text-gradient">{strings.resetPassword.title}</h1>
                     <Alert variant="error" className="mb-6">
@@ -118,7 +118,7 @@ export function ResetPassword() {
     }
 
     return (
-        <AuthLayout>
+        <AuthLayout title={strings.resetPassword.sidebarTitle} description={strings.resetPassword.sidebarDescription}>
             <div>
                 <h1 className="text-3xl font-bold mb-2 text-gradient">{strings.resetPassword.title}</h1>
                 <p className="mb-8 text-text-secondary">{strings.resetPassword.description}</p>

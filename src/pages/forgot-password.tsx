@@ -49,7 +49,7 @@ export function ForgotPassword() {
 
     if (isSuccess) {
         return (
-            <AuthLayout>
+            <AuthLayout title={strings.forgotPassword.sidebarTitle} description={strings.forgotPassword.sidebarDescription}>
                 <div>
                     <h1 className="text-3xl font-bold mb-2 text-gradient">{strings.forgotPassword.title}</h1>
                     <Alert variant="success" className="mb-6">
@@ -64,7 +64,7 @@ export function ForgotPassword() {
     }
 
     return (
-        <AuthLayout>
+        <AuthLayout title={strings.forgotPassword.sidebarTitle} description={strings.forgotPassword.sidebarDescription}>
             <div>
                 <h1 className="text-3xl font-bold mb-2 text-gradient">{strings.forgotPassword.title}</h1>
                 <p className="mb-8 text-text-secondary">{strings.forgotPassword.description}</p>

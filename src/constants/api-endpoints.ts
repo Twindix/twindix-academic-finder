@@ -9,6 +9,9 @@ export const apiEndpoints = {
         forgotPassword: '/auth/forgot-password',
         resetPassword: '/auth/reset-password',
     },
+    invitations: {
+        accept: '/invitations/accept',
+    },
     exam: {
         process: '/exam-results/process',
         status: '/exam-results/status',
