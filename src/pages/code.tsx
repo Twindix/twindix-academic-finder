@@ -88,16 +88,9 @@ export function Code() {
                 if (pollingCountRef.current > maxPollingAttempts) {
                     stopPolling();
 
-                    const demoResult = api.getDemoResult(
-                        code,
-                        user?.name || strings.code.defaultUserName
-                    );
-
                     setProgress(100);
 
                     setStatus('success');
-
-                    sessionStorage.setItem('codeResult', JSON.stringify(demoResult));
 
                     setTimeout(() => navigate(`/result?jobId=${jobId}&code=${encodeURIComponent(code)}`), 500);
 
@@ -119,8 +112,6 @@ export function Code() {
                         setProgress(100);
 
                         setStatus('success');
-
-                        sessionStorage.setItem('codeResult', JSON.stringify(statusResponse.result));
 
                         setTimeout(() => navigate(`/result?jobId=${jobId}&code=${encodeURIComponent(code)}`), 500);
 

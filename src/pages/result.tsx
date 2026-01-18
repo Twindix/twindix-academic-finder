@@ -38,6 +38,8 @@ export function Result() {
 
     const code = searchParams.get('code') || '';
 
+    const hasValidParams = !!jobId && !!code;
+
     const stopPolling = () => {
         if (pollingRef.current) {
             clearInterval(pollingRef.current);
@@ -47,23 +49,7 @@ export function Result() {
     };
 
     useEffect(() => {
-        const storedResult = sessionStorage.getItem('codeResult');
-
-        if (storedResult) {
-            try {
-                setResult(JSON.parse(storedResult));
-
-                setStatus('success');
-
-                setProgress(100);
-
-                return;
-            } catch {
-                // Continue to polling
-            }
-        }
-
-        if (!jobId || !code) {
+        if (!hasValidParams) {
             navigate('/code');
 
             return;
@@ -86,8 +72,6 @@ export function Result() {
 
                 setStatus('success');
 
-                sessionStorage.setItem('codeResult', JSON.stringify(demoResult));
-
                 return;
             }
 
@@ -108,8 +92,6 @@ export function Result() {
                     setResult(statusResponse.result);
 
                     setStatus('success');
-
-                    sessionStorage.setItem('codeResult', JSON.stringify(statusResponse.result));
 
                     return;
                 }
@@ -137,7 +119,7 @@ export function Result() {
         pollingRef.current = setInterval(pollForStatus, pollingInterval);
 
         return () => stopPolling();
-    }, [jobId, code, navigate, user?.name]);
+    }, [hasValidParams, jobId, code, navigate, user?.name]);
 
     const handleCopy = () => {
         if (result) {
@@ -152,12 +134,14 @@ export function Result() {
     const handleReset = () => {
         stopPolling();
 
-        sessionStorage.removeItem('codeResult');
-
         navigate('/code');
     };
 
     const layoutVariant = status === 'error' ? 'error' : 'default';
+
+    if (!hasValidParams) {
+        return null;
+    }
 
     if (status === 'loading') {
         return (
