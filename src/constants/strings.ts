@@ -94,9 +94,10 @@ export const strings = {
         confirmPasswordPlaceholder: 'Confirm new password',
         submitButton: 'Reset Password',
         successMessage: 'Your password has been reset successfully.',
-        redirectMessage: 'Redirecting to login...',
+        goToLogin: 'Go to Login',
         invalidLink: 'Invalid or expired reset link.',
         passwordMismatch: 'Passwords do not match.',
+        backToLogin: 'Back to Login',
     },
     register: {
         title: 'Register',
