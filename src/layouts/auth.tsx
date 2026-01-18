@@ -3,13 +3,11 @@ import { Logo } from '@/atoms';
 import { strings } from '@/constants';
 import starIcon from '@/assets/icons/star.svg';
 
-interface AuthLayoutProps {
+export function AuthLayout({ children, title, description }: {
     children: ReactNode;
     title?: string;
     description?: string;
-}
-
-export function AuthLayout({ children, title, description }: AuthLayoutProps) {
+}) {
     return (
         <div className="min-h-screen bg-surface flex flex-col">
             <header className="p-6">

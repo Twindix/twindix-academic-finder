@@ -2,11 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { isAuthenticated } from '@/utils';
 import { Login, Code, Result, Profile, ForgotPassword, ResetPassword, Register } from '@/pages';
 
-interface ProtectedRouteProps {
-    children: React.ReactNode;
-}
-
-function ProtectedRoute({ children }: ProtectedRouteProps) {
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
     if (!isAuthenticated()) {
         return <Navigate to="/login" replace />;
     }
@@ -14,11 +10,7 @@ function ProtectedRoute({ children }: ProtectedRouteProps) {
     return <>{children}</>;
 }
 
-interface PublicRouteProps {
-    children: React.ReactNode;
-}
-
-function PublicRoute({ children }: PublicRouteProps) {
+function PublicRoute({ children }: { children: React.ReactNode }) {
     if (isAuthenticated()) {
         return <Navigate to="/code" replace />;
     }
