@@ -1,5 +1,6 @@
 import { ReactNode, useState } from 'react';
-import { Logo, Button, LogoutIcon } from '@/atoms';
+import { Link } from 'react-router-dom';
+import { Logo, Button, LogoutIcon, UserIcon } from '@/atoms';
 import { useAuth } from '@/hooks';
 import { strings } from '@/constants';
 
@@ -7,7 +8,7 @@ export function CodeLayout({ children, variant = 'default' }: {
     children: ReactNode,
     variant?: 'default' | 'error',
 }) {
-    const { logout } = useAuth();
+    const { user, logout } = useAuth();
     const [isLoggingOut, setIsLoggingOut] = useState(false);
 
     const handleLogout = async () => {
@@ -39,15 +40,29 @@ export function CodeLayout({ children, variant = 'default' }: {
 
                 <header className="p-4 md:p-6 flex items-center justify-between">
                     <Logo size="md" />
-                    <Button
-                        variant="ghost-danger"
-                        onClick={handleLogout}
-                        disabled={isLoggingOut}
-                        className="flex md:hidden items-center gap-2"
-                    >
-                        <LogoutIcon className="w-5 h-5" />
-                        {isLoggingOut ? strings.common.loggingOut : strings.common.logout}
-                    </Button>
+                    <div className="flex items-center gap-2">
+                        <Link
+                            to="/profile"
+                            className="hidden md:flex items-center gap-2 px-3 py-2 rounded-lg text-primary hover:bg-primary/5 transition-colors"
+                        >
+                            <UserIcon className="w-5 h-5" />
+                            <span className="text-sm font-medium">{user?.name || strings.code.defaultUserName}</span>
+                        </Link>
+                        <Link
+                            to="/profile"
+                            className="flex md:hidden items-center justify-center w-10 h-10 rounded-lg text-primary hover:bg-primary/5 transition-colors"
+                        >
+                            <UserIcon className="w-5 h-5" />
+                        </Link>
+                        <Button
+                            variant="ghost-danger"
+                            onClick={handleLogout}
+                            disabled={isLoggingOut}
+                            className="flex md:hidden items-center gap-2"
+                        >
+                            <LogoutIcon className="w-5 h-5" />
+                        </Button>
+                    </div>
                 </header>
 
                 <main className="flex-1 min-h-0 flex items-center justify-center relative z-10 py-4">

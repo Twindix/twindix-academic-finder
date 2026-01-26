@@ -37,8 +37,10 @@ export const strings = {
         title: 'Profile',
         nameLabel: 'Name',
         emailLabel: 'Email',
-        userIdLabel: 'User ID',
+        companyLabel: 'Company',
+        phoneLabel: 'Phone',
         notAvailable: 'N/A',
+        backToCode: 'Back to Code Entry',
     },
     common: {
         logout: 'Log out',
