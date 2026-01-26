@@ -14,7 +14,7 @@ export function Sidebar() {
         try {
             await logout();
         } catch (error) {
-            console.error('Logout failed:', error);
+            console.error(strings.debug.logoutFailed, error);
         } finally {
             setIsLoggingOut(false);
         }

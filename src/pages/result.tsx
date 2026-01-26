@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import { CodeLayout } from '@/layouts';
 import { Input, Button } from '@/atoms';
 import { ChatBox, GradientBackground } from '@/components';
@@ -16,21 +16,27 @@ const pollingInterval = 5000;
 export function Result() {
     const navigate = useNavigate();
 
+    const location = useLocation();
+
     const [searchParams] = useSearchParams();
 
     const { user } = useAuth();
 
-    const [result, setResult] = useState<ChatResult | null>(null);
+    const initialResult = (location.state as { result?: ChatResult } | null)?.result || null;
+
+    const [result, setResult] = useState<ChatResult | null>(initialResult);
 
     const [copied, setCopied] = useState(false);
 
-    const [status, setStatus] = useState<ResultPageStatus>('loading');
+    const [status, setStatus] = useState<ResultPageStatus>(initialResult ? 'success' : 'loading');
 
-    const [progress, setProgress] = useState(0);
+    const [progress, setProgress] = useState<number | null>(initialResult ? 100 : null);
 
     const [errorMessage, setErrorMessage] = useState('');
 
     const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+    const hasFetchedRef = useRef(!!initialResult);
 
     const jobId = searchParams.get('jobId');
 
@@ -53,7 +59,13 @@ export function Result() {
             return;
         }
 
-        const pollForStatus = async () => {
+        if (hasFetchedRef.current) {
+            return;
+        }
+
+        hasFetchedRef.current = true;
+
+        const fetchStatus = async () => {
             try {
                 const statusResponse = await api.getExamStatus(
                     jobId,
@@ -84,6 +96,8 @@ export function Result() {
 
                     return;
                 }
+
+                pollingRef.current = setInterval(fetchStatus, pollingInterval);
             } catch (error) {
                 stopPolling();
 
@@ -93,9 +107,7 @@ export function Result() {
             }
         };
 
-        pollForStatus();
-
-        pollingRef.current = setInterval(pollForStatus, pollingInterval);
+        fetchStatus();
 
         return () => stopPolling();
     }, [hasValidParams, jobId, code, navigate, user?.name]);
@@ -128,7 +140,7 @@ export function Result() {
                 <GradientBackground variant="loading" />
                 <div className="w-full max-w-2xl text-center px-8">
                     <h1 className="text-3xl font-bold mb-2 text-gradient">{strings.code.titleLoading}</h1>
-                    <span className="block text-text-muted mb-8">{Math.round(progress)} %</span>
+                    <span className="block text-text-muted mb-8">{progress !== null ? `${Math.round(progress)} %` : ''}</span>
                     <div className="flex gap-4 items-center justify-center">
                         <div className="flex-1 max-w-md">
                             <Input
@@ -185,19 +197,15 @@ export function Result() {
 
     return (
         <CodeLayout centered={false}>
-            <div className="w-full h-full max-w-4xl px-4 flex flex-col gap-4 pb-4">
+            <div className="w-full h-full max-w-[905px] mx-auto flex flex-col gap-4">
                 <div className="flex-1 min-h-0">
                     <ChatBox
                         userName={result.userName}
                         content={result.content}
+                        copied={copied}
                         onCopy={handleCopy}
                     />
                 </div>
-                {copied && (
-                    <span className="block text-center text-sm text-primary">
-                        {strings.result.copiedMessage}
-                    </span>
-                )}
                 <div className="flex gap-4 items-center shrink-0">
                     <div className="flex-1">
                         <Input

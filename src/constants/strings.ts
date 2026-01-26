@@ -48,6 +48,9 @@ export const strings = {
         loading: 'Loading...',
         language: 'EN',
         copy: 'Copy',
+        copied: 'Copied',
+        closeAlert: 'Close alert',
+        decorativeStar: 'Decorative star',
     },
     errors: {
         invalidExamCode: 'Invalid exam code',
@@ -124,5 +127,10 @@ export const strings = {
         invalidToken: 'Invalid or expired invitation link.',
         passwordMismatch: 'Passwords do not match.',
         backToLogin: 'Back to Login',
+    },
+    debug: {
+        logoutFailed: 'Logout failed:',
+        loginFailed: 'Login failed:',
+        storageSaveFailed: 'Failed to save to localStorage',
     },
 } as const;

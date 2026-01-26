@@ -2,10 +2,12 @@ import ReactMarkdown from 'react-markdown';
 import { Button } from '@/atoms';
 import { strings } from '@/constants';
 import copyIcon from '@/assets/icons/copy.svg';
+import successIcon from '@/assets/icons/success.svg';
 
-export function ChatBox({ userName, content, onCopy }: {
+export function ChatBox({ userName, content, copied, onCopy }: {
     userName: string,
     content: string,
+    copied: boolean,
     onCopy: () => void,
 }) {
     return (
@@ -13,8 +15,8 @@ export function ChatBox({ userName, content, onCopy }: {
             <div className="flex items-center justify-between px-6 py-5 shrink-0">
                 <h2 className="text-lg font-semibold text-primary">{userName}</h2>
                 <Button variant="ghost" size="sm" onClick={onCopy} className="flex items-center gap-2">
-                    {strings.common.copy}
-                    <img src={copyIcon} alt="" className="w-4 h-4" />
+                    {copied ? strings.common.copied : strings.common.copy}
+                    <img src={copied ? successIcon : copyIcon} alt="" className="w-4 h-4" />
                 </Button>
             </div>
             <div className="px-6 pb-6 flex-1 min-h-0 overflow-y-auto prose prose-sm max-w-none">
@@ -27,13 +29,13 @@ export function ChatBox({ userName, content, onCopy }: {
                             <h3 className="text-lg font-semibold text-text-primary mt-4 mb-2">{children}</h3>
                         ),
                         p: ({ children }) => (
-                            <p className="text-text-secondary leading-relaxed mb-3">{children}</p>
+                            <p className="text-[#3A3A3A] leading-relaxed mb-3">{children}</p>
                         ),
                         ul: ({ children }) => (
-                            <ul className="list-disc list-inside space-y-1 mb-3 text-text-secondary">{children}</ul>
+                            <ul className="list-disc list-inside space-y-1 mb-3 text-[#3A3A3A]">{children}</ul>
                         ),
                         li: ({ children }) => (
-                            <li className="text-text-secondary">{children}</li>
+                            <li className="text-[#3A3A3A]">{children}</li>
                         ),
                         strong: ({ children }) => (
                             <strong className="font-semibold text-text-primary">{children}</strong>

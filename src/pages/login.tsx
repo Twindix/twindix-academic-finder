@@ -37,7 +37,7 @@ export function Login() {
 
             navigate('/code');
         } catch (error) {
-            console.error('Login failed:', error);
+            console.error(strings.debug.loginFailed, error);
         }
     };
 

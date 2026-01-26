@@ -1,5 +1,5 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
-import { apiBaseUrl, apiEndpoints } from '@/constants';
+import { apiBaseUrl, apiEndpoints, strings } from '@/constants';
 
 const getCookie = (name: string): string | null => {
     const value = `; ${document.cookie}`;
@@ -132,7 +132,7 @@ axiosClient.interceptors.response.use(
         const errorMessage =
             (error.response?.data as { message?: string })?.message ||
             error.message ||
-            'An error occurred';
+            strings.errors.genericError;
 
         return Promise.reject(new Error(errorMessage));
     }

@@ -55,7 +55,7 @@ export function useAuth(): UseAuthReturn {
         try {
             await api.logout();
         } catch (error) {
-            console.error('Logout failed:', error);
+            console.error(strings.debug.logoutFailed, error);
         } finally {
             clearAuth();
 

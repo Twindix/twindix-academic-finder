@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { Button } from './button';
+import { strings } from '@/constants';
 import errorIcon from '@/assets/icons/error.svg';
 import warningIcon from '@/assets/icons/warning.svg';
 import successIcon from '@/assets/icons/success.svg';
@@ -43,7 +44,7 @@ export function Alert({
                     variant="ghost"
                     onClick={onClose}
                     className="flex-shrink-0"
-                    aria-label="Close alert"
+                    aria-label={strings.common.closeAlert}
                 >
                     <img src={closeIcon} alt="" className="w-5 h-5" />
                 </Button>

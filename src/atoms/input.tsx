@@ -23,7 +23,7 @@ export function Input({
 
     const inputType = showPasswordToggle ? (showPassword ? 'text' : 'password') : type;
 
-    const baseStyles = 'w-full px-5 py-3 rounded-full border-2 transition-all duration-200 focus:outline-none disabled:cursor-not-allowed disabled:opacity-70';
+    const baseStyles = 'w-full px-5 py-3 rounded-full border-2 bg-white transition-all duration-200 focus:outline-none disabled:cursor-not-allowed disabled:opacity-70';
 
     const getStateStyles = () => {
         if (error) {

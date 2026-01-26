@@ -1,3 +1,5 @@
+import { strings } from '@/constants';
+
 const storagePrefix = 'twindix_academic_finder_';
 
 export function getStorageItem<T>(key: string): T | null {
@@ -14,7 +16,7 @@ export function setStorageItem<T>(key: string, value: T): void {
     try {
         localStorage.setItem(`${storagePrefix}${key}`, JSON.stringify(value));
     } catch {
-        console.warn('Failed to save to localStorage');
+        console.warn(strings.debug.storageSaveFailed);
     }
 }
 

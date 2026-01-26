@@ -27,6 +27,8 @@ export function Code() {
 
     const jobIdRef = useRef<string | null>(null);
 
+    const isCompletedRef = useRef(false);
+
     useEffect(() => {
         return () => {
             if (pollingRef.current) {
@@ -50,6 +52,8 @@ export function Code() {
 
         jobIdRef.current = null;
 
+        isCompletedRef.current = false;
+
         setStatus('loading');
 
         setErrorMessage('');
@@ -72,7 +76,7 @@ export function Code() {
             jobIdRef.current = jobId;
 
             const pollForStatus = async () => {
-                if (!jobIdRef.current) {
+                if (!jobIdRef.current || isCompletedRef.current) {
                     stopPolling();
 
                     return;
@@ -85,16 +89,22 @@ export function Code() {
                         user?.name || strings.code.defaultUserName
                     );
 
+                    if (isCompletedRef.current) return;
+
                     setProgress(statusResponse.progress);
 
                     if (statusResponse.status === JOB_STATUS.COMPLETED && statusResponse.result) {
+                        isCompletedRef.current = true;
+
                         stopPolling();
 
                         setProgress(100);
 
                         setStatus('success');
 
-                        setTimeout(() => navigate(`/result?jobId=${jobId}&code=${encodeURIComponent(code)}`), 500);
+                        navigate(`/result?jobId=${jobId}&code=${encodeURIComponent(code)}`, {
+                            state: { result: statusResponse.result },
+                        });
 
                         return;
                     }
@@ -134,6 +144,8 @@ export function Code() {
         stopPolling();
 
         jobIdRef.current = null;
+
+        isCompletedRef.current = false;
 
         setCode('');
 
