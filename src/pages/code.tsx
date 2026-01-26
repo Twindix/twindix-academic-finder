@@ -6,7 +6,7 @@ import { GradientBackground } from '@/components';
 import { api } from '@/services';
 import { useAuth } from '@/hooks';
 import { strings } from '@/constants';
-import type { CodePageStatus } from '@/types';
+import { JOB_STATUS, type CodePageStatus } from '@/types';
 
 const pollingInterval = 5000;
 
@@ -87,7 +87,7 @@ export function Code() {
 
                     setProgress(statusResponse.progress);
 
-                    if (statusResponse.status === 'completed' && statusResponse.result) {
+                    if (statusResponse.status === JOB_STATUS.COMPLETED && statusResponse.result) {
                         stopPolling();
 
                         setProgress(100);
@@ -99,7 +99,7 @@ export function Code() {
                         return;
                     }
 
-                    if (!statusResponse.success || statusResponse.status === 'failed') {
+                    if (!statusResponse.success || statusResponse.status === JOB_STATUS.FAILED) {
                         stopPolling();
 
                         setStatus('error');

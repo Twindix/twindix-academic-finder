@@ -1,3 +1,5 @@
+import type { JobStatus } from '@/types';
+
 export interface ApiError {
     message: string,
     errors?: Record<string, string[]>,
@@ -55,7 +57,7 @@ export interface RecommendedJobsResult {
 export interface ApiStatusResponse {
     success: boolean,
     data: {
-        status: 'pending' | 'processing' | 'completed' | 'failed',
+        status: JobStatus,
         progress: number,
         current_step: string,
         started_at: string,

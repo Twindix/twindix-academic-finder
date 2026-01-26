@@ -1,5 +1,6 @@
 import { axiosClient, setToken, removeToken, getToken } from './axios-client';
 import { apiEndpoints, strings } from '@/constants';
+import { JOB_STATUS } from '@/types';
 import type {
     User,
     LoginResponse,
@@ -195,7 +196,7 @@ class ApiService {
 
             const { data } = response.data;
 
-            if (data.status === 'completed' && data.result) {
+            if (data.status === JOB_STATUS.COMPLETED && data.result) {
                 const transformedJobs = data.result.recommended_jobs.map(
                     (job) => this.transformRecommendedJob(job)
                 );
@@ -217,7 +218,7 @@ class ApiService {
                 };
             }
 
-            if (data.status === 'failed') {
+            if (data.status === JOB_STATUS.FAILED) {
                 return {
                     success: false,
                     status: data.status,
@@ -239,7 +240,7 @@ class ApiService {
             if (message.includes('404') || message.toLowerCase().includes('not found')) {
                 return {
                     success: false,
-                    status: 'failed',
+                    status: JOB_STATUS.FAILED,
                     progress: 0,
                     currentStep: '',
                     error: strings.errors.jobNotFound,
@@ -249,7 +250,7 @@ class ApiService {
             if (message.includes('422') || message.toLowerCase().includes('invalid')) {
                 return {
                     success: false,
-                    status: 'failed',
+                    status: JOB_STATUS.FAILED,
                     progress: 0,
                     currentStep: '',
                     error: strings.errors.invalidJobId,
@@ -258,7 +259,7 @@ class ApiService {
 
             return {
                 success: false,
-                status: 'failed',
+                status: JOB_STATUS.FAILED,
                 progress: 0,
                 currentStep: '',
                 error: message,

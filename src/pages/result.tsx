@@ -6,6 +6,7 @@ import { ChatBox, GradientBackground } from '@/components';
 import { api } from '@/services';
 import { useAuth } from '@/hooks';
 import { strings } from '@/constants';
+import { JOB_STATUS } from '@/types';
 import type { ChatResult } from '@/interfaces';
 
 type ResultPageStatus = 'loading' | 'success' | 'error';
@@ -62,7 +63,7 @@ export function Result() {
 
                 setProgress(statusResponse.progress);
 
-                if (statusResponse.status === 'completed' && statusResponse.result) {
+                if (statusResponse.status === JOB_STATUS.COMPLETED && statusResponse.result) {
                     stopPolling();
 
                     setProgress(100);
@@ -74,7 +75,7 @@ export function Result() {
                     return;
                 }
 
-                if (!statusResponse.success || statusResponse.status === 'failed') {
+                if (!statusResponse.success || statusResponse.status === JOB_STATUS.FAILED) {
                     stopPolling();
 
                     setStatus('error');

@@ -1,4 +1,5 @@
 import type { RecommendedJob } from './api';
+import type { JobStatus } from '@/types';
 
 export interface ChatResult {
     id: string,
@@ -16,7 +17,7 @@ export interface ProcessResponse {
 
 export interface StatusResponse {
     success: boolean,
-    status: 'pending' | 'processing' | 'completed' | 'failed',
+    status: JobStatus,
     progress: number,
     currentStep: string,
     result?: ChatResult,
