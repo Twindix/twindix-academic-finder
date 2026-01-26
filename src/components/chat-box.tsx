@@ -1,23 +1,31 @@
 import ReactMarkdown from 'react-markdown';
-import { Button } from '@/atoms';
+import { Button, LanguageIcon } from '@/atoms';
 import { strings } from '@/constants';
 import copyIcon from '@/assets/icons/copy.svg';
 import successIcon from '@/assets/icons/success.svg';
 
-export function ChatBox({ userName, content, copied, onCopy }: {
+export function ChatBox({ userName, content, copied, onCopy, lang, onToggleLanguage }: {
     userName: string,
     content: string,
     copied: boolean,
     onCopy: () => void,
+    lang: 'en' | 'ar',
+    onToggleLanguage: () => void,
 }) {
     return (
         <div className="h-full bg-white rounded-[20px] overflow-hidden flex flex-col">
             <div className="flex items-center justify-between px-6 py-5 shrink-0">
                 <h2 className="text-lg font-semibold text-primary">{userName}</h2>
-                <Button variant="ghost" size="sm" onClick={onCopy} className="flex items-center gap-2">
-                    {copied ? strings.common.copied : strings.common.copy}
-                    <img src={copied ? successIcon : copyIcon} alt="" className="w-4 h-4" />
-                </Button>
+                <div className="flex items-center gap-4">
+                    <Button variant="ghost" size="sm" onClick={onToggleLanguage} className="flex items-center gap-2">
+                        {lang === 'en' ? strings.common.languageEn : strings.common.languageAr}
+                        <LanguageIcon className="w-4 h-4" />
+                    </Button>
+                    <Button variant="ghost" size="sm" onClick={onCopy} className="flex items-center gap-2">
+                        {copied ? strings.common.copied : strings.common.copy}
+                        <img src={copied ? successIcon : copyIcon} alt="" className="w-4 h-4" />
+                    </Button>
+                </div>
             </div>
             <div className="px-6 pb-6 flex-1 min-h-0 overflow-y-auto prose prose-sm max-w-none">
                 <ReactMarkdown

@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import { CodeLayout } from '@/layouts';
-import { Input, Button, LanguageIcon, Tooltip } from '@/atoms';
+import { Input, Button } from '@/atoms';
 import { ChatBox, GradientBackground, CircularProgress } from '@/components';
 import { api } from '@/services';
 import { useAuth } from '@/hooks';
@@ -237,6 +237,8 @@ export function Result() {
                         content={result.content}
                         copied={copied}
                         onCopy={handleCopy}
+                        lang={lang}
+                        onToggleLanguage={toggleLanguage}
                     />
                 </div>
                 <div className="flex gap-4 items-center shrink-0">
@@ -248,17 +250,6 @@ export function Result() {
                             disabled
                         />
                     </div>
-                    <Tooltip
-                        content={lang === 'en' ? strings.common.switchToArabic : strings.common.switchToEnglish}
-                    >
-                        <button
-                            onClick={toggleLanguage}
-                            className="flex items-center gap-2 px-4 py-3 rounded-lg bg-white border border-gray-200 hover:bg-gray-50 transition-colors text-sm font-medium text-gray-700"
-                        >
-                            <LanguageIcon className="w-5 h-5" />
-                            <span>{lang === 'en' ? strings.common.languageAr : strings.common.languageEn}</span>
-                        </button>
-                    </Tooltip>
                     <Button onClick={handleReset}>
                         {strings.result.buttonReset}
                     </Button>
