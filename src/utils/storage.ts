@@ -1,4 +1,4 @@
-const storagePrefix = 'twindix_';
+const storagePrefix = 'twindix_academic_finder_';
 
 export function getStorageItem<T>(key: string): T | null {
     try {

@@ -1,4 +1,4 @@
-export const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://acdmicback.twindix.com/api';
+export const apiBaseUrl = import.meta.env.VITE_API_URL;
 
 export const apiEndpoints = {
     auth: {

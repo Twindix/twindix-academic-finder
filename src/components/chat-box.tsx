@@ -9,15 +9,15 @@ export function ChatBox({ userName, content, onCopy }: {
     onCopy: () => void,
 }) {
     return (
-        <div className="bg-surface rounded-[14px] border border-gray-100 overflow-hidden">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+        <div className="h-full bg-surface rounded-[14px] border border-gray-300 overflow-hidden flex flex-col">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-300 shrink-0">
                 <h2 className="text-lg font-semibold text-primary">{userName}</h2>
                 <Button variant="ghost" size="sm" onClick={onCopy} className="flex items-center gap-1">
                     {strings.common.copy}
                     <img src={copyIcon} alt="" className="w-4 h-4" />
                 </Button>
             </div>
-            <div className="px-6 py-4 max-h-[70vh] overflow-y-auto prose prose-sm max-w-none">
+            <div className="px-6 py-4 flex-1 min-h-0 overflow-y-auto prose prose-sm max-w-none">
                 <ReactMarkdown
                     components={{
                         h2: ({ children }) => (

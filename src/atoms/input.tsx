@@ -25,7 +25,7 @@ export function Input({
 
     const stateStyles = error
         ? 'border-error text-error placeholder-error/50 focus:ring-error focus:border-error'
-        : 'border-gray-200 text-text-primary placeholder-text-muted focus:ring-primary focus:border-primary';
+        : 'border-gray-300 text-text-primary placeholder-text-muted focus:ring-primary focus:border-primary';
 
     return (
         <div className="w-full">

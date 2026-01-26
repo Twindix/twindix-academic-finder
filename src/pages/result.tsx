@@ -11,7 +11,6 @@ import type { ChatResult } from '@/interfaces';
 type ResultPageStatus = 'loading' | 'success' | 'error';
 
 const pollingInterval = 5000;
-const maxPollingAttempts = 5;
 
 export function Result() {
     const navigate = useNavigate();
@@ -31,8 +30,6 @@ export function Result() {
     const [errorMessage, setErrorMessage] = useState('');
 
     const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-    const pollingCountRef = useRef<number>(0);
 
     const jobId = searchParams.get('jobId');
 
@@ -56,25 +53,6 @@ export function Result() {
         }
 
         const pollForStatus = async () => {
-            pollingCountRef.current += 1;
-
-            if (pollingCountRef.current > maxPollingAttempts) {
-                stopPolling();
-
-                const demoResult = api.getDemoResult(
-                    code,
-                    user?.name || strings.code.defaultUserName
-                );
-
-                setProgress(100);
-
-                setResult(demoResult);
-
-                setStatus('success');
-
-                return;
-            }
-
             try {
                 const statusResponse = await api.getExamStatus(
                     jobId,
@@ -206,18 +184,20 @@ export function Result() {
 
     return (
         <CodeLayout>
-            <div className="w-full max-w-4xl px-4 flex flex-col gap-6">
-                <ChatBox
-                    userName={result.userName}
-                    content={result.content}
-                    onCopy={handleCopy}
-                />
+            <div className="w-full h-full max-w-4xl px-4 flex flex-col gap-4">
+                <div className="flex-1 min-h-0">
+                    <ChatBox
+                        userName={result.userName}
+                        content={result.content}
+                        onCopy={handleCopy}
+                    />
+                </div>
                 {copied && (
                     <span className="block text-center text-sm text-primary">
                         {strings.result.copiedMessage}
                     </span>
                 )}
-                <div className="flex gap-4 items-center justify-center">
+                <div className="flex gap-4 items-center justify-center shrink-0">
                     <div className="flex-1 max-w-md">
                         <Input
                             type="text"

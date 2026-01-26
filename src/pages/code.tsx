@@ -9,7 +9,6 @@ import { strings } from '@/constants';
 import type { CodePageStatus } from '@/types';
 
 const pollingInterval = 5000;
-const maxPollingAttempts = 5;
 
 export function Code() {
     const navigate = useNavigate();
@@ -27,8 +26,6 @@ export function Code() {
     const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
     const jobIdRef = useRef<string | null>(null);
-
-    const pollingCountRef = useRef<number>(0);
 
     useEffect(() => {
         return () => {
@@ -52,8 +49,6 @@ export function Code() {
         if (!code.trim()) return;
 
         jobIdRef.current = null;
-
-        pollingCountRef.current = 0;
 
         setStatus('loading');
 
@@ -79,20 +74,6 @@ export function Code() {
             const pollForStatus = async () => {
                 if (!jobIdRef.current) {
                     stopPolling();
-
-                    return;
-                }
-
-                pollingCountRef.current += 1;
-
-                if (pollingCountRef.current > maxPollingAttempts) {
-                    stopPolling();
-
-                    setProgress(100);
-
-                    setStatus('success');
-
-                    setTimeout(() => navigate(`/result?jobId=${jobId}&code=${encodeURIComponent(code)}`), 500);
 
                     return;
                 }
@@ -138,7 +119,7 @@ export function Code() {
 
             await pollForStatus();
 
-            if (jobIdRef.current && pollingCountRef.current <= maxPollingAttempts) {
+            if (jobIdRef.current) {
                 pollingRef.current = setInterval(pollForStatus, pollingInterval);
             }
 
@@ -153,8 +134,6 @@ export function Code() {
         stopPolling();
 
         jobIdRef.current = null;
-
-        pollingCountRef.current = 0;
 
         setCode('');
 
