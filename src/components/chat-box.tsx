@@ -1,8 +1,6 @@
 import ReactMarkdown from 'react-markdown';
-import { Button, LanguageIcon } from '@/atoms';
+import { Button, LanguageIcon, CopyIcon, SuccessIcon } from '@/atoms';
 import { strings } from '@/constants';
-import copyIcon from '@/assets/icons/copy.svg';
-import successIcon from '@/assets/icons/success.svg';
 
 export function ChatBox({ userName, content, copied, onCopy, lang, onToggleLanguage }: {
     userName: string,
@@ -23,7 +21,7 @@ export function ChatBox({ userName, content, copied, onCopy, lang, onToggleLangu
                     </Button>
                     <Button variant="ghost" size="sm" onClick={onCopy} className="flex items-center gap-2">
                         {copied ? strings.common.copied : strings.common.copy}
-                        <img src={copied ? successIcon : copyIcon} alt="" className="w-4 h-4" />
+                        {copied ? <SuccessIcon className="w-4 h-4" /> : <CopyIcon className="w-4 h-4" />}
                     </Button>
                 </div>
             </div>
