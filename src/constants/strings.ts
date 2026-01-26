@@ -52,6 +52,12 @@ export const strings = {
         closeAlert: 'Close alert',
         decorativeStar: 'Decorative star',
     },
+    notFound: {
+        title: '404',
+        subtitle: 'Page Not Found',
+        description: 'Oops! The page you are looking for does not exist or has been moved.',
+        backToHome: 'Back to Home',
+    },
     errors: {
         invalidExamCode: 'Invalid exam code',
         tryAgain: 'An error occurred. Please try again.',

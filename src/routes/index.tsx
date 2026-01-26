@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate, useLocation, useSearchParams } from 'react-router-dom';
 import { isAuthenticated } from '@/utils';
 import { routes } from '@/constants';
-import { Login, Code, Result, Profile, ForgotPassword, ResetPassword, Register } from '@/pages';
+import { Login, Code, Result, Profile, ForgotPassword, ResetPassword, Register, NotFound } from '@/pages';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
     const location = useLocation();
@@ -87,7 +87,7 @@ export function AppRoutes() {
                 }
             />
             <Route path={routes.root} element={<Navigate to={routes.login} replace />} />
-            <Route path="*" element={<Navigate to={routes.login} replace />} />
+            <Route path="*" element={<NotFound />} />
         </Routes>
     );
 }
