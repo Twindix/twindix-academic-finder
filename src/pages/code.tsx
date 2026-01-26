@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CodeLayout } from '@/layouts';
-import { Input, Button } from '@/atoms';
+import { Input, Button, Tooltip } from '@/atoms';
 import { GradientBackground } from '@/components';
 import { api } from '@/services';
 import { useAuth } from '@/hooks';
 import { strings } from '@/constants';
 import { JOB_STATUS, type CodePageStatus } from '@/types';
+
+const CODE_LENGTH = 8;
 
 const pollingInterval = 5000;
 
@@ -45,10 +47,12 @@ export function Code() {
         }
     };
 
+    const isCodeValid = code.trim().length === CODE_LENGTH;
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!code.trim()) return;
+        if (!isCodeValid) return;
 
         jobIdRef.current = null;
 
@@ -202,15 +206,20 @@ export function Code() {
                             disabled={status === 'loading'}
                         />
                     </div>
-                    <Button
-                        type={status === 'error' ? 'button' : 'submit'}
-                        variant={status === 'error' ? 'primary' : status === 'idle' && !code ? 'muted' : 'primary'}
-                        loading={status === 'loading'}
-                        disabled={status === 'loading'}
-                        onClick={status === 'error' ? handleReset : undefined}
+                    <Tooltip
+                        content={strings.code.codeLength}
+                        disabled={isCodeValid || status === 'error' || status === 'loading'}
                     >
-                        {getButtonText()}
-                    </Button>
+                        <Button
+                            type={status === 'error' ? 'button' : 'submit'}
+                            variant={status === 'error' ? 'primary' : !isCodeValid ? 'muted' : 'primary'}
+                            loading={status === 'loading'}
+                            disabled={status === 'loading' || (status === 'idle' && !isCodeValid)}
+                            onClick={status === 'error' ? handleReset : undefined}
+                        >
+                            {getButtonText()}
+                        </Button>
+                    </Tooltip>
                 </form>
             </div>
         </CodeLayout>

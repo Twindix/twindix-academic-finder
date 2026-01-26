@@ -27,6 +27,7 @@ export const strings = {
         errorDefault: 'An error occurred',
         errorSubtitle: 'Re-Enter the Code Again',
         defaultUserName: 'User',
+        codeLength: 'Code must be exactly 8 characters',
     },
     result: {
         copiedMessage: 'Copied to clipboard!',
