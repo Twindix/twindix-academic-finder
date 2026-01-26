@@ -39,7 +39,7 @@ export function CodeLayout({ children, variant = 'default', centered = true }: {
                     style={{ background: lineGradient }}
                 />
 
-                <header className="p-4 md:p-6 flex items-center justify-between">
+                <header className={`${centered ? 'p-4 md:p-6' : 'p-3 md:p-4'} flex items-center justify-between shrink-0`}>
                     <Logo size="md" />
                     <div className="flex items-center gap-2">
                         <Link
@@ -66,11 +66,11 @@ export function CodeLayout({ children, variant = 'default', centered = true }: {
                     </div>
                 </header>
 
-                <main className={`flex-1 min-h-0 flex ${centered ? 'items-center' : 'items-stretch'} justify-center relative z-10 py-4`}>
+                <main className={`flex-1 min-h-0 flex ${centered ? 'items-center py-4' : 'items-stretch'} justify-center relative z-10`}>
                     {children}
                 </main>
 
-                <footer className="hidden md:block p-6">
+                <footer className={`${centered ? 'block' : 'hidden'} hidden md:block p-6`}>
                     <Button
                         variant="ghost-danger"
                         onClick={handleLogout}

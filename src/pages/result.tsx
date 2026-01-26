@@ -203,6 +203,7 @@ export function Result() {
                         <Input
                             type="text"
                             value={result.code}
+                            variant="primary"
                             disabled
                         />
                     </div>

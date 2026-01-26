@@ -20,9 +20,9 @@ export function Button({
     const baseStyles = 'font-medium transition-all duration-200 cursor-pointer focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed';
 
     const variants = {
-        primary: 'bg-primary text-white hover:bg-primary-dark focus:ring-2 focus:ring-offset-2 focus:ring-primary rounded-[14px]',
-        muted: 'bg-muted text-white hover:bg-muted/90 focus:ring-2 focus:ring-offset-2 focus:ring-muted rounded-[14px]',
-        danger: 'bg-error text-white hover:bg-error-light focus:ring-2 focus:ring-offset-2 focus:ring-error rounded-[14px]',
+        primary: 'bg-primary text-white hover:bg-primary-dark focus:ring-2 focus:ring-offset-2 focus:ring-primary rounded-full',
+        muted: 'bg-muted text-white hover:bg-muted/90 focus:ring-2 focus:ring-offset-2 focus:ring-muted rounded-full',
+        danger: 'bg-error text-white hover:bg-error-light focus:ring-2 focus:ring-offset-2 focus:ring-error rounded-full',
         ghost: 'text-text-secondary hover:text-text-primary',
         'ghost-danger': 'text-error hover:text-error-light',
         link: 'text-primary hover:underline',

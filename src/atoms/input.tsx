@@ -8,6 +8,7 @@ export function Input({
     error = false,
     errorMessage,
     showPasswordToggle = false,
+    variant = 'default',
     type = 'text',
     className = '',
     ...props
@@ -16,6 +17,7 @@ export function Input({
     error?: boolean,
     errorMessage?: string,
     showPasswordToggle?: boolean,
+    variant?: 'default' | 'primary',
 }) {
     const [showPassword, setShowPassword] = useState(false);
 
@@ -23,9 +25,17 @@ export function Input({
 
     const baseStyles = 'w-full px-5 py-3 rounded-full border-2 transition-all duration-200 focus:outline-none';
 
-    const stateStyles = error
-        ? 'border-error text-error placeholder-error/50 focus:border-error'
-        : 'border-gray-300 text-text-primary placeholder-text-muted focus:border-primary';
+    const getStateStyles = () => {
+        if (error) {
+            return 'border-error text-error placeholder-error/50 focus:border-error';
+        }
+        if (variant === 'primary') {
+            return 'border-primary text-text-primary placeholder-text-muted focus:border-primary-dark';
+        }
+        return 'border-gray-300 text-text-primary placeholder-text-muted focus:border-primary';
+    };
+
+    const stateStyles = getStateStyles();
 
     return (
         <div className="w-full">

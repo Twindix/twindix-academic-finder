@@ -9,7 +9,7 @@ export function ChatBox({ userName, content, onCopy }: {
     onCopy: () => void,
 }) {
     return (
-        <div className="h-full bg-white rounded-[20px] shadow-lg overflow-hidden flex flex-col">
+        <div className="h-full bg-white rounded-[20px] overflow-hidden flex flex-col">
             <div className="flex items-center justify-between px-6 py-5 shrink-0">
                 <h2 className="text-lg font-semibold text-primary">{userName}</h2>
                 <Button variant="ghost" size="sm" onClick={onCopy} className="flex items-center gap-2">
