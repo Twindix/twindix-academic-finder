@@ -5,7 +5,7 @@ import { Input, Button } from '@/atoms';
 import { ChatBox, GradientBackground } from '@/components';
 import { api } from '@/services';
 import { useAuth } from '@/hooks';
-import { strings } from '@/constants';
+import { strings, routes } from '@/constants';
 import { JOB_STATUS } from '@/types';
 import type { ChatResult } from '@/interfaces';
 
@@ -54,7 +54,7 @@ export function Result() {
 
     useEffect(() => {
         if (!hasValidParams) {
-            navigate('/code');
+            navigate(routes.code);
 
             return;
         }
@@ -125,7 +125,7 @@ export function Result() {
     const handleReset = () => {
         stopPolling();
 
-        navigate('/code');
+        navigate(routes.code);
     };
 
     const layoutVariant = status === 'error' ? 'error' : 'default';

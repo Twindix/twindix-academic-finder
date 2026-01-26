@@ -4,7 +4,7 @@ import { AuthLayout } from '@/layouts';
 import { Button, Input, Alert } from '@/atoms';
 import { api } from '@/services';
 import { validateEmail } from '@/utils';
-import { strings } from '@/constants';
+import { strings, routes } from '@/constants';
 
 export function ForgotPassword() {
     const navigate = useNavigate();
@@ -44,7 +44,7 @@ export function ForgotPassword() {
     };
 
     const handleBackToLogin = () => {
-        navigate('/login');
+        navigate(routes.login);
     };
 
     if (isSuccess) {

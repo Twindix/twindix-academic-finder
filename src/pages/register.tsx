@@ -4,7 +4,7 @@ import { AuthLayout } from '@/layouts';
 import { Button, Input, Alert } from '@/atoms';
 import { api } from '@/services';
 import { validateEmail, validatePassword } from '@/utils';
-import { strings } from '@/constants';
+import { strings, routes } from '@/constants';
 
 export function Register() {
     const navigate = useNavigate();
@@ -105,7 +105,7 @@ export function Register() {
     };
 
     const handleBackToLogin = () => {
-        navigate('/login');
+        navigate(routes.login);
     };
 
     const clearError = () => {

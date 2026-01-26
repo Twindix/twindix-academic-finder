@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import type { User, UseAuthReturn } from '@/interfaces';
 import { api } from '@/services';
 import { getStoredUser, saveUser, clearAuth, isAuthenticated as checkAuth } from '@/utils';
-import { strings } from '@/constants';
+import { strings, routes } from '@/constants';
 
 export function useAuth(): UseAuthReturn {
     const [user, setUser] = useState<User | null>(() => getStoredUser());
@@ -65,7 +65,7 @@ export function useAuth(): UseAuthReturn {
 
             setIsLoading(false);
 
-            window.location.href = '/login';
+            window.location.href = routes.login;
         }
     }, []);
 

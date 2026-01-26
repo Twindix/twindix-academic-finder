@@ -2,7 +2,7 @@ import { ReactNode, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Logo, Button, LogoutIcon, UserIcon } from '@/atoms';
 import { useAuth } from '@/hooks';
-import { strings } from '@/constants';
+import { strings, routes } from '@/constants';
 
 export function CodeLayout({ children, variant = 'default', centered = true }: {
     children: ReactNode,
@@ -45,14 +45,14 @@ export function CodeLayout({ children, variant = 'default', centered = true }: {
                             <Logo size="md" />
                             <div className="flex items-center gap-2">
                                 <Link
-                                    to="/profile"
+                                    to={routes.profile}
                                     className="hidden md:flex items-center gap-2 px-3 py-2 rounded-lg text-primary hover:bg-primary/5 transition-colors"
                                 >
                                     <UserIcon className="w-5 h-5" />
                                     <span className="text-sm font-medium">{user?.name || strings.code.defaultUserName}</span>
                                 </Link>
                                 <Link
-                                    to="/profile"
+                                    to={routes.profile}
                                     className="flex md:hidden items-center justify-center w-10 h-10 rounded-lg text-primary hover:bg-primary/5 transition-colors"
                                 >
                                     <UserIcon className="w-5 h-5" />
@@ -90,7 +90,7 @@ export function CodeLayout({ children, variant = 'default', centered = true }: {
                             <Logo size="md" />
                             <div className="flex items-center gap-2">
                                 <Link
-                                    to="/profile"
+                                    to={routes.profile}
                                     className="flex items-center justify-center w-10 h-10 rounded-lg text-primary hover:bg-primary/5 transition-colors"
                                 >
                                     <UserIcon className="w-5 h-5" />
@@ -124,7 +124,7 @@ export function CodeLayout({ children, variant = 'default', centered = true }: {
 
                         <div className="hidden md:block shrink-0">
                             <Link
-                                to="/profile"
+                                to={routes.profile}
                                 className="flex items-center gap-2 px-3 py-2 rounded-lg text-primary hover:bg-primary/5 transition-colors"
                             >
                                 <UserIcon className="w-5 h-5" />

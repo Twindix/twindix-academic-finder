@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate, useLocation, useSearchParams } from 'react-router-dom';
 import { isAuthenticated } from '@/utils';
+import { routes } from '@/constants';
 import { Login, Code, Result, Profile, ForgotPassword, ResetPassword, Register } from '@/pages';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -8,7 +9,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
     if (!isAuthenticated()) {
         const returnUrl = location.pathname + location.search;
 
-        return <Navigate to={`/login?returnUrl=${encodeURIComponent(returnUrl)}`} replace />;
+        return <Navigate to={`${routes.login}?returnUrl=${encodeURIComponent(returnUrl)}`} replace />;
     }
 
     return <>{children}</>;
@@ -20,7 +21,7 @@ function PublicRoute({ children }: { children: React.ReactNode }) {
     if (isAuthenticated()) {
         const returnUrl = searchParams.get('returnUrl');
 
-        return <Navigate to={returnUrl || '/code'} replace />;
+        return <Navigate to={returnUrl || routes.code} replace />;
     }
 
     return <>{children}</>;
@@ -30,7 +31,7 @@ export function AppRoutes() {
     return (
         <Routes>
             <Route
-                path="/login"
+                path={routes.login}
                 element={
                     <PublicRoute>
                         <Login />
@@ -38,7 +39,7 @@ export function AppRoutes() {
                 }
             />
             <Route
-                path="/forgot-password"
+                path={routes.forgotPassword}
                 element={
                     <PublicRoute>
                         <ForgotPassword />
@@ -46,7 +47,7 @@ export function AppRoutes() {
                 }
             />
             <Route
-                path="/reset-password"
+                path={routes.resetPassword}
                 element={
                     <PublicRoute>
                         <ResetPassword />
@@ -54,7 +55,7 @@ export function AppRoutes() {
                 }
             />
             <Route
-                path="/register"
+                path={routes.register}
                 element={
                     <PublicRoute>
                         <Register />
@@ -62,7 +63,7 @@ export function AppRoutes() {
                 }
             />
             <Route
-                path="/code"
+                path={routes.code}
                 element={
                     <ProtectedRoute>
                         <Code />
@@ -70,7 +71,7 @@ export function AppRoutes() {
                 }
             />
             <Route
-                path="/result"
+                path={routes.result}
                 element={
                     <ProtectedRoute>
                         <Result />
@@ -78,15 +79,15 @@ export function AppRoutes() {
                 }
             />
             <Route
-                path="/profile"
+                path={routes.profile}
                 element={
                     <ProtectedRoute>
                         <Profile />
                     </ProtectedRoute>
                 }
             />
-            <Route path="/" element={<Navigate to="/login" replace />} />
-            <Route path="*" element={<Navigate to="/login" replace />} />
+            <Route path={routes.root} element={<Navigate to={routes.login} replace />} />
+            <Route path="*" element={<Navigate to={routes.login} replace />} />
         </Routes>
     );
 }

@@ -4,14 +4,14 @@ import { AuthLayout } from '@/layouts';
 import { Button, Input, Alert } from '@/atoms';
 import { useAuth } from '@/hooks';
 import { validateLoginForm } from '@/utils';
-import { strings } from '@/constants';
+import { strings, routes } from '@/constants';
 
 export function Login() {
     const navigate = useNavigate();
 
     const [searchParams] = useSearchParams();
 
-    const returnUrl = searchParams.get('returnUrl') || '/code';
+    const returnUrl = searchParams.get('returnUrl') || routes.code;
 
     const { login, isLoading, error, clearError } = useAuth();
 
@@ -91,7 +91,7 @@ export function Login() {
                     />
                     <div className="flex items-center justify-between text-sm">
                         <span className="text-text-secondary">{strings.login.forgotPassword}</span>
-                        <Button variant="link" size="sm" type="button" onClick={() => navigate('/forgot-password')}>
+                        <Button variant="link" size="sm" type="button" onClick={() => navigate(routes.forgotPassword)}>
                             {strings.login.forgotPasswordLink}
                         </Button>
                     </div>

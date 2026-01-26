@@ -1,5 +1,5 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
-import { apiBaseUrl, apiEndpoints, strings } from '@/constants';
+import { apiBaseUrl, apiEndpoints, strings, routes } from '@/constants';
 
 const getCookie = (name: string): string | null => {
     const value = `; ${document.cookie}`;
@@ -34,11 +34,11 @@ export const removeToken = (): void => deleteCookie(tokenKey);
 const getLoginUrlWithReturnPath = (): string => {
     const currentPath = window.location.pathname + window.location.search;
 
-    if (currentPath && currentPath !== '/login' && currentPath !== '/') {
-        return `/login?returnUrl=${encodeURIComponent(currentPath)}`;
+    if (currentPath && currentPath !== routes.login && currentPath !== routes.root) {
+        return `${routes.login}?returnUrl=${encodeURIComponent(currentPath)}`;
     }
 
-    return '/login';
+    return routes.login;
 };
 
 const axiosClient = axios.create({

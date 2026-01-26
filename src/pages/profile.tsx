@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { CodeLayout } from '@/layouts';
 import { Button, UserIcon } from '@/atoms';
 import { useAuth } from '@/hooks';
-import { strings } from '@/constants';
+import { strings, routes } from '@/constants';
 
 export function Profile() {
     const { user } = useAuth();
@@ -68,7 +68,7 @@ export function Profile() {
                     </div>
 
                     <div className="px-6 py-4 bg-gray-50 border-t border-gray-300">
-                        <Link to="/code">
+                        <Link to={routes.code}>
                             <Button variant="primary" className="w-full">
                                 {strings.profile.backToCode}
                             </Button>
