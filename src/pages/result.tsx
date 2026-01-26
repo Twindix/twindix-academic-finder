@@ -2,7 +2,7 @@ import { useEffect, useState, useRef, useCallback } from 'react';
 import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import { CodeLayout } from '@/layouts';
 import { Input, Button } from '@/atoms';
-import { ChatBox, GradientBackground, CircularProgress } from '@/components';
+import { ChatBox, GradientBackground } from '@/components';
 import { api } from '@/services';
 import { useAuth } from '@/hooks';
 import { strings, routes } from '@/constants';
@@ -31,8 +31,6 @@ export function Result() {
     const [copied, setCopied] = useState(false);
 
     const [status, setStatus] = useState<ResultPageStatus>(initialResult ? 'success' : 'loading');
-
-    const [progress, setProgress] = useState<number | null>(initialResult ? 100 : null);
 
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -104,12 +102,8 @@ export function Result() {
                     lang === 'ar' ? 'ar' : undefined
                 );
 
-                setProgress(statusResponse.progress);
-
                 if (statusResponse.status === JOB_STATUS.COMPLETED && statusResponse.result) {
                     stopPolling();
-
-                    setProgress(100);
 
                     setResult(statusResponse.result);
 
@@ -170,9 +164,9 @@ export function Result() {
             <CodeLayout>
                 <GradientBackground variant="loading" />
                 <div className="w-full max-w-2xl text-center px-8">
-                    <h1 className="text-3xl font-bold mb-6 text-gradient">{strings.code.titleLoading}</h1>
+                    <h1 className="text-3xl font-bold mb-2 text-gradient">{strings.code.titleLoading}</h1>
                     <div className="mb-8">
-                        <CircularProgress progress={progress ?? 0} />
+                        <div className="inline-block w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
                     </div>
                     <div className="flex gap-4 items-center justify-center">
                         <div className="flex-1 max-w-md">

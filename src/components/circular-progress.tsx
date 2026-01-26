@@ -12,7 +12,7 @@ export function CircularProgress({ progress, size = 120 }: {
             <svg
                 width={size}
                 height={size}
-                className="transform -rotate-90"
+                className="transform -rotate-90 -scale-x-100"
             >
                 <circle
                     cx={size / 2}
