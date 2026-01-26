@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { AuthLayout } from '@/layouts';
 import { Button, Input, Alert } from '@/atoms';
 import { useAuth } from '@/hooks';
@@ -8,6 +8,10 @@ import { strings } from '@/constants';
 
 export function Login() {
     const navigate = useNavigate();
+
+    const [searchParams] = useSearchParams();
+
+    const returnUrl = searchParams.get('returnUrl') || '/code';
 
     const { login, isLoading, error, clearError } = useAuth();
 
@@ -35,7 +39,7 @@ export function Login() {
         try {
             await login(email, password);
 
-            navigate('/code');
+            navigate(returnUrl);
         } catch (error) {
             console.error(strings.debug.loginFailed, error);
         }

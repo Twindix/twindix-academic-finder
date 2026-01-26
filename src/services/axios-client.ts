@@ -31,6 +31,16 @@ export const getToken = (): string | null => getCookie(tokenKey);
 export const setToken = (token: string): void => setCookie(tokenKey, token, 7);
 export const removeToken = (): void => deleteCookie(tokenKey);
 
+const getLoginUrlWithReturnPath = (): string => {
+    const currentPath = window.location.pathname + window.location.search;
+
+    if (currentPath && currentPath !== '/login' && currentPath !== '/') {
+        return `/login?returnUrl=${encodeURIComponent(currentPath)}`;
+    }
+
+    return '/login';
+};
+
 const axiosClient = axios.create({
     baseURL: apiBaseUrl,
     headers: {
@@ -82,7 +92,7 @@ axiosClient.interceptors.response.use(
             if (originalRequest.url === apiEndpoints.auth.refresh) {
                 removeToken();
 
-                window.location.href = '/login';
+                window.location.href = getLoginUrlWithReturnPath();
 
                 return Promise.reject(error);
             }
@@ -121,7 +131,7 @@ axiosClient.interceptors.response.use(
 
                 removeToken();
 
-                window.location.href = '/login';
+                window.location.href = getLoginUrlWithReturnPath();
 
                 return Promise.reject(refreshError);
             } finally {

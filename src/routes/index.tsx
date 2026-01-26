@@ -1,18 +1,26 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation, useSearchParams } from 'react-router-dom';
 import { isAuthenticated } from '@/utils';
 import { Login, Code, Result, Profile, ForgotPassword, ResetPassword, Register } from '@/pages';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
+    const location = useLocation();
+
     if (!isAuthenticated()) {
-        return <Navigate to="/login" replace />;
+        const returnUrl = location.pathname + location.search;
+
+        return <Navigate to={`/login?returnUrl=${encodeURIComponent(returnUrl)}`} replace />;
     }
 
     return <>{children}</>;
 }
 
 function PublicRoute({ children }: { children: React.ReactNode }) {
+    const [searchParams] = useSearchParams();
+
     if (isAuthenticated()) {
-        return <Navigate to="/code" replace />;
+        const returnUrl = searchParams.get('returnUrl');
+
+        return <Navigate to={returnUrl || '/code'} replace />;
     }
 
     return <>{children}</>;
