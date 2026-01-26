@@ -188,11 +188,15 @@ class ApiService {
         }
     }
 
-    async getExamStatus(jobId: string, examCode: string, userName: string): Promise<StatusResponse> {
+    async getExamStatus(jobId: string, examCode: string, userName: string, lang?: string): Promise<StatusResponse> {
         try {
-            const response = await axiosClient.get<ApiStatusResponse>(
-                `${apiEndpoints.exam.status}/${jobId}`
-            );
+            const url = lang === 'ar'
+                ? `${apiEndpoints.exam.status}/${jobId}?lang=ar`
+                : `${apiEndpoints.exam.status}/${jobId}`;
+
+            const headers = lang === 'ar' ? { 'Accept-Language': 'ar' } : {};
+
+            const response = await axiosClient.get<ApiStatusResponse>(url, { headers });
 
             const { data } = response.data;
 

@@ -1,13 +1,15 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import { CodeLayout } from '@/layouts';
-import { Input, Button } from '@/atoms';
+import { Input, Button, LanguageIcon, Tooltip } from '@/atoms';
 import { ChatBox, GradientBackground } from '@/components';
 import { api } from '@/services';
 import { useAuth } from '@/hooks';
 import { strings, routes } from '@/constants';
 import { JOB_STATUS } from '@/types';
 import type { ChatResult } from '@/interfaces';
+
+type Language = 'en' | 'ar';
 
 type ResultPageStatus = 'loading' | 'success' | 'error';
 
@@ -18,7 +20,7 @@ export function Result() {
 
     const location = useLocation();
 
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const { user } = useAuth();
 
@@ -42,6 +44,10 @@ export function Result() {
 
     const code = searchParams.get('code') || '';
 
+    const langParam = searchParams.get('lang');
+
+    const [lang, setLang] = useState<Language>(langParam === 'ar' ? 'ar' : 'en');
+
     const hasValidParams = !!jobId && !!code;
 
     const stopPolling = () => {
@@ -51,6 +57,30 @@ export function Result() {
             pollingRef.current = null;
         }
     };
+
+    const toggleLanguage = useCallback(() => {
+        const newLang: Language = lang === 'en' ? 'ar' : 'en';
+
+        setLang(newLang);
+
+        const newParams = new URLSearchParams(searchParams);
+
+        if (newLang === 'ar') {
+            newParams.set('lang', 'ar');
+        } else {
+            newParams.delete('lang');
+        }
+
+        setSearchParams(newParams, { replace: true });
+
+        if (status === 'success' && jobId && code) {
+            hasFetchedRef.current = false;
+
+            setStatus('loading');
+
+            setResult(null);
+        }
+    }, [lang, searchParams, setSearchParams, status, jobId, code]);
 
     useEffect(() => {
         if (!hasValidParams) {
@@ -70,7 +100,8 @@ export function Result() {
                 const statusResponse = await api.getExamStatus(
                     jobId,
                     code,
-                    user?.name || strings.code.defaultUserName
+                    user?.name || strings.code.defaultUserName,
+                    lang === 'ar' ? 'ar' : undefined
                 );
 
                 setProgress(statusResponse.progress);
@@ -110,7 +141,7 @@ export function Result() {
         fetchStatus();
 
         return () => stopPolling();
-    }, [hasValidParams, jobId, code, navigate, user?.name]);
+    }, [hasValidParams, jobId, code, navigate, user?.name, lang]);
 
     const handleCopy = () => {
         if (result) {
@@ -215,6 +246,17 @@ export function Result() {
                             disabled
                         />
                     </div>
+                    <Tooltip
+                        content={lang === 'en' ? strings.common.switchToArabic : strings.common.switchToEnglish}
+                    >
+                        <button
+                            onClick={toggleLanguage}
+                            className="flex items-center gap-2 px-4 py-3 rounded-lg bg-white border border-gray-200 hover:bg-gray-50 transition-colors text-sm font-medium text-gray-700"
+                        >
+                            <LanguageIcon className="w-5 h-5" />
+                            <span>{lang === 'en' ? strings.common.languageAr : strings.common.languageEn}</span>
+                        </button>
+                    </Tooltip>
                     <Button onClick={handleReset}>
                         {strings.result.buttonReset}
                     </Button>
