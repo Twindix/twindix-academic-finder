@@ -184,8 +184,8 @@ export function Result() {
     }
 
     return (
-        <CodeLayout>
-            <div className="w-full h-full max-w-4xl px-4 flex flex-col gap-4">
+        <CodeLayout centered={false}>
+            <div className="w-full h-full max-w-4xl px-4 flex flex-col gap-4 pb-4">
                 <div className="flex-1 min-h-0">
                     <ChatBox
                         userName={result.userName}
@@ -198,8 +198,8 @@ export function Result() {
                         {strings.result.copiedMessage}
                     </span>
                 )}
-                <div className="flex gap-4 items-center justify-center shrink-0">
-                    <div className="flex-1 max-w-md">
+                <div className="flex gap-4 items-center justify-center shrink-0 px-4">
+                    <div className="flex-1 max-w-lg">
                         <Input
                             type="text"
                             value={result.code}

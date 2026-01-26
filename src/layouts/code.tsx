@@ -4,9 +4,10 @@ import { Logo, Button, LogoutIcon, UserIcon } from '@/atoms';
 import { useAuth } from '@/hooks';
 import { strings } from '@/constants';
 
-export function CodeLayout({ children, variant = 'default' }: {
+export function CodeLayout({ children, variant = 'default', centered = true }: {
     children: ReactNode,
     variant?: 'default' | 'error',
+    centered?: boolean,
 }) {
     const { user, logout } = useAuth();
     const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -65,7 +66,7 @@ export function CodeLayout({ children, variant = 'default' }: {
                     </div>
                 </header>
 
-                <main className="flex-1 min-h-0 flex items-center justify-center relative z-10 py-4">
+                <main className={`flex-1 min-h-0 flex ${centered ? 'items-center' : 'items-stretch'} justify-center relative z-10 py-4`}>
                     {children}
                 </main>
 

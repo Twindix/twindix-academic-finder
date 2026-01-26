@@ -21,11 +21,11 @@ export function Input({
 
     const inputType = showPasswordToggle ? (showPassword ? 'text' : 'password') : type;
 
-    const baseStyles = 'w-full px-4 py-3 rounded-[14px] border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-1';
+    const baseStyles = 'w-full px-5 py-3 rounded-full border-2 transition-all duration-200 focus:outline-none';
 
     const stateStyles = error
-        ? 'border-error text-error placeholder-error/50 focus:ring-error focus:border-error'
-        : 'border-gray-300 text-text-primary placeholder-text-muted focus:ring-primary focus:border-primary';
+        ? 'border-error text-error placeholder-error/50 focus:border-error'
+        : 'border-gray-300 text-text-primary placeholder-text-muted focus:border-primary';
 
     return (
         <div className="w-full">
