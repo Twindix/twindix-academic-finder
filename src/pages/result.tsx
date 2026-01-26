@@ -5,6 +5,7 @@ import { Input, Button } from '@/atoms';
 import { ChatBox, GradientBackground } from '@/components';
 import { api } from '@/services';
 import { useAuth } from '@/hooks';
+import { stripMarkdown } from '@/utils';
 import { strings, routes } from '@/constants';
 import { JOB_STATUS } from '@/types';
 import type { ChatResult } from '@/interfaces';
@@ -139,7 +140,7 @@ export function Result() {
 
     const handleCopy = () => {
         if (result) {
-            navigator.clipboard.writeText(result.content);
+            navigator.clipboard.writeText(stripMarkdown(result.content));
 
             setCopied(true);
 
