@@ -2,7 +2,7 @@ import { useEffect, useState, useRef, useCallback } from 'react';
 import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import { CodeLayout } from '@/layouts';
 import { Input, Button, LanguageIcon, Tooltip } from '@/atoms';
-import { ChatBox, GradientBackground } from '@/components';
+import { ChatBox, GradientBackground, CircularProgress } from '@/components';
 import { api } from '@/services';
 import { useAuth } from '@/hooks';
 import { strings, routes } from '@/constants';
@@ -170,8 +170,10 @@ export function Result() {
             <CodeLayout>
                 <GradientBackground variant="loading" />
                 <div className="w-full max-w-2xl text-center px-8">
-                    <h1 className="text-3xl font-bold mb-2 text-gradient">{strings.code.titleLoading}</h1>
-                    <span className="block text-text-muted mb-8">{progress !== null ? `${Math.round(progress)} %` : ''}</span>
+                    <h1 className="text-3xl font-bold mb-6 text-gradient">{strings.code.titleLoading}</h1>
+                    <div className="mb-8">
+                        <CircularProgress progress={progress ?? 0} />
+                    </div>
                     <div className="flex gap-4 items-center justify-center">
                         <div className="flex-1 max-w-md">
                             <Input

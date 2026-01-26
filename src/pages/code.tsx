@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CodeLayout } from '@/layouts';
 import { Input, Button, Tooltip } from '@/atoms';
-import { GradientBackground } from '@/components';
+import { GradientBackground, CircularProgress } from '@/components';
 import { api } from '@/services';
 import { useAuth } from '@/hooks';
 import { strings } from '@/constants';
@@ -183,8 +183,10 @@ export function Code() {
                 )}
                 {status === 'loading' && (
                     <>
-                        <h1 className="text-3xl font-bold mb-2 text-gradient">{strings.code.titleLoading}</h1>
-                        <span className="block text-text-muted mb-8">{Math.round(progress)} %</span>
+                        <h1 className="text-3xl font-bold mb-6 text-gradient">{strings.code.titleLoading}</h1>
+                        <div className="mb-8">
+                            <CircularProgress progress={progress} />
+                        </div>
                     </>
                 )}
                 {status === 'error' && (
