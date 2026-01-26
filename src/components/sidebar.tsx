@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Logo, Button, LogoutIcon } from '@/atoms';
+import { Logo, Button } from '@/atoms';
+import { LogoutIcon } from '@/assets/icons';
 import { useAuth } from '@/hooks';
 import { strings } from '@/constants';
 

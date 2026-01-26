@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { CodeLayout } from '@/layouts';
-import { Button, UserIcon } from '@/atoms';
+import { Button } from '@/atoms';
+import { UserIcon } from '@/assets/icons';
 import { useAuth } from '@/hooks';
 import { strings, routes } from '@/constants';
 

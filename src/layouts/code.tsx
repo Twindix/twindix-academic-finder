@@ -1,6 +1,7 @@
 import { ReactNode, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Logo, Button, LogoutIcon, UserIcon } from '@/atoms';
+import { Logo, Button } from '@/atoms';
+import { LogoutIcon, UserIcon } from '@/assets/icons';
 import { useAuth } from '@/hooks';
 import { strings, routes } from '@/constants';
 

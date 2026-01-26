@@ -1,5 +1,6 @@
 import ReactMarkdown from 'react-markdown';
-import { Button, LanguageIcon, CopyIcon, SuccessIcon } from '@/atoms';
+import { Button } from '@/atoms';
+import { LanguageIcon, CopyIcon, SuccessIcon } from '@/assets/icons';
 import { strings } from '@/constants';
 
 export function ChatBox({ userName, content, copied, onCopy, lang, onToggleLanguage }: {
