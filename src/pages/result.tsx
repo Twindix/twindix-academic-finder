@@ -198,8 +198,8 @@ export function Result() {
                         {strings.result.copiedMessage}
                     </span>
                 )}
-                <div className="flex gap-4 items-center justify-center shrink-0 px-4">
-                    <div className="flex-1 max-w-lg">
+                <div className="flex gap-4 items-center shrink-0">
+                    <div className="flex-1">
                         <Input
                             type="text"
                             value={result.code}
