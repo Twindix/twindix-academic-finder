@@ -17,7 +17,7 @@ export function ChatBox({ userName, content, copied, onCopy, lang, onToggleLangu
                 <h2 className="text-lg font-semibold text-primary">{userName}</h2>
                 <div className="flex items-center gap-4">
                     <Button variant="ghost" size="sm" onClick={onToggleLanguage} className="flex items-center gap-2">
-                        {lang === 'en' ? strings.common.languageEn : strings.common.languageAr}
+                        {lang === 'ar' ? strings.common.languageEn : strings.common.languageAr}
                         <LanguageIcon className="w-4 h-4" />
                     </Button>
                     <Button variant="ghost" size="sm" onClick={onCopy} className="flex items-center gap-2">

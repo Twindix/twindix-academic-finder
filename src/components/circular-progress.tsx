@@ -12,7 +12,7 @@ export function CircularProgress({ progress, size = 120 }: {
             <svg
                 width={size}
                 height={size}
-                className="transform -rotate-90 -scale-x-100"
+                style={{ transform: 'rotate(-90deg) scaleX(-1)' }}
             >
                 <circle
                     cx={size / 2}
@@ -21,7 +21,7 @@ export function CircularProgress({ progress, size = 120 }: {
                     fill="none"
                     stroke="currentColor"
                     strokeWidth={strokeWidth}
-                    className="text-gray-200"
+                    className="text-gray-200 animate-pulse"
                 />
                 <circle
                     cx={size / 2}
