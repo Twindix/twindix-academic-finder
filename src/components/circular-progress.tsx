@@ -52,7 +52,7 @@ export function CircularProgress({ progress, size = 120 }: {
                     className="text-primary transition-all duration-300 ease-out"
                     style={{
                         transformOrigin: '50% 50%',
-                        transform: 'rotate(-90deg) scaleX(-1)',
+                        transform: 'rotate(90deg) scaleX(-1)',
                     }}
                 />
             </svg>
