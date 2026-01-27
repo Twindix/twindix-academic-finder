@@ -36,7 +36,7 @@ export function CircularProgress({ progress, size = 120 }: {
                     className="text-primary/20"
                     style={{
                         transformOrigin: '50% 50%',
-                        animation: 'spin 2s linear infinite',
+                        animation: 'spin 2s linear infinite reverse',
                     }}
                 />
                 <circle
