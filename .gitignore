@@ -4,6 +4,7 @@ node_modules/
 # Build output
 dist/
 dist-ssr/
+build/
 
 # Environment files
 .env
@@ -28,3 +29,7 @@ npm-debug.log*
 
 # Local Netlify folder
 .netlify
+
+# AI files
+.claude
+.qodo
