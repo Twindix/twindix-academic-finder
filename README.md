@@ -45,8 +45,8 @@ src/
 
 ### Prerequisites
 
-- Node.js 18+
-- npm or yarn
+- Node.js v24.12.0
+- npm v11.6.2
 
 ### Installation
 
@@ -66,7 +66,13 @@ npm run lint
 
 ### Environment Variables
 
-Create a `.env` file in the root directory:
+Copy the `.env.example` file to `.env` and fill in the required values:
+
+```bash
+cp .env.example .env
+```
+
+Required environment variables:
 
 ```env
 VITE_API_URL=https://your-api-url.com
@@ -77,14 +83,15 @@ VITE_API_URL=https://your-api-url.com
 | Route | Description |
 |-------|-------------|
 | `/login` | User authentication |
+| `/register` | New user registration |
+| `/forgot-password` | Request password reset |
+| `/reset-password` | Reset password with token |
 | `/code` | Enter assessment code |
 | `/result` | View AI analysis results |
 | `/profile` | User profile management |
+| `*` | 404 Not found page |
 
 ## License
 
 Proprietary - Twindix Global Inc.
 
-## Contact
-
-Twindix Global Inc. - Since 2016

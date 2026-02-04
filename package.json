@@ -1,54 +1,59 @@
 {
-  "name": "twindix-academic-finder",
-  "private": true,
-  "version": "0.0.1",
-  "type": "module",
-  "description": "Web application for viewing AI-powered assessment analysis results. Companies and universities enter student or candidate codes to access detailed AI model analysis outputs based on assessment answers.",
-  "author": "Twindix Global Inc.",
-  "keywords": [
-    "assessment",
-    "ai-analysis",
-    "academic",
-    "career-guidance",
-    "student-assessment",
-    "twindix"
-  ],
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build && node scripts/postbuild.mjs",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "axios": "^1.13.2",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-markdown": "^10.1.0",
-    "react-router-dom": "^7.1.1"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.0.0",
-    "@stylistic/eslint-plugin": "^4.0.0",
-    "@tailwindcss/vite": "^4.0.0",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
-    "@typescript-eslint/eslint-plugin": "^8.0.0",
-    "@typescript-eslint/parser": "^8.0.0",
-    "@vitejs/plugin-react": "^4.3.4",
-    "eslint": "^9.0.0",
-    "eslint-plugin-check-file": "^3.0.0",
-    "eslint-plugin-code-style": "^1.11.7",
-    "eslint-plugin-import-x": "^4.0.0",
-    "eslint-plugin-jsx-a11y": "^6.0.0",
-    "eslint-plugin-perfectionist": "^4.0.0",
-    "eslint-plugin-react": "^7.0.0",
-    "eslint-plugin-react-hooks": "^5.0.0",
-    "eslint-plugin-simple-import-sort": "^12.0.0",
-    "eslint-plugin-tailwindcss": "^4.0.0-beta.0",
-    "globals": "^15.0.0",
-    "tailwindcss": "^4.0.0",
-    "typescript": "^5.0.0",
-    "vite": "^6.0.5"
-  }
+    "name": "twindix-academic-finder",
+    "private": true,
+    "version": "0.0.1",
+    "type": "module",
+    "engines": {
+        "node": "24.12.0"
+    },
+    "description": "Web application for viewing AI-powered assessment analysis results. Companies and universities enter student or candidate codes to access detailed AI model analysis outputs based on assessment answers.",
+    "author": "Twindix Global Inc.",
+    "keywords": [
+        "assessment",
+        "ai-analysis",
+        "academic",
+        "career-guidance",
+        "student-assessment",
+        "twindix"
+    ],
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc -b && vite build && node scripts/postbuild.mjs",
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "axios": "^1.13.2",
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0",
+        "react-markdown": "^10.1.0",
+        "react-router-dom": "^7.1.1"
+    },
+    "devDependencies": {
+        "eslint": "^9.0.0",
+        "@eslint/js": "^9.0.0",
+        "eslint-plugin-check-file": "^3.0.0",
+        "eslint-plugin-code-style": "^1.11.7",
+        "eslint-plugin-import-x": "^4.0.0",
+        "eslint-plugin-jsx-a11y": "^6.0.0",
+        "eslint-plugin-perfectionist": "^4.0.0",
+        "eslint-plugin-react": "^7.0.0",
+        "eslint-plugin-react-hooks": "^5.0.0",
+        "eslint-plugin-simple-import-sort": "^12.0.0",
+        "eslint-plugin-tailwindcss": "^4.0.0-beta.0",
+        "@stylistic/eslint-plugin": "^4.0.0",
+        "@typescript-eslint/eslint-plugin": "^8.0.0",
+        "@typescript-eslint/parser": "^8.0.0",
+        "@types/react": "^19.0.0",
+        "@types/react-dom": "^19.0.0",
+        "tailwindcss": "^4.0.0",
+        "@tailwindcss/vite": "^4.0.0",
+        "typescript": "^5.0.0",
+        "vite": "^6.0.5",
+        "@vitejs/plugin-react": "^4.3.4",
+        "autoprefixer": "^10.4.20",
+        "postcss": "^8.4.49",
+        "globals": "^15.0.0"
+    }
 }
