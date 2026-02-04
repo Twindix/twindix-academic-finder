@@ -1,8 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Button, Input, Tooltip } from "@/atoms";
-import { CircularProgress, GradientBackground } from "@/components";
+import {
+    Button,
+    CircularProgress,
+    Input,
+    Tooltip,
+} from "@/atoms";
+import { GradientBackground } from "@/components";
 import { strings } from "@/constants";
 import {
     ButtonVariantEnum,

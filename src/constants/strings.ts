@@ -45,6 +45,10 @@ export const strings = {
         expiresPrefix: ";expires=",
         pathSuffix: ";path=/;SameSite=Strict",
     },
+    css: {
+        overflowHidden: "hidden",
+        overflowUnset: "unset",
+    },
     debug: {
         loginFailed: "Login failed:",
         logoutFailed: "Logout failed:",
@@ -88,6 +92,11 @@ export const strings = {
         sidebarTitle: "Welcome Back to Twindix",
         submitButton: "Login",
         title: "Login",
+    },
+    logoutModal: {
+        cancel: "Cancel",
+        confirmMessage: "Are you sure you want Log out",
+        logoutButton: "Log out",
     },
     notFound: {
         backToHome: "Back to Home",

@@ -1,4 +1,4 @@
 export { ChatBox } from "./chat-box";
-export { CircularProgress } from "./circular-progress";
 export { GradientBackground } from "./gradient-background";
+export { LogoutModal } from "./logout-modal";
 export { Sidebar } from "./sidebar";

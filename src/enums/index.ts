@@ -5,6 +5,7 @@ export { GradientVariantEnum } from "./gradient-variant";
 export { HttpMethodEnum, HttpStatusCodeEnum } from "./http";
 export { InputVariantEnum } from "./input-variant";
 export { JobStatusEnum } from "./job-status";
+export { KeyboardEventEnum, KeyboardKeyEnum } from "./keyboard";
 export { LanguageEnum } from "./language";
 export { LogoSizeEnum } from "./logo-size";
 export { CodePageStatusEnum, ResultPageStatusEnum } from "./page-status";
