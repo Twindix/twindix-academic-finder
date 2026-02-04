@@ -24,18 +24,26 @@ import {
     setTokenHandler,
 } from "@/services";
 
-const formatRecommendedJobsToMarkdownHandler = (jobs: RecommendedJobInterface[]): string => jobs.map((
-    {
-        faculty,
-        major1,
-        major2,
-        major3,
-        reasoning,
-    },
-    index,
-) => `## ${index + 1}. ${faculty}${strings.result.recommendedMajorsLabel}${major1}
+const formatRecommendedJobsToMarkdownHandler = (jobs: RecommendedJobInterface[], lang?: string): string => {
+    const isArabic = lang === LanguageEnum.AR;
+
+    const recommendedMajorsLabel = isArabic ? strings.result.recommendedMajorsLabelAr : strings.result.recommendedMajorsLabelEn;
+
+    const whyFitsYouLabel = isArabic ? strings.result.whyFitsYouLabelAr : strings.result.whyFitsYouLabelEn;
+
+    return jobs.map((
+        {
+            faculty,
+            major1,
+            major2,
+            major3,
+            reasoning,
+        },
+        index,
+    ) => `## ${index + 1}. ${faculty}${recommendedMajorsLabel}${major1}
 - ${major2}
-- ${major3}${strings.result.whyFitsYouLabel}${reasoning}`).join("\n\n---\n\n");
+- ${major3}${whyFitsYouLabel}${reasoning}`).join("\n\n---\n\n");
+};
 
 class ApiServiceClass {
     getTokenHandler(): string | null {
@@ -184,11 +192,16 @@ class ApiServiceClass {
         return { message: response.data.message };
     }
 
-    async processExamCodeHandler(examCode: string): Promise<ProcessResponseInterface> {
+    async processExamCodeHandler(examCode: string, lang?: string): Promise<ProcessResponseInterface> {
         try {
+            const url = lang === LanguageEnum.AR ? `${apiEndpoints.exam.process}?lang=${LanguageEnum.AR}` : apiEndpoints.exam.process;
+
+            const headers = lang === LanguageEnum.AR ? { "Accept-Language": LanguageEnum.AR } : {};
+
             const response = await axiosClient.post<ApiProcessResponseInterface>(
-                apiEndpoints.exam.process,
+                url,
                 { exam_code: examCode }, // eslint-disable-line
+                { headers },
             );
 
             return {
@@ -242,7 +255,10 @@ class ApiServiceClass {
 
                 const chatResult: ChatResultInterface = {
                     code: examCode,
-                    content: formatRecommendedJobsToMarkdownHandler(transformedJobs),
+                    content: formatRecommendedJobsToMarkdownHandler(
+                        transformedJobs,
+                        lang,
+                    ),
                     id: crypto.randomUUID(),
                     recommendedJobs: transformedJobs,
                     userName,

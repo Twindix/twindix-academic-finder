@@ -1,9 +1,4 @@
-import {
-    useCallback,
-    useEffect,
-    useRef,
-    useState,
-} from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 import { Button, Input } from "@/atoms";
@@ -12,8 +7,6 @@ import { routes, strings } from "@/constants";
 import {
     CodeLayoutVariantEnum,
     GradientVariantEnum,
-    HttpMethodEnum,
-    InputVariantEnum,
     JobStatusEnum,
     LanguageEnum,
     ResultPageStatusEnum,
@@ -22,7 +15,7 @@ import { useAuth } from "@/hooks";
 import type { ChatResultInterface } from "@/interfaces";
 import { CodeLayout } from "@/layouts";
 import { api } from "@/services";
-import type { LanguageType, ResultPageStatusType } from "@/types";
+import type { ResultPageStatusType } from "@/types";
 import { stripMarkdownHandler } from "@/utils";
 
 export const Result = () => {
@@ -36,7 +29,7 @@ export const Result = () => {
 
     const navigate = useNavigate();
 
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
 
     const { user } = useAuth();
 
@@ -50,7 +43,7 @@ export const Result = () => {
 
     const langParam = searchParams.get(strings.queryParams.lang);
 
-    const [lang, setLang] = useState<LanguageType>(langParam === LanguageEnum.AR ? LanguageEnum.AR : LanguageEnum.EN);
+    const lang = langParam === LanguageEnum.AR ? LanguageEnum.AR : LanguageEnum.EN;
 
     const jobId = searchParams.get(strings.queryParams.jobId);
 
@@ -61,45 +54,6 @@ export const Result = () => {
     const layoutVariant = status === ResultPageStatusEnum.ERROR ? CodeLayoutVariantEnum.ERROR : CodeLayoutVariantEnum.DEFAULT;
 
     const pollingInterval = 5000;
-
-    const toggleLanguage = useCallback(
-        () => {
-            const newLang: LanguageType = lang === LanguageEnum.EN ? LanguageEnum.AR : LanguageEnum.EN;
-
-            setLang(newLang);
-
-            const newParams = new URLSearchParams(searchParams);
-
-            if (newLang === LanguageEnum.AR) {
-                newParams.set(
-                    strings.queryParams.lang,
-                    LanguageEnum.AR,
-                );
-            }
-            else newParams[HttpMethodEnum.DELETE](strings.queryParams.lang);
-
-            setSearchParams(
-                newParams,
-                { replace: true },
-            );
-
-            if (status === ResultPageStatusEnum.SUCCESS && jobId && code) {
-                hasFetchedRef.current = false;
-
-                setStatus(ResultPageStatusEnum.LOADING);
-
-                setResult(null);
-            }
-        },
-        [
-            lang,
-            searchParams,
-            setSearchParams,
-            status,
-            jobId,
-            code,
-        ],
-    );
 
     const stopPollingHandler = () => {
         if (pollingRef.current) {
@@ -330,10 +284,9 @@ export const Result = () => {
                     <ChatBox
                         content={result.content}
                         copied={copied}
-                        lang={lang}
+                        isRtl={lang === LanguageEnum.AR}
                         userName={result.userName}
                         onCopy={copyHandler}
-                        onToggleLanguage={toggleLanguage}
                     />
                 </div>
                 <div
@@ -344,13 +297,24 @@ export const Result = () => {
                         gap-4
                     "
                 >
-                    <div className="flex-1">
-                        <Input
-                            type="text"
-                            value={result.code}
-                            variant={InputVariantEnum.PRIMARY}
-                            disabled
-                        />
+                    <div
+                        className="
+                            flex
+                            flex-1
+                            items-center
+                            gap-2
+                            rounded-full
+                            border-2
+                            border-primary
+                            bg-white
+                            px-4
+                            py-3
+                        "
+                    >
+                        <span className="flex-1 text-base text-text-primary">{result.code}</span>
+                        <span className="text-sm font-medium text-primary">
+                            {`${strings.result.selectedLanguage} (${lang === LanguageEnum.AR ? strings.common.languageAr : strings.common.languageEn})`}
+                        </span>
                     </div>
                     <Button onClick={resetHandler}>{strings.result.buttonReset}</Button>
                 </div>

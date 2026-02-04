@@ -1,6 +1,7 @@
 export { AlertVariantEnum } from "./alert-variant";
 export { ButtonSizeEnum, ButtonVariantEnum } from "./button";
 export { CodeLayoutVariantEnum } from "./code-layout-variant";
+export { DirectionEnum } from "./direction";
 export { GradientVariantEnum } from "./gradient-variant";
 export { HttpMethodEnum, HttpStatusCodeEnum } from "./http";
 export { InputVariantEnum } from "./input-variant";

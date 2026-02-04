@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import {
     Button,
     CircularProgress,
-    Input,
+    LanguageSelect,
     Tooltip,
 } from "@/atoms";
 import { GradientBackground } from "@/components";
@@ -15,11 +15,12 @@ import {
     CodePageStatusEnum,
     GradientVariantEnum,
     JobStatusEnum,
+    LanguageEnum,
 } from "@/enums";
 import { useAuth } from "@/hooks";
 import { CodeLayout } from "@/layouts";
 import { api } from "@/services";
-import type { CodePageStatusType } from "@/types";
+import type { CodePageStatusType, LanguageType } from "@/types";
 
 export const Code = () => {
     const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -29,6 +30,8 @@ export const Code = () => {
     const isCompletedRef = useRef(false);
 
     const [code, setCode] = useState("");
+
+    const [lang, setLang] = useState<LanguageType>(LanguageEnum.EN);
 
     const [status, setStatus] = useState<CodePageStatusType>(CodePageStatusEnum.IDLE);
 
@@ -72,7 +75,10 @@ export const Code = () => {
         setProgress(0);
 
         try {
-            const processResponse = await api.processExamCodeHandler(code);
+            const processResponse = await api.processExamCodeHandler(
+                code,
+                lang === LanguageEnum.AR ? LanguageEnum.AR : undefined,
+            );
 
             if (!processResponse.success || !processResponse.jobId) {
                 setStatus(CodePageStatusEnum.ERROR);
@@ -98,6 +104,7 @@ export const Code = () => {
                         jobIdRef.current,
                         code,
                         user?.name || strings.code.defaultUserName,
+                        lang === LanguageEnum.AR ? LanguageEnum.AR : undefined,
                     );
 
                     if (isCompletedRef.current) return;
@@ -113,8 +120,10 @@ export const Code = () => {
 
                         setStatus(CodePageStatusEnum.SUCCESS);
 
+                        const resultUrl = lang === LanguageEnum.AR ? `/result?jobId=${jobId}&code=${encodeURIComponent(code)}&lang=${LanguageEnum.AR}` : `/result?jobId=${jobId}&code=${encodeURIComponent(code)}`;
+
                         navigate(
-                            `/result?jobId=${jobId}&code=${encodeURIComponent(code)}`,
+                            resultUrl,
                             { state: { result: statusResponse.result } },
                         );
 
@@ -249,20 +258,50 @@ export const Code = () => {
                 <form
                     className="
                         flex
+                        flex-col
                         items-center
                         justify-center
                         gap-4
+                        sm:flex-row
                     "
                     onSubmit={submitHandler}
                 >
-                    <div className="max-w-md flex-1">
-                        <Input
+                    <div
+                        className={`
+                            flex
+                            w-full
+                            max-w-lg
+                            items-center
+                            gap-2
+                            rounded-full
+                            border-2
+                            bg-white
+                            px-4
+                            py-3
+                            ${status === CodePageStatusEnum.ERROR ? "border-red-500" : "border-primary"}
+                        `}
+                    >
+                        <input
                             disabled={status === CodePageStatusEnum.LOADING}
-                            error={status === CodePageStatusEnum.ERROR}
                             placeholder={strings.code.inputPlaceholder}
                             type="text"
                             value={code}
+                            className="
+                                flex-1
+                                bg-transparent
+                                text-base
+                                text-text-primary
+                                outline-none
+                                placeholder:text-gray-400
+                                disabled:cursor-not-allowed
+                                disabled:opacity-50
+                            "
                             onChange={({ target }) => setCode(target.value)}
+                        />
+                        <LanguageSelect
+                            disabled={status === CodePageStatusEnum.LOADING}
+                            value={lang}
+                            onChange={setLang}
                         />
                     </div>
                     <Tooltip

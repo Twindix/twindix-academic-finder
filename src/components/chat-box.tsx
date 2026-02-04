@@ -1,27 +1,25 @@
 import ReactMarkdown from "react-markdown";
 
-import { CopyIcon, LanguageIcon, SuccessIcon } from "@/assets/icons";
+import { CopyIcon, SuccessIcon } from "@/assets/icons";
 import { Button } from "@/atoms";
 import { strings } from "@/constants";
-import { LanguageEnum } from "@/enums";
-import type { LanguageType } from "@/types";
+import { DirectionEnum } from "@/enums";
 
 export const ChatBox = ({
     content,
     copied,
-    lang,
+    isRtl = false,
     onCopy,
-    onToggleLanguage,
     userName,
 }: {
     content: string,
     copied: boolean,
-    lang: LanguageType,
+    isRtl?: boolean,
     onCopy: () => void,
-    onToggleLanguage: () => void,
     userName: string,
 }) => (
     <div
+        dir={isRtl ? DirectionEnum.RTL : DirectionEnum.LTR}
         className="
             flex
             h-full
@@ -42,26 +40,15 @@ export const ChatBox = ({
             "
         >
             <h2 className="text-lg font-semibold text-primary">{userName}</h2>
-            <div className="flex items-center gap-4">
-                <Button
-                    className="flex items-center gap-2"
-                    size="sm"
-                    variant="ghost"
-                    onClick={onToggleLanguage}
-                >
-                    {lang === LanguageEnum.AR ? strings.common.languageEn : strings.common.languageAr}
-                    <LanguageIcon className="h-4 w-4" />
-                </Button>
-                <Button
-                    className="flex items-center gap-2"
-                    size="sm"
-                    variant="ghost"
-                    onClick={onCopy}
-                >
-                    {copied ? strings.common.copied : strings.common.copy}
-                    {copied ? <SuccessIcon className="h-4 w-4" /> : <CopyIcon className="h-4 w-4" />}
-                </Button>
-            </div>
+            <Button
+                className="flex items-center gap-2"
+                size="sm"
+                variant="ghost"
+                onClick={onCopy}
+            >
+                {copied ? strings.common.copied : strings.common.copy}
+                {copied ? <SuccessIcon className="h-4 w-4" /> : <CopyIcon className="h-4 w-4" />}
+            </Button>
         </div>
         <div
             className="
