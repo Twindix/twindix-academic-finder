@@ -219,8 +219,6 @@ export const Code = () => {
                         {strings.code.titleEnter}
                         {" "}
                         {strings.code.titleSuffix}
-                        {" "}
-                        {strings.code.titleResult}
                         .
                     </h1>
                 )}
