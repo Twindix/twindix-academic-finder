@@ -1,16 +1,16 @@
-import { ReactNode } from 'react';
-import { Sidebar } from '@/components';
+import type { ReactNode } from "react";
 
-export function MainLayout({ children, showSidebar = true }: {
+import { Sidebar } from "@/components";
+
+export const MainLayout = ({
+    children,
+    showSidebar = true,
+}: {
     children: ReactNode,
     showSidebar?: boolean,
-}) {
-    return (
-        <div className="min-h-screen bg-background flex">
-            {showSidebar && <Sidebar />}
-            <main className="flex-1 relative">
-                {children}
-            </main>
-        </div>
-    );
-}
+}) => (
+    <div className="flex min-h-screen bg-background">
+        {showSidebar && <Sidebar />}
+        <main className="relative flex-1">{children}</main>
+    </div>
+);

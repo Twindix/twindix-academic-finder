@@ -1,28 +1,29 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AuthLayout } from '@/layouts';
-import { Button, Input, Alert } from '@/atoms';
-import { api } from '@/services';
-import { validateEmail } from '@/utils';
-import { strings, routes } from '@/constants';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export function ForgotPassword() {
-    const navigate = useNavigate();
+import { Alert, Button, Input } from "@/atoms";
+import { routes, strings } from "@/constants";
+import { AuthLayout } from "@/layouts";
+import { api } from "@/services";
+import { validateEmailHandler } from "@/utils";
 
-    const [email, setEmail] = useState('');
+export const ForgotPassword = () => {
+    const [email, setEmail] = useState("");
 
     const [isLoading, setIsLoading] = useState(false);
 
-    const [error, setError] = useState('');
+    const [error, setError] = useState("");
 
     const [isSuccess, setIsSuccess] = useState(false);
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const navigate = useNavigate();
+
+    const submitHandler = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        setError('');
+        setError("");
 
-        const validation = validateEmail(email);
+        const validation = validateEmailHandler(email);
 
         if (!validation.isValid) {
             setError(validation.error || strings.errors.checkInput);
@@ -33,7 +34,7 @@ export function ForgotPassword() {
         setIsLoading(true);
 
         try {
-            await api.forgotPassword(email);
+            await api.forgotPasswordHandler(email);
 
             setIsSuccess(true);
         } catch (err) {
@@ -43,19 +44,37 @@ export function ForgotPassword() {
         }
     };
 
-    const handleBackToLogin = () => {
-        navigate(routes.login);
-    };
+    console.log(name);
+
+    const backToLoginHandler = () => navigate(routes.login);
 
     if (isSuccess) {
         return (
-            <AuthLayout title={strings.forgotPassword.sidebarTitle} description={strings.forgotPassword.sidebarDescription}>
+            <AuthLayout
+                description={strings.forgotPassword.sidebarDescription}
+                title={strings.forgotPassword.sidebarTitle}
+            >
                 <div>
-                    <h1 className="text-3xl font-bold mb-2 text-gradient">{strings.forgotPassword.title}</h1>
-                    <Alert variant="success" className="mb-6">
+                    <h1
+                        className="
+                            text-gradient
+                            mb-2
+                            text-3xl
+                            font-bold
+                        "
+                    >
+                        {strings.forgotPassword.title}
+                    </h1>
+                    <Alert
+                        className="mb-6"
+                        variant="success"
+                    >
                         {strings.forgotPassword.successMessage}
                     </Alert>
-                    <Button variant="link" onClick={handleBackToLogin}>
+                    <Button
+                        variant="link"
+                        onClick={backToLoginHandler}
+                    >
                         {strings.forgotPassword.backToLogin}
                     </Button>
                 </div>
@@ -64,42 +83,66 @@ export function ForgotPassword() {
     }
 
     return (
-        <AuthLayout title={strings.forgotPassword.sidebarTitle} description={strings.forgotPassword.sidebarDescription}>
+        <AuthLayout
+            description={strings.forgotPassword.sidebarDescription}
+            title={strings.forgotPassword.sidebarTitle}
+        >
             <div>
-                <h1 className="text-3xl font-bold mb-2 text-gradient">{strings.forgotPassword.title}</h1>
+                <h1
+                    className="
+                        text-gradient
+                        mb-2
+                        text-3xl
+                        font-bold
+                    "
+                >
+                    {strings.forgotPassword.title}
+                </h1>
                 <p className="mb-8 text-text-secondary">{strings.forgotPassword.description}</p>
                 {error && (
-                    <Alert variant="error" className="mb-6" onClose={() => setError('')}>
+                    <Alert
+                        className="mb-6"
+                        variant="error"
+                        onClose={() => setError("")}
+                    >
                         {error}
                     </Alert>
                 )}
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form
+                    className="space-y-5"
+                    onSubmit={submitHandler}
+                >
                     <Input
+                        error={!!error}
                         label={strings.forgotPassword.emailLabel}
-                        type="email"
                         placeholder={strings.forgotPassword.emailPlaceholder}
+                        type="email"
                         value={email}
                         onChange={(e) => {
-                            setEmail(e.target.value);
+                            const { target: { value } } = e;
 
-                            setError('');
+                            setEmail(value);
+
+                            setError("");
                         }}
-                        error={!!error}
                     />
                     <Button
+                        loading={isLoading}
                         type="submit"
                         fullWidth
-                        loading={isLoading}
                     >
                         {strings.forgotPassword.submitButton}
                     </Button>
                 </form>
                 <div className="mt-4 text-center">
-                    <Button variant="link" onClick={handleBackToLogin}>
+                    <Button
+                        variant="link"
+                        onClick={backToLoginHandler}
+                    >
                         {strings.forgotPassword.backToLogin}
                     </Button>
                 </div>
             </div>
         </AuthLayout>
     );
-}
+};

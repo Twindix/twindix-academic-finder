@@ -1,5 +1,12 @@
-export { CopyIcon } from './copy';
-export { LanguageIcon } from './language';
-export { LogoutIcon } from './logout';
-export { SuccessIcon } from './success';
-export { UserIcon } from './user';
+export { CloseIcon } from "./close";
+export { CopyIcon } from "./copy";
+export { ErrorIcon } from "./error";
+export { EyeIcon } from "./eye";
+export { EyeOffIcon } from "./eye-off";
+export { InfoIcon } from "./info";
+export { LanguageIcon } from "./language";
+export { LogoutIcon } from "./logout";
+export { StarIcon } from "./star";
+export { SuccessIcon } from "./success";
+export { UserIcon } from "./user";
+export { WarningIcon } from "./warning";

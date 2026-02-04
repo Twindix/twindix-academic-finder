@@ -1,134 +1,286 @@
-import { ReactNode, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Logo, Button } from '@/atoms';
-import { LogoutIcon, UserIcon } from '@/assets/icons';
-import { useAuth } from '@/hooks';
-import { strings, routes } from '@/constants';
+import type { ReactNode } from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
-export function CodeLayout({ children, variant = 'default', centered = true }: {
-    children: ReactNode,
-    variant?: 'default' | 'error',
+import { LogoutIcon, UserIcon } from "@/assets/icons";
+import { Button, Logo } from "@/atoms";
+import { routes, strings } from "@/constants";
+import { CodeLayoutVariantEnum } from "@/enums";
+import { useAuth } from "@/hooks";
+import type { CodeLayoutVariantType } from "@/types";
+
+export const CodeLayout = ({
+    centered = true,
+    children,
+    variant = CodeLayoutVariantEnum.DEFAULT,
+}: {
     centered?: boolean,
-}) {
-    const { user, logout } = useAuth();
+    children: ReactNode,
+    variant?: CodeLayoutVariantType,
+}) => {
     const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-    const handleLogout = async () => {
+    const {
+        logout,
+        user,
+    } = useAuth();
+
+    const lineColor = variant === CodeLayoutVariantEnum.ERROR ? "#DC2626" : "#0025BA";
+
+    const lineGradient = `linear-gradient(to bottom, transparent 0%, ${lineColor} 30%, ${lineColor} 70%, transparent 100%)`;
+
+    const logoutHandler = async () => {
         setIsLoggingOut(true);
+
         try {
             await logout();
         } catch (error) {
-            console.error(strings.debug.logoutFailed, error);
+            console.error(
+                strings.debug.logoutFailed,
+                error,
+            );
         } finally {
             setIsLoggingOut(false);
         }
     };
 
-    const lineColor = variant === 'error' ? '#DC2626' : '#0025BA';
-
-    const lineGradient = `linear-gradient(to bottom, transparent 0%, ${lineColor} 30%, ${lineColor} 70%, transparent 100%)`;
-
     return (
-        <div className="min-h-screen md:h-screen bg-background md:overflow-hidden">
-            <div className="min-h-screen md:h-full flex flex-col relative mx-2 md:mx-12">
+        <div
+            className="
+                min-h-screen
+                bg-background
+                md:h-screen
+                md:overflow-hidden
+            "
+        >
+            <div
+                className="
+                    relative
+                    mx-2
+                    flex
+                    min-h-screen
+                    flex-col
+                    md:mx-12
+                    md:h-full
+                "
+            >
                 <div
-                    className="hidden md:block absolute left-0 top-0 bottom-0 w-[2px]"
                     style={{ background: lineGradient }}
+                    className="
+                        absolute
+                        top-0
+                        bottom-0
+                        left-0
+                        hidden
+                        w-0.5
+                        md:block
+                    "
                 />
                 <div
-                    className="hidden md:block absolute right-0 top-0 bottom-0 w-[2px]"
                     style={{ background: lineGradient }}
+                    className="
+                        absolute
+                        top-0
+                        right-0
+                        bottom-0
+                        hidden
+                        w-0.5
+                        md:block
+                    "
                 />
-
                 {centered ? (
                     <>
-                        <header className="p-4 md:p-6 flex items-start justify-between shrink-0">
+                        <header
+                            className="
+                                flex
+                                shrink-0
+                                items-start
+                                justify-between
+                                p-4
+                                md:p-6
+                            "
+                        >
                             <Logo size="md" />
                             <div className="flex items-center gap-2">
                                 <Link
                                     to={routes.profile}
-                                    className="hidden md:flex items-center gap-2 px-3 py-2 rounded-lg text-primary hover:bg-primary/5 transition-colors"
+                                    className="
+                                        hidden
+                                        items-center
+                                        gap-2
+                                        rounded-lg
+                                        px-3
+                                        py-2
+                                        text-primary
+                                        transition-colors
+                                        hover:bg-primary/5
+                                        md:flex
+                                    "
                                 >
-                                    <UserIcon className="w-5 h-5" />
+                                    <UserIcon className="h-5 w-5" />
                                     <span className="text-sm font-medium">{user?.name || strings.code.defaultUserName}</span>
                                 </Link>
                                 <Link
                                     to={routes.profile}
-                                    className="flex md:hidden items-center justify-center w-10 h-10 rounded-lg text-primary hover:bg-primary/5 transition-colors"
+                                    className="
+                                        flex
+                                        h-10
+                                        w-10
+                                        items-center
+                                        justify-center
+                                        rounded-lg
+                                        text-primary
+                                        transition-colors
+                                        hover:bg-primary/5
+                                        md:hidden
+                                    "
                                 >
-                                    <UserIcon className="w-5 h-5" />
+                                    <UserIcon className="h-5 w-5" />
                                 </Link>
                                 <Button
-                                    variant="ghost-danger"
-                                    onClick={handleLogout}
                                     disabled={isLoggingOut}
-                                    className="flex md:hidden items-center gap-2"
+                                    variant="ghost-danger"
+                                    className="
+                                        flex
+                                        items-center
+                                        gap-2
+                                        md:hidden
+                                    "
+                                    onClick={logoutHandler}
                                 >
-                                    <LogoutIcon className="w-5 h-5" />
+                                    <LogoutIcon className="h-5 w-5" />
                                 </Button>
                             </div>
                         </header>
-
-                        <main className="flex-1 min-h-0 flex items-center py-4 justify-center relative z-10">
+                        <main
+                            className="
+                                relative
+                                z-10
+                                flex
+                                min-h-0
+                                flex-1
+                                items-center
+                                justify-center
+                                py-4
+                            "
+                        >
                             {children}
                         </main>
-
-                        <footer className="hidden md:block p-6 shrink-0">
+                        <footer
+                            className="
+                                hidden
+                                shrink-0
+                                p-6
+                                md:block
+                            "
+                        >
                             <Button
-                                variant="ghost-danger"
-                                onClick={handleLogout}
-                                disabled={isLoggingOut}
                                 className="flex items-center gap-2"
+                                disabled={isLoggingOut}
+                                variant="ghost-danger"
+                                onClick={logoutHandler}
                             >
-                                <LogoutIcon className="w-5 h-5" />
+                                <LogoutIcon className="h-5 w-5" />
                                 {isLoggingOut ? strings.common.loggingOut : strings.common.logout}
                             </Button>
                         </footer>
                     </>
                 ) : (
-                    <div className="flex-1 flex flex-col md:flex-row min-h-0 p-4 md:p-6 gap-4">
-                        <div className="flex md:hidden items-center justify-between shrink-0">
+                    <div
+                        className="
+                            flex
+                            min-h-0
+                            flex-1
+                            flex-col
+                            gap-4
+                            p-4
+                            md:flex-row
+                            md:p-6
+                        "
+                    >
+                        <div
+                            className="
+                                flex
+                                shrink-0
+                                items-center
+                                justify-between
+                                md:hidden
+                            "
+                        >
                             <Logo size="md" />
                             <div className="flex items-center gap-2">
                                 <Link
                                     to={routes.profile}
-                                    className="flex items-center justify-center w-10 h-10 rounded-lg text-primary hover:bg-primary/5 transition-colors"
+                                    className="
+                                        flex
+                                        h-10
+                                        w-10
+                                        items-center
+                                        justify-center
+                                        rounded-lg
+                                        text-primary
+                                        transition-colors
+                                        hover:bg-primary/5
+                                    "
                                 >
-                                    <UserIcon className="w-5 h-5" />
+                                    <UserIcon className="h-5 w-5" />
                                 </Link>
                                 <Button
-                                    variant="ghost-danger"
-                                    onClick={handleLogout}
                                     disabled={isLoggingOut}
+                                    variant="ghost-danger"
+                                    onClick={logoutHandler}
                                 >
-                                    <LogoutIcon className="w-5 h-5" />
+                                    <LogoutIcon className="h-5 w-5" />
                                 </Button>
                             </div>
                         </div>
-
-                        <div className="hidden md:flex flex-col justify-between shrink-0 self-stretch">
+                        <div
+                            className="
+                                hidden
+                                shrink-0
+                                flex-col
+                                justify-between
+                                self-stretch
+                                md:flex
+                            "
+                        >
                             <Logo size="md" />
                             <Button
-                                variant="ghost-danger"
-                                onClick={handleLogout}
-                                disabled={isLoggingOut}
                                 className="flex items-center gap-2"
+                                disabled={isLoggingOut}
+                                variant="ghost-danger"
+                                onClick={logoutHandler}
                             >
-                                <LogoutIcon className="w-5 h-5" />
+                                <LogoutIcon className="h-5 w-5" />
                                 {isLoggingOut ? strings.common.loggingOut : strings.common.logout}
                             </Button>
                         </div>
-
-                        <main className="flex-1 min-h-0 relative z-10">
+                        <main
+                            className="
+                                relative
+                                z-10
+                                min-h-0
+                                flex-1
+                            "
+                        >
                             {children}
                         </main>
-
-                        <div className="hidden md:block shrink-0">
+                        <div className="hidden shrink-0 md:block">
                             <Link
                                 to={routes.profile}
-                                className="flex items-center gap-2 px-3 py-2 rounded-lg text-primary hover:bg-primary/5 transition-colors"
+                                className="
+                                    flex
+                                    items-center
+                                    gap-2
+                                    rounded-lg
+                                    px-3
+                                    py-2
+                                    text-primary
+                                    transition-colors
+                                    hover:bg-primary/5
+                                "
                             >
-                                <UserIcon className="w-5 h-5" />
+                                <UserIcon className="h-5 w-5" />
                                 <span className="text-sm font-medium">{user?.name || strings.code.defaultUserName}</span>
                             </Link>
                         </div>
@@ -137,4 +289,4 @@ export function CodeLayout({ children, variant = 'default', centered = true }: {
             </div>
         </div>
     );
-}
+};

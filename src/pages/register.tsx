@@ -1,82 +1,63 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { AuthLayout } from '@/layouts';
-import { Button, Input, Alert } from '@/atoms';
-import { api } from '@/services';
-import { validateEmail, validatePassword } from '@/utils';
-import { strings, routes } from '@/constants';
+import React, { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
-export function Register() {
+import { Alert, Button, Input } from "@/atoms";
+import { routes, strings } from "@/constants";
+import { AuthLayout } from "@/layouts";
+import { api } from "@/services";
+import { validateEmailHandler, validatePasswordHandler } from "@/utils";
+
+export const Register = () => {
+    const [token, setToken] = useState("");
+
+    const [name, setName] = useState("");
+
+    const [email, setEmail] = useState("");
+
+    const [companyName, setCompanyName] = useState("");
+
+    const [phone, setPhone] = useState("");
+
+    const [password, setPassword] = useState("");
+
+    const [confirmPassword, setConfirmPassword] = useState("");
+
+    const [isLoading, setIsLoading] = useState(false);
+
+    const [error, setError] = useState("");
+
+    const [isSuccess, setIsSuccess] = useState(false);
+
     const navigate = useNavigate();
 
     const [searchParams] = useSearchParams();
 
-    const [token, setToken] = useState('');
+    const validateFormHandler = (): string | null => {
+        if (!name.trim()) return strings.validation.nameRequired;
 
-    const [name, setName] = useState('');
+        const emailValidation = validateEmailHandler(email);
 
-    const [email, setEmail] = useState('');
+        if (!emailValidation.isValid) return emailValidation.error || strings.validation.emailInvalid;
 
-    const [companyName, setCompanyName] = useState('');
+        if (!companyName.trim()) return strings.validation.companyNameRequired;
 
-    const [phone, setPhone] = useState('');
+        if (!phone.trim()) return strings.validation.phoneRequired;
 
-    const [password, setPassword] = useState('');
+        const passwordValidation = validatePasswordHandler(password);
 
-    const [confirmPassword, setConfirmPassword] = useState('');
+        if (!passwordValidation.isValid) return passwordValidation.error || strings.errors.checkInput;
 
-    const [isLoading, setIsLoading] = useState(false);
-
-    const [error, setError] = useState('');
-
-    const [isSuccess, setIsSuccess] = useState(false);
-
-    useEffect(() => {
-        const tokenParam = searchParams.get('token');
-
-        if (tokenParam) {
-            setToken(tokenParam);
-        }
-    }, [searchParams]);
-
-    const validateForm = (): string | null => {
-        if (!name.trim()) {
-            return strings.validation.nameRequired;
-        }
-
-        const emailValidation = validateEmail(email);
-
-        if (!emailValidation.isValid) {
-            return emailValidation.error || strings.validation.emailInvalid;
-        }
-
-        if (!companyName.trim()) {
-            return strings.validation.companyNameRequired;
-        }
-
-        if (!phone.trim()) {
-            return strings.validation.phoneRequired;
-        }
-
-        const passwordValidation = validatePassword(password);
-
-        if (!passwordValidation.isValid) {
-            return passwordValidation.error || strings.errors.checkInput;
-        }
-
-        if (password !== confirmPassword) {
-            return strings.register.passwordMismatch;
-        }
+        if (password !== confirmPassword) return strings.register.passwordMismatch;
 
         return null;
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const submitHandler = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        setError('');
+        setError("");
 
-        const validationError = validateForm();
+        const validationError = validateFormHandler();
 
         if (validationError) {
             setError(validationError);
@@ -87,14 +68,17 @@ export function Register() {
         setIsLoading(true);
 
         try {
-            await api.acceptInvitation(token, {
-                name,
-                email,
-                companyName,
-                phone,
-                password,
-                passwordConfirmation: confirmPassword,
-            });
+            await api.acceptInvitationHandler(
+                token,
+                {
+                    companyName,
+                    email,
+                    name,
+                    password,
+                    passwordConfirmation: confirmPassword,
+                    phone,
+                },
+            );
 
             setIsSuccess(true);
         } catch (err) {
@@ -104,23 +88,46 @@ export function Register() {
         }
     };
 
-    const handleBackToLogin = () => {
-        navigate(routes.login);
-    };
+    const backToLoginHandler = () => navigate(routes.login);
 
-    const clearError = () => {
-        setError('');
-    };
+    const clearErrorHandler = () => setError("");
+
+    useEffect(
+        () => {
+            const tokenParam = searchParams.get(strings.queryParams.token);
+
+            if (tokenParam) setToken(tokenParam);
+        },
+        [searchParams],
+    );
 
     if (isSuccess) {
         return (
-            <AuthLayout title={strings.register.sidebarTitle} description={strings.register.sidebarDescription}>
+            <AuthLayout
+                description={strings.register.sidebarDescription}
+                title={strings.register.sidebarTitle}
+            >
                 <div>
-                    <h1 className="text-3xl font-bold mb-2 text-gradient">{strings.register.title}</h1>
-                    <Alert variant="success" className="mb-6">
+                    <h1
+                        className="
+                            text-gradient
+                            mb-2
+                            text-3xl
+                            font-bold
+                        "
+                    >
+                        {strings.register.title}
+                    </h1>
+                    <Alert
+                        className="mb-6"
+                        variant="success"
+                    >
                         {strings.register.successMessage}
                     </Alert>
-                    <Button fullWidth onClick={handleBackToLogin}>
+                    <Button
+                        fullWidth
+                        onClick={backToLoginHandler}
+                    >
                         {strings.register.goToLogin}
                     </Button>
                 </div>
@@ -130,13 +137,31 @@ export function Register() {
 
     if (!token) {
         return (
-            <AuthLayout title={strings.register.sidebarTitle} description={strings.register.sidebarDescription}>
+            <AuthLayout
+                description={strings.register.sidebarDescription}
+                title={strings.register.sidebarTitle}
+            >
                 <div>
-                    <h1 className="text-3xl font-bold mb-2 text-gradient">{strings.register.title}</h1>
-                    <Alert variant="error" className="mb-6">
+                    <h1
+                        className="
+                            text-gradient
+                            mb-2
+                            text-3xl
+                            font-bold
+                        "
+                    >
+                        {strings.register.title}
+                    </h1>
+                    <Alert
+                        className="mb-6"
+                        variant="error"
+                    >
                         {strings.register.invalidToken}
                     </Alert>
-                    <Button variant="link" onClick={handleBackToLogin}>
+                    <Button
+                        variant="link"
+                        onClick={backToLoginHandler}
+                    >
                         {strings.register.backToLogin}
                     </Button>
                 </div>
@@ -145,104 +170,138 @@ export function Register() {
     }
 
     return (
-        <AuthLayout title={strings.register.sidebarTitle} description={strings.register.sidebarDescription}>
+        <AuthLayout
+            description={strings.register.sidebarDescription}
+            title={strings.register.sidebarTitle}
+        >
             <div>
-                <h1 className="text-3xl font-bold mb-2 text-gradient">{strings.register.title}</h1>
-                <p className="mb-8 text-gradient font-medium">{strings.register.description}</p>
+                <h1
+                    className="
+                        text-gradient
+                        mb-2
+                        text-3xl
+                        font-bold
+                    "
+                >
+                    {strings.register.title}
+                </h1>
+                <p className="text-gradient mb-8 font-medium">{strings.register.description}</p>
                 {error && (
-                    <Alert variant="error" className="mb-6" onClose={clearError}>
+                    <Alert
+                        className="mb-6"
+                        variant="error"
+                        onClose={clearErrorHandler}
+                    >
                         {error}
                     </Alert>
                 )}
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form
+                    className="space-y-5"
+                    onSubmit={submitHandler}
+                >
                     <Input
+                        error={!!error}
                         label={strings.register.nameLabel}
-                        type="text"
                         placeholder={strings.register.namePlaceholder}
+                        type="text"
                         value={name}
                         onChange={(e) => {
-                            setName(e.target.value);
+                            const { target: { value } } = e;
 
-                            clearError();
+                            setName(value);
+
+                            clearErrorHandler();
                         }}
-                        error={!!error}
                     />
                     <Input
+                        error={!!error}
                         label={strings.register.emailLabel}
-                        type="email"
                         placeholder={strings.register.emailPlaceholder}
+                        type="email"
                         value={email}
                         onChange={(e) => {
-                            setEmail(e.target.value);
+                            const { target: { value } } = e;
 
-                            clearError();
+                            setEmail(value);
+
+                            clearErrorHandler();
                         }}
-                        error={!!error}
                     />
                     <Input
+                        error={!!error}
                         label={strings.register.companyNameLabel}
-                        type="text"
                         placeholder={strings.register.companyNamePlaceholder}
+                        type="text"
                         value={companyName}
                         onChange={(e) => {
-                            setCompanyName(e.target.value);
+                            const { target: { value } } = e;
 
-                            clearError();
+                            setCompanyName(value);
+
+                            clearErrorHandler();
                         }}
-                        error={!!error}
                     />
                     <Input
+                        error={!!error}
                         label={strings.register.phoneLabel}
-                        type="tel"
                         placeholder={strings.register.phonePlaceholder}
+                        type="tel"
                         value={phone}
                         onChange={(e) => {
-                            setPhone(e.target.value);
+                            const { target: { value } } = e;
 
-                            clearError();
+                            setPhone(value);
+
+                            clearErrorHandler();
                         }}
-                        error={!!error}
                     />
                     <Input
+                        error={!!error}
                         label={strings.register.passwordLabel}
-                        type="password"
                         placeholder={strings.register.passwordPlaceholder}
+                        type="password"
                         value={password}
-                        onChange={(e) => {
-                            setPassword(e.target.value);
-
-                            clearError();
-                        }}
                         showPasswordToggle
-                        error={!!error}
+                        onChange={(e) => {
+                            const { target: { value } } = e;
+
+                            setPassword(value);
+
+                            clearErrorHandler();
+                        }}
                     />
                     <Input
-                        label={strings.register.confirmPasswordLabel}
-                        type="password"
-                        placeholder={strings.register.confirmPasswordPlaceholder}
-                        value={confirmPassword}
-                        onChange={(e) => {
-                            setConfirmPassword(e.target.value);
-
-                            clearError();
-                        }}
-                        showPasswordToggle
                         error={!!error}
+                        label={strings.register.confirmPasswordLabel}
+                        placeholder={strings.register.confirmPasswordPlaceholder}
+                        type="password"
+                        value={confirmPassword}
+                        showPasswordToggle
+                        onChange={(e) => {
+                            const { target: { value } } = e;
+
+                            setConfirmPassword(value);
+
+                            clearErrorHandler();
+                        }}
                     />
                     <Button
+                        loading={isLoading}
                         type="submit"
                         fullWidth
-                        loading={isLoading}
                     >
                         {strings.register.submitButton}
                     </Button>
                 </form>
                 <div className="mt-4 text-center">
-                    <Button variant="link" onClick={handleBackToLogin}>
+                    <Button
+                        variant="link"
+                        onClick={backToLoginHandler}
+                    >
                         {strings.register.backToLogin}
                     </Button>
                 </div>
             </div>
         </AuthLayout>
     );
-}
+};

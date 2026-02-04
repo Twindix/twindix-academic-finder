@@ -1,33 +1,43 @@
-import type { User } from '@/interfaces';
-import { getStorageItem, setStorageItem, removeStorageItem, clearStorage, storageKeys } from './storage';
-import { getToken, removeToken } from '@/services';
+import type { UserInterface } from "@/interfaces";
+import { getTokenHandler, removeTokenHandler } from "@/services";
+import {
+    clearStorageHandler,
+    getStorageItemHandler,
+    removeStorageItemHandler,
+    setStorageItemHandler,
+    storageKeys,
+} from "@/utils";
 
-export function getStoredUser(): User | null {
-    return getStorageItem<User>(storageKeys.user);
-}
+export const getStoredUserHandler = (): UserInterface | null => getStorageItemHandler<UserInterface>(storageKeys.user);
 
-export function saveUser(user: User): void {
-    setStorageItem(storageKeys.user, user);
+export const saveUserHandler = (user: UserInterface): void => {
+    setStorageItemHandler(
+        storageKeys.user,
+        user,
+    );
 
-    setStorageItem(storageKeys.isAuthenticated, true);
-}
+    setStorageItemHandler(
+        storageKeys.isAuthenticated,
+        true,
+    );
+};
 
-export function removeUser(): void {
-    removeStorageItem(storageKeys.user);
+export const removeUserHandler = (): void => {
+    removeStorageItemHandler(storageKeys.user);
 
-    removeStorageItem(storageKeys.isAuthenticated);
-}
+    removeStorageItemHandler(storageKeys.isAuthenticated);
+};
 
-export function isAuthenticated(): boolean {
-    const token = getToken();
+export const isAuthenticatedHandler = (): boolean => {
+    const token = getTokenHandler();
 
-    const isAuth = getStorageItem<boolean>(storageKeys.isAuthenticated);
+    const isAuth = getStorageItemHandler<boolean>(storageKeys.isAuthenticated);
 
     return !!token && !!isAuth;
-}
+};
 
-export function clearAuth(): void {
-    removeToken();
+export const clearAuthHandler = (): void => {
+    removeTokenHandler();
 
-    clearStorage();
-}
+    clearStorageHandler();
+};

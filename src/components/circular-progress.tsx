@@ -1,7 +1,10 @@
-export function CircularProgress({ progress, size = 120 }: {
+export const CircularProgress = ({
+    progress,
+    size = 120,
+}: {
     progress: number,
     size?: number,
-}) {
+}) => {
     const strokeWidth = 8;
 
     const radius = (size - strokeWidth) / 2;
@@ -13,52 +16,75 @@ export function CircularProgress({ progress, size = 120 }: {
     const center = size / 2;
 
     return (
-        <div className="relative inline-flex items-center justify-center">
-            <svg width={size} height={size}>
+        <div
+            className="
+                relative
+                inline-flex
+                items-center
+                justify-center
+            "
+        >
+            <svg
+                height={size}
+                width={size}
+            >
                 <circle
+                    className="text-gray-200"
                     cx={center}
                     cy={center}
-                    r={radius}
                     fill="none"
+                    r={radius}
                     stroke="currentColor"
                     strokeWidth={strokeWidth}
-                    className="text-gray-200"
                 />
                 <circle
+                    className="text-primary/20"
                     cx={center}
                     cy={center}
-                    r={radius}
                     fill="none"
+                    r={radius}
                     stroke="currentColor"
-                    strokeWidth={strokeWidth}
                     strokeDasharray={`${circumference * 0.15} ${circumference * 0.85}`}
                     strokeLinecap="round"
-                    className="text-primary/20"
+                    strokeWidth={strokeWidth}
                     style={{
-                        transformOrigin: '50% 50%',
-                        animation: 'spin 2s linear infinite reverse',
+                        animation: "spin 2s linear infinite reverse",
+                        transformOrigin: "50% 50%",
                     }}
                 />
                 <circle
                     cx={center}
                     cy={center}
-                    r={radius}
                     fill="none"
+                    r={radius}
                     stroke="currentColor"
-                    strokeWidth={strokeWidth}
                     strokeDasharray={circumference}
                     strokeDashoffset={offset}
                     strokeLinecap="round"
-                    className="text-primary transition-all duration-300 ease-out"
+                    strokeWidth={strokeWidth}
+                    className="
+                        text-primary
+                        transition-all
+                        duration-300
+                        ease-out
+                    "
                     style={{
-                        transformOrigin: '50% 50%',
-                        transform: 'rotate(90deg) scaleX(-1)',
+                        transform: "rotate(90deg) scaleX(-1)",
+                        transformOrigin: "50% 50%",
                     }}
                 />
             </svg>
-            <span className="absolute text-2xl font-bold text-primary">
-                {Math.round(progress)}%
+            <span
+                className="
+                    absolute
+                    text-2xl
+                    font-bold
+                    text-primary
+                "
+            >
+                {Math.round(progress)}
+                %
             </span>
         </div>
     );
-}
+};

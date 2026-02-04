@@ -1,54 +1,70 @@
-import { ReactNode } from 'react';
-import { Button } from './button';
-import { strings } from '@/constants';
-import errorIcon from '@/assets/icons/error.svg';
-import warningIcon from '@/assets/icons/warning.svg';
-import successIcon from '@/assets/icons/success.svg';
-import infoIcon from '@/assets/icons/info.svg';
-import closeIcon from '@/assets/icons/close.svg';
+import type { ComponentType, ReactNode } from "react";
 
-export function Alert({
-    variant = 'error',
+import {
+    CloseIcon,
+    ErrorIcon,
+    InfoIcon,
+    SuccessIcon,
+    WarningIcon,
+} from "@/assets/icons";
+import { Button } from "@/atoms";
+import { strings } from "@/constants";
+import { AlertVariantEnum } from "@/enums";
+import type { AlertVariantType } from "@/types";
+
+export const Alert = ({
     children,
-    className = '',
+    className = "",
     onClose,
+    variant = AlertVariantEnum.ERROR,
 }: {
-    variant?: 'error' | 'warning' | 'success' | 'info',
     children: ReactNode,
     className?: string,
     onClose?: () => void,
-}) {
+    variant?: AlertVariantType,
+}) => {
     const variants = {
-        error: 'bg-error/10 border-error text-error',
-        warning: 'bg-yellow-50 border-yellow-500 text-yellow-700',
-        success: 'bg-green-50 border-green-500 text-green-700',
-        info: 'bg-primary/10 border-primary text-primary',
+        error: "text-error bg-error/10 border-error",
+        info: "text-primary bg-primary/10 border-primary",
+        success: "text-green-700 bg-green-50 border-green-500",
+        warning: "text-yellow-700 bg-yellow-50 border-yellow-500",
     };
 
-    const icons = {
-        error: errorIcon,
-        warning: warningIcon,
-        success: successIcon,
-        info: infoIcon,
+    const icons: Record<string, ComponentType<{ className?: string }>> = {
+        error: ErrorIcon,
+        info: InfoIcon,
+        success: SuccessIcon,
+        warning: WarningIcon,
     };
+
+    const IconComponent = icons[variant];
 
     return (
         <div
-            className={`flex items-start gap-3 p-4 rounded-[14px] border ${variants[variant]} ${className}`}
             role="alert"
+            className={`
+                flex
+                items-start
+                gap-3
+                rounded-default
+                border
+                p-4
+                ${variants[variant]}
+                ${className}
+            `}
         >
-            <img src={icons[variant]} alt="" className="w-5 h-5 flex-shrink-0" />
+            {IconComponent && <IconComponent className="h-5 w-5 shrink-0" />}
             <div className="flex-1 text-sm font-medium">{children}</div>
             {onClose && (
                 <Button
+                    aria-label={strings.common.closeAlert}
+                    className="shrink-0"
                     variant="ghost"
                     onClick={onClose}
-                    className="flex-shrink-0"
-                    aria-label={strings.common.closeAlert}
                 >
-                    <img src={closeIcon} alt="" className="w-5 h-5" />
+                    <CloseIcon className="h-5 w-5" />
                 </Button>
             )}
         </div>
     );
-}
+};

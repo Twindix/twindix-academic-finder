@@ -1,8 +1,8 @@
-import { strings } from '@/constants';
+import { strings } from "@/constants";
 
-const storagePrefix = 'twindix_academic_finder_';
+const storagePrefix = "twindix_academic_finder_";
 
-export function getStorageItem<T>(key: string): T | null {
+export const getStorageItemHandler = <T>(key: string): T | null => {
     try {
         const item = localStorage.getItem(`${storagePrefix}${key}`);
 
@@ -10,35 +10,34 @@ export function getStorageItem<T>(key: string): T | null {
     } catch {
         return null;
     }
-}
+};
 
-export function setStorageItem<T>(key: string, value: T): void {
+export const setStorageItemHandler = <T>(key: string, value: T): void => {
     try {
-        localStorage.setItem(`${storagePrefix}${key}`, JSON.stringify(value));
+        localStorage.setItem(
+            `${storagePrefix}${key}`,
+            JSON.stringify(value),
+        );
     } catch {
         console.warn(strings.debug.storageSaveFailed);
     }
-}
+};
 
-export function removeStorageItem(key: string): void {
-    localStorage.removeItem(`${storagePrefix}${key}`);
-}
+export const removeStorageItemHandler = (key: string): void => localStorage.removeItem(`${storagePrefix}${key}`);
 
-export function clearStorage(): void {
+export const clearStorageHandler = (): void => {
     const keysToRemove: string[] = [];
 
     for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
 
-        if (key?.startsWith(storagePrefix)) {
-            keysToRemove.push(key);
-        }
+        if (key?.startsWith(storagePrefix)) keysToRemove.push(key);
     }
 
     keysToRemove.forEach((key) => localStorage.removeItem(key));
-}
+};
 
 export const storageKeys = {
-    user: 'user',
-    isAuthenticated: 'is_authenticated',
+    isAuthenticated: "is_authenticated",
+    user: "user",
 } as const;

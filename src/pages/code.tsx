@@ -1,45 +1,49 @@
-import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { CodeLayout } from '@/layouts';
-import { Input, Button, Tooltip } from '@/atoms';
-import { GradientBackground, CircularProgress } from '@/components';
-import { api } from '@/services';
-import { useAuth } from '@/hooks';
-import { strings } from '@/constants';
-import { JOB_STATUS, type CodePageStatus } from '@/types';
+import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const CODE_LENGTH = 8;
+import { Button, Input, Tooltip } from "@/atoms";
+import { CircularProgress, GradientBackground } from "@/components";
+import { strings } from "@/constants";
+import {
+    ButtonVariantEnum,
+    CodeLayoutVariantEnum,
+    CodePageStatusEnum,
+    GradientVariantEnum,
+    JobStatusEnum,
+} from "@/enums";
+import { useAuth } from "@/hooks";
+import { CodeLayout } from "@/layouts";
+import { api } from "@/services";
+import type { CodePageStatusType } from "@/types";
 
-const pollingInterval = 5000;
-
-export function Code() {
-    const navigate = useNavigate();
-
-    const { user } = useAuth();
-
-    const [code, setCode] = useState('');
-
-    const [status, setStatus] = useState<CodePageStatus>('idle');
-
-    const [progress, setProgress] = useState(0);
-
-    const [errorMessage, setErrorMessage] = useState('');
-
+export const Code = () => {
     const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
     const jobIdRef = useRef<string | null>(null);
 
     const isCompletedRef = useRef(false);
 
-    useEffect(() => {
-        return () => {
-            if (pollingRef.current) {
-                clearInterval(pollingRef.current);
-            }
-        };
-    }, []);
+    const [code, setCode] = useState("");
 
-    const stopPolling = () => {
+    const [status, setStatus] = useState<CodePageStatusType>(CodePageStatusEnum.IDLE);
+
+    const [progress, setProgress] = useState(0);
+
+    const [errorMessage, setErrorMessage] = useState("");
+
+    const navigate = useNavigate();
+
+    const { user } = useAuth();
+
+    const codeLength = 8;
+
+    const isCodeValid = code.trim().length === codeLength;
+
+    const layoutVariant = status === CodePageStatusEnum.ERROR ? CodeLayoutVariantEnum.ERROR : CodeLayoutVariantEnum.DEFAULT;
+
+    const pollingInterval = 5000;
+
+    const stopPollingHandler = () => {
         if (pollingRef.current) {
             clearInterval(pollingRef.current);
 
@@ -47,9 +51,7 @@ export function Code() {
         }
     };
 
-    const isCodeValid = code.trim().length === CODE_LENGTH;
-
-    const handleSubmit = async (e: React.FormEvent) => {
+    const submitHandler = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (!isCodeValid) return;
@@ -58,17 +60,17 @@ export function Code() {
 
         isCompletedRef.current = false;
 
-        setStatus('loading');
+        setStatus(CodePageStatusEnum.LOADING);
 
-        setErrorMessage('');
+        setErrorMessage("");
 
         setProgress(0);
 
         try {
-            const processResponse = await api.processExamCode(code);
+            const processResponse = await api.processExamCodeHandler(code);
 
             if (!processResponse.success || !processResponse.jobId) {
-                setStatus('error');
+                setStatus(CodePageStatusEnum.ERROR);
 
                 setErrorMessage(processResponse.error || strings.errors.invalidExamCode);
 
@@ -79,151 +81,201 @@ export function Code() {
 
             jobIdRef.current = jobId;
 
-            const pollForStatus = async () => {
+            const pollForStatusHandler = async () => {
                 if (!jobIdRef.current || isCompletedRef.current) {
-                    stopPolling();
+                    stopPollingHandler();
 
                     return;
                 }
 
                 try {
-                    const statusResponse = await api.getExamStatus(
+                    const statusResponse = await api.getExamStatusHandler(
                         jobIdRef.current,
                         code,
-                        user?.name || strings.code.defaultUserName
+                        user?.name || strings.code.defaultUserName,
                     );
 
                     if (isCompletedRef.current) return;
 
                     setProgress(statusResponse.progress);
 
-                    if (statusResponse.status === JOB_STATUS.COMPLETED && statusResponse.result) {
+                    if (statusResponse.status === JobStatusEnum.COMPLETED && statusResponse.result) {
                         isCompletedRef.current = true;
 
-                        stopPolling();
+                        stopPollingHandler();
 
                         setProgress(100);
 
-                        setStatus('success');
+                        setStatus(CodePageStatusEnum.SUCCESS);
 
-                        navigate(`/result?jobId=${jobId}&code=${encodeURIComponent(code)}`, {
-                            state: { result: statusResponse.result },
-                        });
+                        navigate(
+                            `/result?jobId=${jobId}&code=${encodeURIComponent(code)}`,
+                            { state: { result: statusResponse.result } },
+                        );
 
                         return;
                     }
 
-                    if (!statusResponse.success || statusResponse.status === JOB_STATUS.FAILED) {
-                        stopPolling();
+                    if (!statusResponse.success || statusResponse.status === JobStatusEnum.FAILED) {
+                        stopPollingHandler();
 
-                        setStatus('error');
+                        setStatus(CodePageStatusEnum.ERROR);
 
                         setErrorMessage(statusResponse.error || strings.errors.tryAgain);
 
                         return;
                     }
                 } catch (error) {
-                    stopPolling();
+                    stopPollingHandler();
 
-                    setStatus('error');
+                    setStatus(CodePageStatusEnum.ERROR);
 
                     setErrorMessage(error instanceof Error ? error.message : strings.errors.tryAgain);
                 }
             };
 
-            await pollForStatus();
+            await pollForStatusHandler();
 
             if (jobIdRef.current) {
-                pollingRef.current = setInterval(pollForStatus, pollingInterval);
+                pollingRef.current = setInterval(
+                    pollForStatusHandler,
+                    pollingInterval,
+                );
             }
-
         } catch {
-            setStatus('error');
+            setStatus(CodePageStatusEnum.ERROR);
 
             setErrorMessage(strings.errors.tryAgain);
         }
     };
 
-    const handleReset = () => {
-        stopPolling();
+    const resetHandler = () => {
+        stopPollingHandler();
 
         jobIdRef.current = null;
 
         isCompletedRef.current = false;
 
-        setCode('');
+        setCode("");
 
-        setStatus('idle');
+        setStatus(CodePageStatusEnum.IDLE);
 
-        setErrorMessage('');
+        setErrorMessage("");
 
         setProgress(0);
     };
 
-    const getButtonText = () => {
-        if (status === 'loading') return strings.code.buttonLoading;
+    const getButtonTextHandler = () => {
+        if (status === CodePageStatusEnum.LOADING) return strings.code.buttonLoading;
 
-        if (status === 'error') return strings.code.buttonReenter;
+        if (status === CodePageStatusEnum.ERROR) return strings.code.buttonReenter;
 
         return strings.code.buttonConfirm;
     };
 
-    const layoutVariant = status === 'error' ? 'error' : 'default';
+    useEffect(
+        () => () => {
+            if (pollingRef.current) clearInterval(pollingRef.current);
+        },
+        [],
+    );
 
     return (
         <CodeLayout variant={layoutVariant}>
-            {(status === 'loading' || status === 'error') && (
-                <GradientBackground variant={status === 'loading' ? 'loading' : 'error'} />
-            )}
-            <div className="w-full max-w-2xl text-center px-8">
-                {status === 'idle' && (
-                    <h1 className="text-3xl font-bold mb-8 text-gradient">
-                        {strings.code.titleEnter} {strings.code.titleSuffix} {strings.code.titleResult}.
+            {(status === CodePageStatusEnum.LOADING || status === CodePageStatusEnum.ERROR) && <GradientBackground variant={status === CodePageStatusEnum.LOADING ? GradientVariantEnum.LOADING : GradientVariantEnum.ERROR} />}
+            <div
+                className="
+                    w-full
+                    max-w-2xl
+                    px-8
+                    text-center
+                "
+            >
+                {status === CodePageStatusEnum.IDLE && (
+                    <h1
+                        className="
+                            text-gradient
+                            mb-8
+                            text-3xl
+                            font-bold
+                        "
+                    >
+                        {strings.code.titleEnter}
+                        {" "}
+                        {strings.code.titleSuffix}
+                        {" "}
+                        {strings.code.titleResult}
+                        .
                     </h1>
                 )}
-                {status === 'loading' && (
+                {status === CodePageStatusEnum.LOADING && (
                     <>
-                        <h1 className="text-3xl font-bold mb-6 text-gradient">{strings.code.titleLoading}</h1>
+                        <h1
+                            className="
+                                text-gradient
+                                mb-6
+                                text-3xl
+                                font-bold
+                            "
+                        >
+                            {strings.code.titleLoading}
+                        </h1>
                         <div className="mb-8">
                             <CircularProgress progress={progress} />
                         </div>
                     </>
                 )}
-                {status === 'error' && (
+                {status === CodePageStatusEnum.ERROR && (
                     <>
-                        <h1 className="text-3xl font-bold mb-2 text-gradient-error italic">
+                        <h1
+                            className="
+                                text-gradient-error
+                                mb-2
+                                text-3xl
+                                font-bold
+                                italic
+                            "
+                        >
                             {errorMessage || strings.code.errorDefault}
                         </h1>
-                        <span className="block text-text-muted mb-8">{strings.code.errorSubtitle}</span>
+                        <span className="mb-8 block text-text-muted">{strings.code.errorSubtitle}</span>
                     </>
                 )}
-                <form onSubmit={handleSubmit} className="flex gap-4 items-center justify-center">
-                    <div className="flex-1 max-w-md">
+                <form
+                    className="
+                        flex
+                        items-center
+                        justify-center
+                        gap-4
+                    "
+                    onSubmit={submitHandler}
+                >
+                    <div className="max-w-md flex-1">
                         <Input
-                            type="text"
+                            disabled={status === CodePageStatusEnum.LOADING}
+                            error={status === CodePageStatusEnum.ERROR}
                             placeholder={strings.code.inputPlaceholder}
+                            type="text"
                             value={code}
-                            onChange={(e) => setCode(e.target.value)}
-                            error={status === 'error'}
-                            disabled={status === 'loading'}
+                            onChange={({ target }) => setCode(target.value)}
                         />
                     </div>
                     <Tooltip
                         content={strings.code.codeLength}
-                        disabled={isCodeValid || status === 'error' || status === 'loading'}
+                        disabled={isCodeValid || status === CodePageStatusEnum.ERROR || status === CodePageStatusEnum.LOADING}
                     >
                         <Button
-                            type={status === 'error' ? 'button' : 'submit'}
-                            variant={status === 'error' ? 'primary' : !isCodeValid ? 'muted' : 'primary'}
-                            loading={status === 'loading'}
-                            disabled={status === 'loading' || (status === 'idle' && !isCodeValid)}
-                            onClick={status === 'error' ? handleReset : undefined}
+                            disabled={status === CodePageStatusEnum.LOADING || (status === CodePageStatusEnum.IDLE && !isCodeValid)}
+                            loading={status === CodePageStatusEnum.LOADING}
+                            type={status === CodePageStatusEnum.ERROR ? strings.buttonTypes.button : strings.buttonTypes.submit}
+                            variant={status === CodePageStatusEnum.ERROR ? ButtonVariantEnum.PRIMARY : !isCodeValid ? ButtonVariantEnum.MUTED : ButtonVariantEnum.PRIMARY}
+                            onClick={status === CodePageStatusEnum.ERROR ? resetHandler : undefined}
                         >
-                            {getButtonText()}
+                            {getButtonTextHandler()}
                         </Button>
                     </Tooltip>
                 </form>
             </div>
         </CodeLayout>
     );
-}
+};

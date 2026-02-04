@@ -1,69 +1,118 @@
-import { InputHTMLAttributes, useState } from 'react';
-import { Button } from './button';
-import eyeIcon from '@/assets/icons/eye.svg';
-import eyeOffIcon from '@/assets/icons/eye-off.svg';
+import type { InputHTMLAttributes } from "react";
+import { useState } from "react";
 
-export function Input({
-    label,
+import { EyeIcon, EyeOffIcon } from "@/assets/icons";
+import { Button } from "@/atoms";
+import { InputVariantEnum } from "@/enums";
+import type { InputVariantType } from "@/types";
+
+export const Input = ({
+    className = "",
     error = false,
     errorMessage,
+    label,
     showPasswordToggle = false,
-    variant = 'default',
-    type = 'text',
-    className = '',
+    type = "text",
+    variant = InputVariantEnum.DEFAULT,
     ...props
 }: InputHTMLAttributes<HTMLInputElement> & {
-    label?: string,
     error?: boolean,
     errorMessage?: string,
+    label?: string,
     showPasswordToggle?: boolean,
-    variant?: 'default' | 'primary',
-}) {
+    variant?: InputVariantType,
+}) => {
     const [showPassword, setShowPassword] = useState(false);
 
-    const inputType = showPasswordToggle ? (showPassword ? 'text' : 'password') : type;
+    const inputType = showPasswordToggle ? (showPassword ? "text" : "password") : type;
 
-    const baseStyles = 'w-full px-5 py-3 rounded-full border-2 bg-white transition-all duration-200 focus:outline-none disabled:cursor-not-allowed disabled:opacity-70';
+    const baseStyles = `
+        px-5
+        py-3
+        w-full
+        bg-white
+        border-2
+        rounded-full
+        duration-200
+        transition-all
+        disabled:cursor-not-allowed
+        disabled:opacity-70
+        focus:outline-none
+    `;
 
-    const getStateStyles = () => {
+    const getStateStylesHandler = () => {
         if (error) {
-            return 'border-error text-error placeholder-error/50 focus:border-error';
+            return `
+                text-error
+                border-error
+                placeholder-error/50
+                focus:border-error
+            `;
         }
-        if (variant === 'primary') {
-            return 'border-primary text-text-primary placeholder-text-muted focus:border-primary-dark';
+
+        if (variant === InputVariantEnum.PRIMARY) {
+            return `
+                text-text-primary
+                border-primary
+                placeholder-text-muted
+                focus:border-primary-dark
+            `;
         }
-        return 'border-gray-300 text-text-primary placeholder-text-muted focus:border-primary';
+
+        return `
+            text-text-primary
+            border-gray-300
+            placeholder-text-muted
+            focus:border-primary
+        `;
     };
 
-    const stateStyles = getStateStyles();
+    const stateStyles = getStateStylesHandler();
 
     return (
         <div className="w-full">
             {label && (
-                <label className="block text-sm font-medium text-text-primary mb-2">
+                <label
+                    className="
+                        mb-2
+                        block
+                        text-sm
+                        font-medium
+                        text-text-primary
+                    "
+                >
                     {label}
                 </label>
             )}
             <div className="relative">
                 <input
                     type={inputType}
-                    className={`${baseStyles} ${stateStyles} ${showPasswordToggle ? 'pr-12' : ''} ${className}`}
+                    className={`
+                        ${baseStyles}
+                        ${stateStyles}
+                        ${showPasswordToggle ? "pr-12" : ""}
+                        ${className}
+                    `}
                     {...props}
                 />
                 {showPasswordToggle && (
                     <Button
                         type="button"
                         variant="ghost"
+                        className="
+                            absolute
+                            top-1/2
+                            right-4
+                            -translate-y-1/2
+                            text-text-muted
+                        "
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-text-muted"
                     >
-                        <img src={showPassword ? eyeOffIcon : eyeIcon} alt="" className="w-5 h-5" />
+                        {showPassword ? <EyeOffIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
                     </Button>
                 )}
             </div>
-            {errorMessage && error && (
-                <p className="mt-1 text-sm text-error">{errorMessage}</p>
-            )}
+            {errorMessage && error && <p className="mt-1 text-sm text-error">{errorMessage}</p>}
         </div>
     );
-}
+};

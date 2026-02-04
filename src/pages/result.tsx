@@ -1,55 +1,107 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
-import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
-import { CodeLayout } from '@/layouts';
-import { Input, Button } from '@/atoms';
-import { ChatBox, GradientBackground } from '@/components';
-import { api } from '@/services';
-import { useAuth } from '@/hooks';
-import { stripMarkdown } from '@/utils';
-import { strings, routes } from '@/constants';
-import { JOB_STATUS } from '@/types';
-import type { ChatResult } from '@/interfaces';
+import {
+    useCallback,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
-type Language = 'en' | 'ar';
+import { Button, Input } from "@/atoms";
+import { ChatBox, GradientBackground } from "@/components";
+import { routes, strings } from "@/constants";
+import {
+    CodeLayoutVariantEnum,
+    GradientVariantEnum,
+    HttpMethodEnum,
+    InputVariantEnum,
+    JobStatusEnum,
+    LanguageEnum,
+    ResultPageStatusEnum,
+} from "@/enums";
+import { useAuth } from "@/hooks";
+import type { ChatResultInterface } from "@/interfaces";
+import { CodeLayout } from "@/layouts";
+import { api } from "@/services";
+import type { LanguageType, ResultPageStatusType } from "@/types";
+import { stripMarkdownHandler } from "@/utils";
 
-type ResultPageStatus = 'loading' | 'success' | 'error';
+export const Result = () => {
+    const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-const pollingInterval = 5000;
+    const [copied, setCopied] = useState(false);
 
-export function Result() {
-    const navigate = useNavigate();
+    const [errorMessage, setErrorMessage] = useState("");
 
     const location = useLocation();
+
+    const navigate = useNavigate();
 
     const [searchParams, setSearchParams] = useSearchParams();
 
     const { user } = useAuth();
 
-    const initialResult = (location.state as { result?: ChatResult } | null)?.result || null;
-
-    const [result, setResult] = useState<ChatResult | null>(initialResult);
-
-    const [copied, setCopied] = useState(false);
-
-    const [status, setStatus] = useState<ResultPageStatus>(initialResult ? 'success' : 'loading');
-
-    const [errorMessage, setErrorMessage] = useState('');
-
-    const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
+    const initialResult = (location.state as { result?: ChatResultInterface } | null)?.result || null;
 
     const hasFetchedRef = useRef(!!initialResult);
 
-    const jobId = searchParams.get('jobId');
+    const [result, setResult] = useState<ChatResultInterface | null>(initialResult);
 
-    const code = searchParams.get('code') || '';
+    const [status, setStatus] = useState<ResultPageStatusType>(initialResult ? ResultPageStatusEnum.SUCCESS : ResultPageStatusEnum.LOADING);
 
-    const langParam = searchParams.get('lang');
+    const langParam = searchParams.get(strings.queryParams.lang);
 
-    const [lang, setLang] = useState<Language>(langParam === 'ar' ? 'ar' : 'en');
+    const [lang, setLang] = useState<LanguageType>(langParam === LanguageEnum.AR ? LanguageEnum.AR : LanguageEnum.EN);
+
+    const jobId = searchParams.get(strings.queryParams.jobId);
+
+    const code = searchParams.get(strings.queryParams.code) || "";
 
     const hasValidParams = !!jobId && !!code;
 
-    const stopPolling = () => {
+    const layoutVariant = status === ResultPageStatusEnum.ERROR ? CodeLayoutVariantEnum.ERROR : CodeLayoutVariantEnum.DEFAULT;
+
+    const pollingInterval = 5000;
+
+    const toggleLanguage = useCallback(
+        () => {
+            const newLang: LanguageType = lang === LanguageEnum.EN ? LanguageEnum.AR : LanguageEnum.EN;
+
+            setLang(newLang);
+
+            const newParams = new URLSearchParams(searchParams);
+
+            if (newLang === LanguageEnum.AR) {
+                newParams.set(
+                    strings.queryParams.lang,
+                    LanguageEnum.AR,
+                );
+            }
+            else newParams[HttpMethodEnum.DELETE](strings.queryParams.lang);
+
+            setSearchParams(
+                newParams,
+                { replace: true },
+            );
+
+            if (status === ResultPageStatusEnum.SUCCESS && jobId && code) {
+                hasFetchedRef.current = false;
+
+                setStatus(ResultPageStatusEnum.LOADING);
+
+                setResult(null);
+            }
+        },
+        [
+            lang,
+            searchParams,
+            setSearchParams,
+            status,
+            jobId,
+            code,
+        ],
+    );
+
+    const stopPollingHandler = () => {
         if (pollingRef.current) {
             clearInterval(pollingRef.current);
 
@@ -57,146 +109,186 @@ export function Result() {
         }
     };
 
-    const toggleLanguage = useCallback(() => {
-        const newLang: Language = lang === 'en' ? 'ar' : 'en';
-
-        setLang(newLang);
-
-        const newParams = new URLSearchParams(searchParams);
-
-        if (newLang === 'ar') {
-            newParams.set('lang', 'ar');
-        } else {
-            newParams.delete('lang');
-        }
-
-        setSearchParams(newParams, { replace: true });
-
-        if (status === 'success' && jobId && code) {
-            hasFetchedRef.current = false;
-
-            setStatus('loading');
-
-            setResult(null);
-        }
-    }, [lang, searchParams, setSearchParams, status, jobId, code]);
-
-    useEffect(() => {
-        if (!hasValidParams) {
-            navigate(routes.code);
-
-            return;
-        }
-
-        if (hasFetchedRef.current) {
-            return;
-        }
-
-        hasFetchedRef.current = true;
-
-        const fetchStatus = async () => {
-            try {
-                const statusResponse = await api.getExamStatus(
-                    jobId,
-                    code,
-                    user?.name || strings.code.defaultUserName,
-                    lang === 'ar' ? 'ar' : undefined
-                );
-
-                if (statusResponse.status === JOB_STATUS.COMPLETED && statusResponse.result) {
-                    stopPolling();
-
-                    setResult(statusResponse.result);
-
-                    setStatus('success');
-
-                    return;
-                }
-
-                if (!statusResponse.success || statusResponse.status === JOB_STATUS.FAILED) {
-                    stopPolling();
-
-                    setStatus('error');
-
-                    setErrorMessage(statusResponse.error || strings.errors.tryAgain);
-
-                    return;
-                }
-
-                pollingRef.current = setInterval(fetchStatus, pollingInterval);
-            } catch (error) {
-                stopPolling();
-
-                setStatus('error');
-
-                setErrorMessage(error instanceof Error ? error.message : strings.errors.tryAgain);
-            }
-        };
-
-        fetchStatus();
-
-        return () => stopPolling();
-    }, [hasValidParams, jobId, code, navigate, user?.name, lang]);
-
-    const handleCopy = () => {
+    const copyHandler = () => {
         if (result) {
-            navigator.clipboard.writeText(stripMarkdown(result.content));
+            navigator.clipboard.writeText(stripMarkdownHandler(result.content));
 
             setCopied(true);
 
-            setTimeout(() => setCopied(false), 2000);
+            setTimeout(
+                () => setCopied(false),
+                2000,
+            );
         }
     };
 
-    const handleReset = () => {
-        stopPolling();
+    const resetHandler = () => {
+        stopPollingHandler();
 
         navigate(routes.code);
     };
 
-    const layoutVariant = status === 'error' ? 'error' : 'default';
+    useEffect(
+        () => {
+            if (!hasValidParams) {
+                navigate(routes.code);
 
-    if (!hasValidParams) {
-        return null;
-    }
+                return;
+            }
 
-    if (status === 'loading') {
+            if (hasFetchedRef.current) return;
+
+            hasFetchedRef.current = true;
+
+            const fetchStatusHandler = async () => {
+                try {
+                    const statusResponse = await api.getExamStatusHandler(
+                        jobId,
+                        code,
+                        user?.name || strings.code.defaultUserName,
+                        lang === LanguageEnum.AR ? LanguageEnum.AR : undefined,
+                    );
+
+                    if (statusResponse.status === JobStatusEnum.COMPLETED && statusResponse.result) {
+                        stopPollingHandler();
+
+                        setResult(statusResponse.result);
+
+                        setStatus(ResultPageStatusEnum.SUCCESS);
+
+                        return;
+                    }
+
+                    if (!statusResponse.success || statusResponse.status === JobStatusEnum.FAILED) {
+                        stopPollingHandler();
+
+                        setStatus(ResultPageStatusEnum.ERROR);
+
+                        setErrorMessage(statusResponse.error || strings.errors.tryAgain);
+
+                        return;
+                    }
+
+                    pollingRef.current = setInterval(
+                        fetchStatusHandler,
+                        pollingInterval,
+                    );
+                } catch (error) {
+                    stopPollingHandler();
+
+                    setStatus(ResultPageStatusEnum.ERROR);
+
+                    setErrorMessage(error instanceof Error ? error.message : strings.errors.tryAgain);
+                }
+            };
+
+            fetchStatusHandler();
+
+            return () => stopPollingHandler();
+        },
+        [
+            hasValidParams,
+            jobId,
+            code,
+            navigate,
+            user?.name,
+            lang,
+        ],
+    );
+
+    if (!hasValidParams) return null;
+
+    if (status === ResultPageStatusEnum.LOADING) {
         return (
             <CodeLayout>
-                <GradientBackground variant="loading" />
-                <div className="w-full max-w-2xl text-center px-8">
-                    <h1 className="text-3xl font-bold mb-2 text-gradient">{strings.code.titleLoading}</h1>
+                <GradientBackground variant={GradientVariantEnum.LOADING} />
+                <div
+                    className="
+                        w-full
+                        max-w-2xl
+                        px-8
+                        text-center
+                    "
+                >
+                    <h1
+                        className="
+                            text-gradient
+                            mb-2
+                            text-3xl
+                            font-bold
+                        "
+                    >
+                        {strings.code.titleLoading}
+                    </h1>
                     <div className="mb-8">
-                        <div className="inline-block w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+                        <div
+                            className="
+                                inline-block
+                                h-8
+                                w-8
+                                animate-spin
+                                rounded-full
+                                border-4
+                                border-primary
+                                border-t-transparent
+                            "
+                        />
                     </div>
-                    <div className="flex gap-4 items-center justify-center">
-                        <div className="flex-1 max-w-md">
+                    <div
+                        className="
+                            flex
+                            items-center
+                            justify-center
+                            gap-4
+                        "
+                    >
+                        <div className="max-w-md flex-1">
                             <Input
                                 type="text"
                                 value={code}
                                 disabled
                             />
                         </div>
-                        <Button onClick={handleReset}>
-                            {strings.result.buttonReset}
-                        </Button>
+                        <Button onClick={resetHandler}>{strings.result.buttonReset}</Button>
                     </div>
                 </div>
             </CodeLayout>
         );
     }
 
-    if (status === 'error') {
+    if (status === ResultPageStatusEnum.ERROR) {
         return (
             <CodeLayout variant={layoutVariant}>
-                <GradientBackground variant="error" />
-                <div className="w-full max-w-2xl text-center px-8">
-                    <h1 className="text-3xl font-bold mb-2 text-gradient-error italic">
+                <GradientBackground variant={GradientVariantEnum.ERROR} />
+                <div
+                    className="
+                        w-full
+                        max-w-2xl
+                        px-8
+                        text-center
+                    "
+                >
+                    <h1
+                        className="
+                            text-gradient-error
+                            mb-2
+                            text-3xl
+                            font-bold
+                            italic
+                        "
+                    >
                         {errorMessage || strings.code.errorDefault}
                     </h1>
-                    <span className="block text-text-muted mb-8">{strings.code.errorSubtitle}</span>
-                    <div className="flex gap-4 items-center justify-center">
-                        <div className="flex-1 max-w-md">
+                    <span className="mb-8 block text-text-muted">{strings.code.errorSubtitle}</span>
+                    <div
+                        className="
+                            flex
+                            items-center
+                            justify-center
+                            gap-4
+                        "
+                    >
+                        <div className="max-w-md flex-1">
                             <Input
                                 type="text"
                                 value={code}
@@ -204,9 +296,7 @@ export function Result() {
                                 error
                             />
                         </div>
-                        <Button onClick={handleReset}>
-                            {strings.code.buttonReenter}
-                        </Button>
+                        <Button onClick={resetHandler}>{strings.code.buttonReenter}</Button>
                     </div>
                 </div>
             </CodeLayout>
@@ -225,31 +315,46 @@ export function Result() {
 
     return (
         <CodeLayout centered={false}>
-            <div className="w-full h-full max-w-[905px] mx-auto flex flex-col gap-4">
-                <div className="flex-1 min-h-0">
+            <div
+                className="
+                    mx-auto
+                    flex
+                    h-full
+                    w-full
+                    max-w-226.25
+                    flex-col
+                    gap-4
+                "
+            >
+                <div className="min-h-0 flex-1">
                     <ChatBox
-                        userName={result.userName}
                         content={result.content}
                         copied={copied}
-                        onCopy={handleCopy}
                         lang={lang}
+                        userName={result.userName}
+                        onCopy={copyHandler}
                         onToggleLanguage={toggleLanguage}
                     />
                 </div>
-                <div className="flex gap-4 items-center shrink-0">
+                <div
+                    className="
+                        flex
+                        shrink-0
+                        items-center
+                        gap-4
+                    "
+                >
                     <div className="flex-1">
                         <Input
                             type="text"
                             value={result.code}
-                            variant="primary"
+                            variant={InputVariantEnum.PRIMARY}
                             disabled
                         />
                     </div>
-                    <Button onClick={handleReset}>
-                        {strings.result.buttonReset}
-                    </Button>
+                    <Button onClick={resetHandler}>{strings.result.buttonReset}</Button>
                 </div>
             </div>
         </CodeLayout>
     );
-}
+};

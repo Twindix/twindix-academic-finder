@@ -1,5 +1,5 @@
-import type { ValidationResult } from '@/interfaces';
-import { strings } from '@/constants';
+import { strings } from "@/constants";
+import type { ValidationResultInterface } from "@/interfaces";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -9,60 +9,97 @@ const passwordLetterRegex = /[a-zA-Z]/;
 
 const passwordNumberRegex = /\d/;
 
-export function validateEmail(email: string): ValidationResult {
+export const validateEmailHandler = (email: string): ValidationResultInterface => {
     if (!email.trim()) {
-        return { isValid: false, error: strings.validation.emailRequired };
+        return {
+            error: strings.validation.emailRequired,
+            isValid: false,
+        };
     }
 
     if (!emailRegex.test(email)) {
-        return { isValid: false, error: strings.validation.emailInvalid };
+        return {
+            error: strings.validation.emailInvalid,
+            isValid: false,
+        };
     }
 
-    return { isValid: true, error: null };
-}
+    return {
+        error: null,
+        isValid: true,
+    };
+};
 
-export function validatePassword(password: string): ValidationResult {
+export const validatePasswordHandler = (password: string): ValidationResultInterface => {
     if (!password) {
-        return { isValid: false, error: strings.validation.passwordRequired };
+        return {
+            error: strings.validation.passwordRequired,
+            isValid: false,
+        };
     }
 
     if (password.length < passwordMinLength) {
-        return { isValid: false, error: strings.validation.passwordMinLength };
+        return {
+            error: strings.validation.passwordMinLength,
+            isValid: false,
+        };
     }
 
     if (!passwordLetterRegex.test(password)) {
-        return { isValid: false, error: strings.validation.passwordNeedsLetter };
+        return {
+            error: strings.validation.passwordNeedsLetter,
+            isValid: false,
+        };
     }
 
     if (!passwordNumberRegex.test(password)) {
-        return { isValid: false, error: strings.validation.passwordNeedsNumber };
+        return {
+            error: strings.validation.passwordNeedsNumber,
+            isValid: false,
+        };
     }
 
-    return { isValid: true, error: null };
-}
+    return {
+        error: null,
+        isValid: true,
+    };
+};
 
-export function validateLoginForm(email: string, password: string): ValidationResult {
-    const emailValidation = validateEmail(email);
+export const validateLoginFormHandler = (email: string, password: string): ValidationResultInterface => {
+    const emailValidation = validateEmailHandler(email);
 
-    if (!emailValidation.isValid) {
-        return emailValidation;
-    }
+    if (!emailValidation.isValid) return emailValidation;
 
     if (!password.trim()) {
-        return { isValid: false, error: strings.validation.passwordRequired };
+        return {
+            error: strings.validation.passwordRequired,
+            isValid: false,
+        };
     }
 
-    return { isValid: true, error: null };
-}
+    return {
+        error: null,
+        isValid: true,
+    };
+};
 
-export function validateExamCode(code: string): ValidationResult {
+export const validateExamCodeHandler = (code: string): ValidationResultInterface => {
     if (!code.trim()) {
-        return { isValid: false, error: strings.validation.codeRequired };
+        return {
+            error: strings.validation.codeRequired,
+            isValid: false,
+        };
     }
 
     if (code.trim().length < 3) {
-        return { isValid: false, error: strings.validation.codeMinLength };
+        return {
+            error: strings.validation.codeMinLength,
+            isValid: false,
+        };
     }
 
-    return { isValid: true, error: null };
-}
+    return {
+        error: null,
+        isValid: true,
+    };
+};

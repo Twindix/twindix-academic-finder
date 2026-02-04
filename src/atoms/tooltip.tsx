@@ -1,15 +1,18 @@
-import { ReactNode, useState } from 'react';
+import type { ReactNode } from "react";
+import { useState } from "react";
 
-export function Tooltip({ children, content, disabled = false }: {
+export const Tooltip = ({
+    children,
+    content,
+    disabled = false,
+}: {
     children: ReactNode,
     content: string,
     disabled?: boolean,
-}) {
+}) => {
     const [isVisible, setIsVisible] = useState(false);
 
-    if (disabled) {
-        return <>{children}</>;
-    }
+    if (disabled) return <>{children}</>;
 
     return (
         <div
@@ -19,13 +22,37 @@ export function Tooltip({ children, content, disabled = false }: {
         >
             {children}
             {isVisible && (
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-gray-800 text-white text-sm rounded-lg whitespace-nowrap z-50">
+                <div
+                    className="
+                        absolute
+                        bottom-full
+                        left-1/2
+                        z-50
+                        mb-2
+                        -translate-x-1/2
+                        rounded-lg
+                        bg-gray-800
+                        px-3
+                        py-2
+                        text-sm
+                        whitespace-nowrap
+                        text-white
+                    "
+                >
                     {content}
-                    <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1">
+                    <div
+                        className="
+                            absolute
+                            top-full
+                            left-1/2
+                            -mt-1
+                            -translate-x-1/2
+                        "
+                    >
                         <div className="border-4 border-transparent border-t-gray-800" />
                     </div>
                 </div>
             )}
         </div>
     );
-}
+};

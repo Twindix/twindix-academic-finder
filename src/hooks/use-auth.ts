@@ -1,11 +1,17 @@
-import { useState, useCallback, useEffect } from 'react';
-import type { User, UseAuthReturn } from '@/interfaces';
-import { api } from '@/services';
-import { getStoredUser, saveUser, clearAuth, isAuthenticated as checkAuth } from '@/utils';
-import { strings, routes } from '@/constants';
+import { useCallback, useEffect, useState } from "react";
 
-export function useAuth(): UseAuthReturn {
-    const [user, setUser] = useState<User | null>(() => getStoredUser());
+import { routes, strings } from "@/constants";
+import type { UseAuthReturnInterface, UserInterface } from "@/interfaces";
+import { api } from "@/services";
+import {
+    clearAuthHandler,
+    getStoredUserHandler,
+    isAuthenticatedHandler as checkAuth,
+    saveUserHandler,
+} from "@/utils";
+
+export const useAuth = (): UseAuthReturnInterface => {
+    const [user, setUser] = useState<UserInterface | null>(() => getStoredUserHandler());
 
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => checkAuth());
 
@@ -13,104 +19,126 @@ export function useAuth(): UseAuthReturn {
 
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        const storedUser = getStoredUser();
+    const login = useCallback(
+        async (
+            email: string,
+            password: string,
+        ) => {
+            setIsLoading(true);
 
-        if (storedUser && checkAuth()) {
-            setUser(storedUser);
+            setError(null);
 
-            setIsAuthenticated(true);
-        }
-    }, []);
+            try {
+                const response = await api.loginHandler(
+                    email,
+                    password,
+                );
 
-    const login = useCallback(async (email: string, password: string) => {
-        setIsLoading(true);
+                saveUserHandler(response.user);
 
-        setError(null);
+                setUser(response.user);
 
-        try {
-            const response = await api.login(email, password);
+                setIsAuthenticated(true);
 
-            saveUser(response.user);
+                setIsLoading(false);
+            } catch (err) {
+                const errorMessage = err instanceof Error ? err.message : strings.errors.invalidCredentials;
 
-            setUser(response.user);
+                setError(errorMessage);
 
-            setIsAuthenticated(true);
+                setIsLoading(false);
 
-            setIsLoading(false);
-        } catch (err) {
-            const errorMessage = err instanceof Error ? err.message : strings.errors.invalidCredentials;
+                throw err;
+            }
+        },
+        [],
+    );
 
-            setError(errorMessage);
+    const logout = useCallback(
+        async () => {
+            setIsLoading(true);
 
-            setIsLoading(false);
+            try {
+                await api.logoutHandler();
+            } catch (error) {
+                console.error(
+                    strings.debug.logoutFailed,
+                    error,
+                );
+            } finally {
+                clearAuthHandler();
 
-            throw err;
-        }
-    }, []);
+                setUser(null);
 
-    const logout = useCallback(async () => {
-        setIsLoading(true);
+                setIsAuthenticated(false);
 
-        try {
-            await api.logout();
-        } catch (error) {
-            console.error(strings.debug.logoutFailed, error);
-        } finally {
-            clearAuth();
+                setIsLoading(false);
 
-            setUser(null);
+                window.location.href = routes.login;
+            }
+        },
+        [],
+    );
 
-            setIsAuthenticated(false);
+    const fetchUser = useCallback(
+        async () => {
+            if (!checkAuth()) {
+                setIsAuthenticated(false);
 
-            setIsLoading(false);
+                return;
+            }
 
-            window.location.href = routes.login;
-        }
-    }, []);
+            setIsLoading(true);
 
-    const fetchUser = useCallback(async () => {
-        if (!checkAuth()) {
-            setIsAuthenticated(false);
+            try {
+                const fetchedUser = await api.getCurrentUserHandler();
 
-            return;
-        }
+                saveUserHandler(fetchedUser);
 
-        setIsLoading(true);
+                setUser(fetchedUser);
 
-        try {
-            const fetchedUser = await api.getCurrentUser();
+                setIsAuthenticated(true);
 
-            saveUser(fetchedUser);
+                setIsLoading(false);
+            } catch {
+                clearAuthHandler();
 
-            setUser(fetchedUser);
+                setUser(null);
 
-            setIsAuthenticated(true);
+                setIsAuthenticated(false);
 
-            setIsLoading(false);
-        } catch {
-            clearAuth();
+                setIsLoading(false);
+            }
+        },
+        [],
+    );
 
-            setUser(null);
+    const clearError = useCallback(
+        () => setError(null),
+        [],
+    );
 
-            setIsAuthenticated(false);
+    useEffect(
+        () => {
+            const storedUser = getStoredUserHandler();
 
-            setIsLoading(false);
-        }
-    }, []);
+            if (storedUser && checkAuth()) {
+                setUser(storedUser);
 
-    const clearError = useCallback(() => {
-        setError(null);
-    }, []);
+                setIsAuthenticated(true);
+            }
+        },
+        [],
+    );
 
     return {
-        user,
+        clearError,
+        error,
+        fetchUser,
         isAuthenticated,
         isLoading,
-        error,
         login,
         logout,
-        fetchUser,
-        clearError,
+        user,
     };
-}
+};

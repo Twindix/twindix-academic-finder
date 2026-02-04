@@ -12,4 +12,4 @@ RewriteRule ^ index.html [L]
 `;
 
 writeFileSync(resolve("dist", ".htaccess"), htaccess, "utf8");
-console.log("✅ .htaccess generated in dist/");
+console.log("✅ .htaccess generated in dist/"); // eslint-disable-line

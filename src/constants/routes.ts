@@ -1,10 +1,10 @@
 export const routes = {
-    root: '/',
-    login: '/login',
-    register: '/register',
-    forgotPassword: '/forgot-password',
-    resetPassword: '/reset-password',
-    code: '/code',
-    result: '/result',
-    profile: '/profile',
+    code: "/code",
+    forgotPassword: "/forgot-password",
+    login: "/login",
+    profile: "/profile",
+    register: "/register",
+    resetPassword: "/reset-password",
+    result: "/result",
+    root: "/",
 } as const;

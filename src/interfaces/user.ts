@@ -1,9 +1,9 @@
-export interface User {
+export interface UserInterface {
+    companyName?: string,
+    createdAt?: string,
+    email: string,
     id: number,
     name: string,
-    email: string,
-    companyName?: string,
     phone?: string,
-    createdAt?: string,
     updatedAt?: string,
 }

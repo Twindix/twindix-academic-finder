@@ -1,34 +1,45 @@
-import { useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { AuthLayout } from '@/layouts';
-import { Button, Input, Alert } from '@/atoms';
-import { useAuth } from '@/hooks';
-import { validateLoginForm } from '@/utils';
-import { strings, routes } from '@/constants';
+import React, { useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
-export function Login() {
+import { Alert, Button, Input } from "@/atoms";
+import { routes, strings } from "@/constants";
+import { useAuth } from "@/hooks";
+import { AuthLayout } from "@/layouts";
+import { validateLoginFormHandler } from "@/utils";
+
+export const Login = () => {
+    const [email, setEmail] = useState("");
+
+    const [password, setPassword] = useState("");
+
+    const [validationError, setValidationError] = useState("");
+
     const navigate = useNavigate();
 
     const [searchParams] = useSearchParams();
 
-    const returnUrl = searchParams.get('returnUrl') || routes.code;
+    const {
+        clearError,
+        error,
+        isLoading,
+        login,
+    } = useAuth();
 
-    const { login, isLoading, error, clearError } = useAuth();
+    const returnUrl = searchParams.get("returnUrl") || routes.code;
 
-    const [email, setEmail] = useState('');
+    const displayError = validationError || error;
 
-    const [password, setPassword] = useState('');
-
-    const [validationError, setValidationError] = useState('');
-
-    const handleSubmit = async (e: React.FormEvent) => {
+    const submitHandler = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        setValidationError('');
+        setValidationError("");
 
         clearError();
 
-        const validation = validateLoginForm(email, password);
+        const validation = validateLoginFormHandler(
+            email,
+            password,
+        );
 
         if (!validation.isValid) {
             setValidationError(validation.error || strings.errors.checkInput);
@@ -37,18 +48,22 @@ export function Login() {
         }
 
         try {
-            await login(email, password);
+            await login(
+                email,
+                password,
+            );
 
             navigate(returnUrl);
         } catch (error) {
-            console.error(strings.debug.loginFailed, error);
+            console.error(
+                strings.debug.loginFailed,
+                error,
+            );
         }
     };
 
-    const displayError = validationError || error;
-
-    const handleDismissError = () => {
-        setValidationError('');
+    const dismissErrorHandler = () => {
+        setValidationError("");
 
         clearError();
     };
@@ -56,49 +71,82 @@ export function Login() {
     return (
         <AuthLayout>
             <div>
-                <h1 className="text-3xl font-bold mb-2 text-gradient">{strings.login.title}</h1>
-                <p className="mb-8 text-gradient font-medium">{strings.login.description}</p>{' '}
+                <h1
+                    className="
+                        text-gradient
+                        mb-2
+                        text-3xl
+                        font-bold
+                    "
+                >
+                    {strings.login.title}
+                </h1>
+                <p className="text-gradient mb-8 font-medium">{strings.login.description}</p>
+                {" "}
                 {displayError && (
-                    <Alert variant="error" className="mb-6" onClose={handleDismissError}>
+                    <Alert
+                        className="mb-6"
+                        variant="error"
+                        onClose={dismissErrorHandler}
+                    >
                         {displayError}
                     </Alert>
                 )}
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form
+                    className="space-y-5"
+                    onSubmit={submitHandler}
+                >
                     <Input
+                        error={!!displayError}
                         label={strings.login.emailLabel}
-                        type="email"
                         placeholder={strings.login.emailPlaceholder}
+                        type="email"
                         value={email}
                         onChange={(e) => {
-                            setEmail(e.target.value);
+                            const { target: { value } } = e;
 
-                            setValidationError('');
+                            setEmail(value);
+
+                            setValidationError("");
                         }}
-                        error={!!displayError}
                     />
                     <Input
-                        label={strings.login.passwordLabel}
-                        type="password"
-                        placeholder={strings.login.passwordPlaceholder}
-                        value={password}
-                        onChange={(e) => {
-                            setPassword(e.target.value);
-
-                            setValidationError('');
-                        }}
-                        showPasswordToggle
                         error={!!displayError}
+                        label={strings.login.passwordLabel}
+                        placeholder={strings.login.passwordPlaceholder}
+                        type="password"
+                        value={password}
+                        showPasswordToggle
+                        onChange={(e) => {
+                            const { target: { value } } = e;
+
+                            setPassword(value);
+
+                            setValidationError("");
+                        }}
                     />
-                    <div className="flex items-center justify-between text-sm">
+                    <div
+                        className="
+                            flex
+                            items-center
+                            justify-between
+                            text-sm
+                        "
+                    >
                         <span className="text-text-secondary">{strings.login.forgotPassword}</span>
-                        <Button variant="link" size="sm" type="button" onClick={() => navigate(routes.forgotPassword)}>
+                        <Button
+                            size="sm"
+                            type="button"
+                            variant="link"
+                            onClick={() => navigate(routes.forgotPassword)}
+                        >
                             {strings.login.forgotPasswordLink}
                         </Button>
                     </div>
                     <Button
+                        loading={isLoading}
                         type="submit"
                         fullWidth
-                        loading={isLoading}
                     >
                         {strings.login.submitButton}
                     </Button>
@@ -106,4 +154,4 @@ export function Login() {
             </div>
         </AuthLayout>
     );
-}
+};

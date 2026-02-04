@@ -1,32 +1,57 @@
-import { useNavigate } from 'react-router-dom';
-import { Logo, Button } from '@/atoms';
-import { strings, routes } from '@/constants';
+import { useNavigate } from "react-router-dom";
 
-export function NotFound() {
+import { Button, Logo } from "@/atoms";
+import { routes, strings } from "@/constants";
+
+export const NotFound = () => {
     const navigate = useNavigate();
 
     return (
-        <div className="min-h-screen bg-background flex flex-col">
+        <div
+            className="
+                flex
+                min-h-screen
+                flex-col
+                bg-background
+            "
+        >
             <header className="p-6">
                 <Logo size="md" />
             </header>
-
-            <main className="flex-1 flex items-center justify-center px-4">
-                <div className="text-center max-w-md">
-                    <h1 className="text-9xl font-bold text-primary mb-4">
+            <main
+                className="
+                    flex
+                    flex-1
+                    items-center
+                    justify-center
+                    px-4
+                "
+            >
+                <div className="max-w-md text-center">
+                    <h1
+                        className="
+                            mb-4
+                            text-9xl
+                            font-bold
+                            text-primary
+                        "
+                    >
                         {strings.notFound.title}
                     </h1>
-                    <h2 className="text-3xl font-bold text-gradient mb-4">
+                    <h2
+                        className="
+                            text-gradient
+                            mb-4
+                            text-3xl
+                            font-bold
+                        "
+                    >
                         {strings.notFound.subtitle}
                     </h2>
-                    <p className="text-text-secondary mb-8">
-                        {strings.notFound.description}
-                    </p>
-                    <Button onClick={() => navigate(routes.code)}>
-                        {strings.notFound.backToHome}
-                    </Button>
+                    <p className="mb-8 text-text-secondary">{strings.notFound.description}</p>
+                    <Button onClick={() => navigate(routes.code)}>{strings.notFound.backToHome}</Button>
                 </div>
             </main>
         </div>
     );
-}
+};

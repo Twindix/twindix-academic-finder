@@ -1,3 +1,3 @@
-export { AuthLayout } from './auth';
-export { MainLayout } from './main';
-export { CodeLayout } from './code';
+export { AuthLayout } from "./auth";
+export { CodeLayout } from "./code";
+export { MainLayout } from "./main";

@@ -1,47 +1,140 @@
-import { ReactNode } from 'react';
-import { Logo } from '@/atoms';
-import { strings } from '@/constants';
-import starIcon from '@/assets/icons/star.svg';
+import type { ReactNode } from "react";
 
-export function AuthLayout({ children, title, description }: {
-    children: ReactNode;
-    title?: string;
-    description?: string;
-}) {
-    return (
-        <div className="min-h-screen bg-surface flex flex-col">
-            <header className="p-6">
-                <Logo size="md" />
-            </header>
-            <main className="flex-1 flex">
-                <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
-                    <div
-                        className="absolute inset-0 rounded-tr-3xl"
-                        style={{
-                            background: 'linear-gradient(to top, #0025BA 0%, #0025BA 15%, #2557b8 35%, #4a7fd4 55%, #a8c4f5 75%, #FFFFFF 100%)',
-                        }}
-                    >
-                        <img src={starIcon} alt={strings.common.decorativeStar} className="absolute top-[20%] left-[10%] w-4 h-4 opacity-60" aria-hidden="true" />
-                        <img src={starIcon} alt={strings.common.decorativeStar} className="absolute top-[35%] left-[45%] w-4 h-4 opacity-50" aria-hidden="true" />
-                        <img src={starIcon} alt={strings.common.decorativeStar} className="absolute top-[28%] right-[12%] w-8 h-8 opacity-90" aria-hidden="true" />
-                        <img src={starIcon} alt={strings.common.decorativeStar} className="absolute top-[45%] right-[25%] w-5 h-5 opacity-60" aria-hidden="true" />
-                        <img src={starIcon} alt={strings.common.decorativeStar} className="absolute bottom-[38%] left-[28%] w-20 h-20 opacity-100" aria-hidden="true" />
-                        <img src={starIcon} alt={strings.common.decorativeStar} className="absolute bottom-[22%] left-[5%] w-5 h-5 opacity-70" aria-hidden="true" />
-                        <img src={starIcon} alt={strings.common.decorativeStar} className="absolute bottom-[18%] right-[8%] w-6 h-6 opacity-60" aria-hidden="true" />
-                    </div>
-                    <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-                        <h1 className="text-3xl font-bold mb-3">{title || strings.login.sidebarTitle}</h1>
-                        <p className="text-white/90 text-sm leading-relaxed">
-                            {description || strings.login.sidebarDescription}
-                        </p>
-                    </div>
+import { StarIcon } from "@/assets/icons";
+import { Logo } from "@/atoms";
+import { strings } from "@/constants";
+
+export const AuthLayout = ({
+    children,
+    description,
+    title,
+}: {
+    children: ReactNode,
+    description?: string,
+    title?: string,
+}) => (
+    <div
+        className="
+            flex
+            min-h-screen
+            flex-col
+            bg-surface
+        "
+    >
+        <header className="p-6">
+            <Logo size="md" />
+        </header>
+        <main className="flex flex-1">
+            <div
+                className="
+                    relative
+                    hidden
+                    overflow-hidden
+                    lg:flex
+                    lg:w-1/2
+                "
+            >
+                <div
+                    className="absolute inset-0 rounded-tr-3xl"
+                    style={{ background: "linear-gradient(to top, #0025BA 0%, #0025BA 15%, #2557b8 35%, #4a7fd4 55%, #a8c4f5 75%, #FFFFFF 100%)" }}
+                >
+                    <StarIcon
+                        className="
+                            absolute
+                            top-[20%]
+                            left-[10%]
+                            h-4
+                            w-4
+                            opacity-60
+                        "
+                    />
+                    <StarIcon
+                        className="
+                            absolute
+                            top-[35%]
+                            left-[45%]
+                            h-4
+                            w-4
+                            opacity-50
+                        "
+                    />
+                    <StarIcon
+                        className="
+                            absolute
+                            top-[28%]
+                            right-[12%]
+                            h-8
+                            w-8
+                            opacity-90
+                        "
+                    />
+                    <StarIcon
+                        className="
+                            absolute
+                            top-[45%]
+                            right-[25%]
+                            h-5
+                            w-5
+                            opacity-60
+                        "
+                    />
+                    <StarIcon
+                        className="
+                            absolute
+                            bottom-[38%]
+                            left-[28%]
+                            h-20
+                            w-20
+                            opacity-100
+                        "
+                    />
+                    <StarIcon
+                        className="
+                            absolute
+                            bottom-[22%]
+                            left-[5%]
+                            h-5
+                            w-5
+                            opacity-70
+                        "
+                    />
+                    <StarIcon
+                        className="
+                            absolute
+                            right-[8%]
+                            bottom-[18%]
+                            h-6
+                            w-6
+                            opacity-60
+                        "
+                    />
                 </div>
-                <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
-                    <div className="w-full max-w-md">
-                        {children}
-                    </div>
+                <div
+                    className="
+                        absolute
+                        right-0
+                        bottom-0
+                        left-0
+                        p-8
+                        text-white
+                    "
+                >
+                    <h1 className="mb-3 text-3xl font-bold">{title || strings.login.sidebarTitle}</h1>
+                    <p className="text-sm leading-relaxed text-white/90">{description || strings.login.sidebarDescription}</p>
                 </div>
-            </main>
-        </div>
-    );
-}
+            </div>
+            <div
+                className="
+                    flex
+                    w-full
+                    items-center
+                    justify-center
+                    p-8
+                    lg:w-1/2
+                "
+            >
+                <div className="w-full max-w-md">{children}</div>
+            </div>
+        </main>
+    </div>
+);

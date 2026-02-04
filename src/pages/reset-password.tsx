@@ -1,48 +1,35 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { AuthLayout } from '@/layouts';
-import { Button, Input, Alert } from '@/atoms';
-import { api } from '@/services';
-import { validatePassword } from '@/utils';
-import { strings, routes } from '@/constants';
+import React, { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
-export function ResetPassword() {
+import { Alert, Button, Input } from "@/atoms";
+import { routes, strings } from "@/constants";
+import { AuthLayout } from "@/layouts";
+import { api } from "@/services";
+import { validatePasswordHandler } from "@/utils";
+
+export const ResetPassword = () => {
+    const [token, setToken] = useState("");
+
+    const [email, setEmail] = useState("");
+
+    const [password, setPassword] = useState("");
+
+    const [confirmPassword, setConfirmPassword] = useState("");
+
+    const [isLoading, setIsLoading] = useState(false);
+
+    const [error, setError] = useState("");
+
+    const [isSuccess, setIsSuccess] = useState(false);
+
     const navigate = useNavigate();
 
     const [searchParams] = useSearchParams();
 
-    const [token, setToken] = useState('');
-
-    const [email, setEmail] = useState('');
-
-    const [password, setPassword] = useState('');
-
-    const [confirmPassword, setConfirmPassword] = useState('');
-
-    const [isLoading, setIsLoading] = useState(false);
-
-    const [error, setError] = useState('');
-
-    const [isSuccess, setIsSuccess] = useState(false);
-
-    useEffect(() => {
-        const tokenParam = searchParams.get('token');
-
-        const emailParam = searchParams.get('email');
-
-        if (tokenParam) {
-            setToken(tokenParam);
-        }
-
-        if (emailParam) {
-            setEmail(emailParam);
-        }
-    }, [searchParams]);
-
-    const handleSubmit = async (e: React.FormEvent) => {
+    const submitHandler = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        setError('');
+        setError("");
 
         if (!token || !email) {
             setError(strings.resetPassword.invalidLink);
@@ -50,7 +37,7 @@ export function ResetPassword() {
             return;
         }
 
-        const validation = validatePassword(password);
+        const validation = validatePasswordHandler(password);
 
         if (!validation.isValid) {
             setError(validation.error || strings.errors.checkInput);
@@ -67,7 +54,12 @@ export function ResetPassword() {
         setIsLoading(true);
 
         try {
-            await api.resetPassword(token, email, password, confirmPassword);
+            await api.resetPasswordHandler(
+                token,
+                email,
+                password,
+                confirmPassword,
+            );
 
             setIsSuccess(true);
         } catch (err) {
@@ -77,19 +69,48 @@ export function ResetPassword() {
         }
     };
 
-    const handleBackToLogin = () => {
-        navigate(routes.login);
-    };
+    const backToLoginHandler = () => navigate(routes.login);
+
+    useEffect(
+        () => {
+            const tokenParam = searchParams.get(strings.queryParams.token);
+
+            const emailParam = searchParams.get(strings.queryParams.email);
+
+            if (tokenParam) setToken(tokenParam);
+
+            if (emailParam) setEmail(emailParam);
+        },
+        [searchParams],
+    );
 
     if (isSuccess) {
         return (
-            <AuthLayout title={strings.resetPassword.sidebarTitle} description={strings.resetPassword.sidebarDescription}>
+            <AuthLayout
+                description={strings.resetPassword.sidebarDescription}
+                title={strings.resetPassword.sidebarTitle}
+            >
                 <div>
-                    <h1 className="text-3xl font-bold mb-2 text-gradient">{strings.resetPassword.title}</h1>
-                    <Alert variant="success" className="mb-6">
+                    <h1
+                        className="
+                            text-gradient
+                            mb-2
+                            text-3xl
+                            font-bold
+                        "
+                    >
+                        {strings.resetPassword.title}
+                    </h1>
+                    <Alert
+                        className="mb-6"
+                        variant="success"
+                    >
                         {strings.resetPassword.successMessage}
                     </Alert>
-                    <Button fullWidth onClick={handleBackToLogin}>
+                    <Button
+                        fullWidth
+                        onClick={backToLoginHandler}
+                    >
                         {strings.resetPassword.goToLogin}
                     </Button>
                 </div>
@@ -99,13 +120,31 @@ export function ResetPassword() {
 
     if (!token || !email) {
         return (
-            <AuthLayout title={strings.resetPassword.sidebarTitle} description={strings.resetPassword.sidebarDescription}>
+            <AuthLayout
+                description={strings.resetPassword.sidebarDescription}
+                title={strings.resetPassword.sidebarTitle}
+            >
                 <div>
-                    <h1 className="text-3xl font-bold mb-2 text-gradient">{strings.resetPassword.title}</h1>
-                    <Alert variant="error" className="mb-6">
+                    <h1
+                        className="
+                            text-gradient
+                            mb-2
+                            text-3xl
+                            font-bold
+                        "
+                    >
+                        {strings.resetPassword.title}
+                    </h1>
+                    <Alert
+                        className="mb-6"
+                        variant="error"
+                    >
                         {strings.resetPassword.invalidLink}
                     </Alert>
-                    <Button variant="link" onClick={handleBackToLogin}>
+                    <Button
+                        variant="link"
+                        onClick={backToLoginHandler}
+                    >
                         {strings.resetPassword.backToLogin}
                     </Button>
                 </div>
@@ -114,56 +153,82 @@ export function ResetPassword() {
     }
 
     return (
-        <AuthLayout title={strings.resetPassword.sidebarTitle} description={strings.resetPassword.sidebarDescription}>
+        <AuthLayout
+            description={strings.resetPassword.sidebarDescription}
+            title={strings.resetPassword.sidebarTitle}
+        >
             <div>
-                <h1 className="text-3xl font-bold mb-2 text-gradient">{strings.resetPassword.title}</h1>
+                <h1
+                    className="
+                        text-gradient
+                        mb-2
+                        text-3xl
+                        font-bold
+                    "
+                >
+                    {strings.resetPassword.title}
+                </h1>
                 <p className="mb-8 text-text-secondary">{strings.resetPassword.description}</p>
                 {error && (
-                    <Alert variant="error" className="mb-6" onClose={() => setError('')}>
+                    <Alert
+                        className="mb-6"
+                        variant="error"
+                        onClose={() => setError("")}
+                    >
                         {error}
                     </Alert>
                 )}
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form
+                    className="space-y-5"
+                    onSubmit={submitHandler}
+                >
                     <Input
-                        label={strings.resetPassword.passwordLabel}
-                        type="password"
-                        placeholder={strings.resetPassword.passwordPlaceholder}
-                        value={password}
-                        onChange={(e) => {
-                            setPassword(e.target.value);
-
-                            setError('');
-                        }}
-                        showPasswordToggle
                         error={!!error}
+                        label={strings.resetPassword.passwordLabel}
+                        placeholder={strings.resetPassword.passwordPlaceholder}
+                        type="password"
+                        value={password}
+                        showPasswordToggle
+                        onChange={(e) => {
+                            const { target: { value } } = e;
+
+                            setPassword(value);
+
+                            setError("");
+                        }}
                     />
                     <Input
-                        label={strings.resetPassword.confirmPasswordLabel}
-                        type="password"
-                        placeholder={strings.resetPassword.confirmPasswordPlaceholder}
-                        value={confirmPassword}
-                        onChange={(e) => {
-                            setConfirmPassword(e.target.value);
-
-                            setError('');
-                        }}
-                        showPasswordToggle
                         error={!!error}
+                        label={strings.resetPassword.confirmPasswordLabel}
+                        placeholder={strings.resetPassword.confirmPasswordPlaceholder}
+                        type="password"
+                        value={confirmPassword}
+                        showPasswordToggle
+                        onChange={(e) => {
+                            const { target: { value } } = e;
+
+                            setConfirmPassword(value);
+
+                            setError("");
+                        }}
                     />
                     <Button
+                        loading={isLoading}
                         type="submit"
                         fullWidth
-                        loading={isLoading}
                     >
                         {strings.resetPassword.submitButton}
                     </Button>
                 </form>
                 <div className="mt-4 text-center">
-                    <Button variant="link" onClick={handleBackToLogin}>
+                    <Button
+                        variant="link"
+                        onClick={backToLoginHandler}
+                    >
                         {strings.resetPassword.backToLogin}
                     </Button>
                 </div>
             </div>
         </AuthLayout>
     );
-}
+};

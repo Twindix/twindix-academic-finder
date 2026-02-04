@@ -1,42 +1,36 @@
-import type { User } from './user';
+import type { UserInterface } from "@/interfaces";
 
-export interface LoginRequest {
+export interface LoginRequestInterface {
     email: string,
     password: string,
 }
 
-export interface LoginResponse {
-    user: User,
+export interface LoginResponseInterface {
     token: string,
-    tokenType: 'Bearer',
+    tokenType: "Bearer",
+    user: UserInterface,
 }
 
-export interface ForgotPasswordRequest {
-    email: string,
-}
+export interface ForgotPasswordRequestInterface { email: string }
 
-export interface ForgotPasswordResponse {
-    message: string,
-}
+export interface ForgotPasswordResponseInterface { message: string }
 
-export interface ResetPasswordRequest {
-    token: string,
+export interface ResetPasswordRequestInterface {
     email: string,
     password: string,
     passwordConfirmation: string,
+    token: string,
 }
 
-export interface ResetPasswordResponse {
-    message: string,
-}
+export interface ResetPasswordResponseInterface { message: string }
 
-export interface UseAuthReturn {
-    user: User | null,
+export interface UseAuthReturnInterface {
+    clearError: () => void,
+    error: string | null,
+    fetchUser: () => Promise<void>,
     isAuthenticated: boolean,
     isLoading: boolean,
-    error: string | null,
     login: (email: string, password: string) => Promise<void>,
     logout: () => Promise<void>,
-    fetchUser: () => Promise<void>,
-    clearError: () => void,
+    user: UserInterface | null,
 }

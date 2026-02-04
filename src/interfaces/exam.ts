@@ -1,25 +1,25 @@
-import type { RecommendedJob } from './api';
-import type { JobStatus } from '@/types';
+import type { RecommendedJobInterface } from "@/interfaces";
+import type { JobStatusType } from "@/types";
 
-export interface ChatResult {
-    id: string,
-    userName: string,
+export interface ChatResultInterface {
     code: string,
     content: string,
-    recommendedJobs: RecommendedJob[],
+    id: string,
+    recommendedJobs: RecommendedJobInterface[],
+    userName: string,
 }
 
-export interface ProcessResponse {
-    success: boolean,
+export interface ProcessResponseInterface {
+    error?: string,
     jobId?: string,
-    error?: string,
+    success: boolean,
 }
 
-export interface StatusResponse {
-    success: boolean,
-    status: JobStatus,
-    progress: number,
+export interface StatusResponseInterface {
     currentStep: string,
-    result?: ChatResult,
     error?: string,
+    progress: number,
+    result?: ChatResultInterface,
+    status: JobStatusType,
+    success: boolean,
 }

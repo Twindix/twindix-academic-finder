@@ -1,40 +1,51 @@
-import type { JobStatus } from '@/types';
+import type { JobStatusType } from "@/types";
 
-export interface ApiError {
-    message: string,
+export interface AcceptInvitationDataInterface {
+    companyName: string,
+    email: string,
+    name: string,
+    password: string,
+    passwordConfirmation: string,
+    phone: string,
+}
+
+export interface ApiErrorInterface {
     errors?: Record<string, string[]>,
-}
-
-export interface ValidationResult {
-    isValid: boolean,
-    error: string | null,
-}
-
-export interface ApiLoginResponse {
-    user: {
-        id: number,
-        name: string,
-        email: string,
-        company_name?: string,
-        phone?: string,
-        created_at?: string,
-        updated_at?: string,
-    },
-    token: string,
-    token_type: 'Bearer',
-}
-
-export interface ApiProcessResponse {
-    success: boolean,
     message: string,
+}
+
+export interface ValidationResultInterface {
+    error: string | null,
+    isValid: boolean,
+}
+
+export interface ApiUserInterface {
+    company_name?: string, // eslint-disable-line
+    created_at?: string, // eslint-disable-line
+    email: string,
+    id: number,
+    name: string,
+    phone?: string,
+    updated_at?: string, // eslint-disable-line
+}
+
+export interface ApiLoginResponseInterface {
+    token: string,
+    token_type: "Bearer", // eslint-disable-line
+    user: ApiUserInterface,
+}
+
+export interface ApiProcessResponseInterface {
     data: {
+        estimated_time_seconds: number,
         job_id: string,
         status_url: string,
-        estimated_time_seconds: number,
     },
+    message: string,
+    success: boolean,
 }
 
-export interface RecommendedJob {
+export interface RecommendedJobInterface {
     faculty: string,
     major1: string,
     major2: string,
@@ -42,27 +53,31 @@ export interface RecommendedJob {
     reasoning: string,
 }
 
-export interface ApiRecommendedJob {
+export interface ApiRecommendedJobInterface {
     faculty: string,
-    major_1: string,
-    major_2: string,
-    major_3: string,
+    major_1: string, // eslint-disable-line
+    major_2: string, // eslint-disable-line
+    major_3: string, // eslint-disable-line
     reasoning: string,
 }
 
-export interface RecommendedJobsResult {
-    recommended_jobs: ApiRecommendedJob[],
+export interface RecommendedJobsResultInterface { recommended_jobs: ApiRecommendedJobInterface[] }
+
+export interface UpdateCompanyProfileDataInterface {
+    companyName?: string,
+    name?: string,
+    phone?: string,
 }
 
-export interface ApiStatusResponse {
-    success: boolean,
+export interface ApiStatusResponseInterface {
     data: {
-        status: JobStatus,
-        progress: number,
-        current_step: string,
-        started_at: string,
-        result: RecommendedJobsResult | null,
         completed_at: string | null,
+        current_step: string,
         error_message: string | null,
+        progress: number,
+        result: RecommendedJobsResultInterface | null,
+        started_at: string,
+        status: JobStatusType,
     },
+    success: boolean,
 }
