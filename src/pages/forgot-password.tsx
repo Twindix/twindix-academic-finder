@@ -3,6 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 import { Alert, Button, Input } from "@/atoms";
 import { routes, strings } from "@/constants";
+import {
+    AlertVariantEnum,
+    ButtonTypeEnum,
+    ButtonVariantEnum,
+    InputTypeEnum,
+} from "@/enums";
 import { AuthLayout } from "@/layouts";
 import { api } from "@/services";
 import { validateEmailHandler } from "@/utils";
@@ -67,12 +73,12 @@ export const ForgotPassword = () => {
                     </h1>
                     <Alert
                         className="mb-6"
-                        variant="success"
+                        variant={AlertVariantEnum.SUCCESS}
                     >
                         {strings.forgotPassword.successMessage}
                     </Alert>
                     <Button
-                        variant="link"
+                        variant={ButtonVariantEnum.LINK}
                         onClick={backToLoginHandler}
                     >
                         {strings.forgotPassword.backToLogin}
@@ -102,7 +108,7 @@ export const ForgotPassword = () => {
                 {error && (
                     <Alert
                         className="mb-6"
-                        variant="error"
+                        variant={AlertVariantEnum.ERROR}
                         onClose={() => setError("")}
                     >
                         {error}
@@ -116,7 +122,7 @@ export const ForgotPassword = () => {
                         error={!!error}
                         label={strings.forgotPassword.emailLabel}
                         placeholder={strings.forgotPassword.emailPlaceholder}
-                        type="email"
+                        type={InputTypeEnum.EMAIL}
                         value={email}
                         onChange={(e) => {
                             const { target: { value } } = e;
@@ -128,7 +134,7 @@ export const ForgotPassword = () => {
                     />
                     <Button
                         loading={isLoading}
-                        type="submit"
+                        type={ButtonTypeEnum.SUBMIT}
                         fullWidth
                     >
                         {strings.forgotPassword.submitButton}
@@ -136,7 +142,7 @@ export const ForgotPassword = () => {
                 </form>
                 <div className="mt-4 text-center">
                     <Button
-                        variant="link"
+                        variant={ButtonVariantEnum.LINK}
                         onClick={backToLoginHandler}
                     >
                         {strings.forgotPassword.backToLogin}

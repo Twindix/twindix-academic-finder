@@ -6,7 +6,7 @@ import { LogoutIcon, UserIcon } from "@/assets/icons";
 import { Button, Logo } from "@/atoms";
 import { LogoutModal } from "@/components";
 import { routes, strings } from "@/constants";
-import { CodeLayoutVariantEnum } from "@/enums";
+import { CodeLayoutVariantEnum, LogoSizeEnum } from "@/enums";
 import { useAuth } from "@/hooks";
 import type { CodeLayoutVariantType } from "@/types";
 
@@ -109,7 +109,7 @@ export const CodeLayout = ({
                                 md:p-6
                             "
                         >
-                            <Logo size="md" />
+                            <Logo size={LogoSizeEnum.MD} />
                             <div className="flex items-center gap-2">
                                 <Link
                                     to={routes.profile}
@@ -216,7 +216,7 @@ export const CodeLayout = ({
                                 md:hidden
                             "
                         >
-                            <Logo size="md" />
+                            <Logo size={LogoSizeEnum.MD} />
                             <div className="flex items-center gap-2">
                                 <Link
                                     to={routes.profile}
@@ -253,7 +253,7 @@ export const CodeLayout = ({
                                 md:flex
                             "
                         >
-                            <Logo size="md" />
+                            <Logo size={LogoSizeEnum.MD} />
                             <Button
                                 className="flex items-center gap-2"
                                 disabled={isLoggingOut}

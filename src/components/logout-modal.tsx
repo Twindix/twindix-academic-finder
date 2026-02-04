@@ -1,5 +1,6 @@
 import { Button, Logo, Modal } from "@/atoms";
 import { strings } from "@/constants";
+import { ButtonTypeEnum, ButtonVariantEnum, LogoSizeEnum } from "@/enums";
 
 export const LogoutModal = ({
     isLoading,
@@ -18,7 +19,7 @@ export const LogoutModal = ({
     >
         <div className="p-6">
             <button
-                type="button"
+                type={ButtonTypeEnum.BUTTON}
                 className="
                     mb-4
                     flex
@@ -46,7 +47,7 @@ export const LogoutModal = ({
                 <span className="cursor-pointer text-sm font-medium">{strings.logoutModal.cancel}</span>
             </button>
             <div className="flex flex-col items-center">
-                <Logo size="lg" />
+                <Logo size={LogoSizeEnum.LG} />
                 <p
                     className="
                         mt-6
@@ -61,7 +62,7 @@ export const LogoutModal = ({
                 <Button
                     className="mt-6 w-full"
                     disabled={isLoading}
-                    variant="danger"
+                    variant={ButtonVariantEnum.DANGER}
                     onClick={onConfirm}
                 >
                     {isLoading ? strings.common.loggingOut : strings.logoutModal.logoutButton}

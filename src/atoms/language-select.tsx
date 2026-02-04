@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { LanguageIcon } from "@/assets/icons";
 import { strings } from "@/constants";
-import { LanguageEnum } from "@/enums";
+import { ButtonTypeEnum, LanguageEnum } from "@/enums";
 import type { LanguageType } from "@/types";
 
 export const LanguageSelect = ({
@@ -30,7 +30,7 @@ export const LanguageSelect = ({
         <div className="relative">
             <button
                 disabled={disabled}
-                type="button"
+                type={ButtonTypeEnum.BUTTON}
                 className="
                     flex
                     cursor-pointer
@@ -65,7 +65,7 @@ export const LanguageSelect = ({
                     "
                 >
                     <button
-                        type="button"
+                        type={ButtonTypeEnum.BUTTON}
                         className="
                             flex
                             w-full
@@ -100,7 +100,7 @@ export const LanguageSelect = ({
                         )}
                     </button>
                     <button
-                        type="button"
+                        type={ButtonTypeEnum.BUTTON}
                         className="
                             flex
                             w-full

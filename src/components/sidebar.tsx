@@ -3,6 +3,7 @@ import { useState } from "react";
 import { LogoutIcon } from "@/assets/icons";
 import { Button, Logo } from "@/atoms";
 import { strings } from "@/constants";
+import { LogoSizeEnum } from "@/enums";
 import { useAuth } from "@/hooks";
 
 export const Sidebar = () => {
@@ -38,7 +39,7 @@ export const Sidebar = () => {
             "
         >
             <div className="p-6">
-                <Logo size="md" />
+                <Logo size={LogoSizeEnum.MD} />
             </div>
             <div className="flex-1" />
             <div className="p-6">

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { UserIcon } from "@/assets/icons";
 import { Button } from "@/atoms";
 import { routes, strings } from "@/constants";
+import { ButtonVariantEnum } from "@/enums";
 import { useAuth } from "@/hooks";
 import { CodeLayout } from "@/layouts";
 
@@ -121,7 +122,7 @@ export const Profile = () => {
                         <Link to={routes.code}>
                             <Button
                                 className="w-full"
-                                variant="primary"
+                                variant={ButtonVariantEnum.PRIMARY}
                             >
                                 {strings.profile.backToCode}
                             </Button>

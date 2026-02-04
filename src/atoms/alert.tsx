@@ -9,7 +9,7 @@ import {
 } from "@/assets/icons";
 import { Button } from "@/atoms";
 import { strings } from "@/constants";
-import { AlertVariantEnum } from "@/enums";
+import { AlertVariantEnum, ButtonVariantEnum } from "@/enums";
 import type { AlertVariantType } from "@/types";
 
 export const Alert = ({
@@ -59,7 +59,7 @@ export const Alert = ({
                 <Button
                     aria-label={strings.common.closeAlert}
                     className="shrink-0"
-                    variant="ghost"
+                    variant={ButtonVariantEnum.GHOST}
                     onClick={onClose}
                 >
                     <CloseIcon className="h-5 w-5" />

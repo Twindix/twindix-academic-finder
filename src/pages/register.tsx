@@ -3,6 +3,12 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { Alert, Button, Input } from "@/atoms";
 import { routes, strings } from "@/constants";
+import {
+    AlertVariantEnum,
+    ButtonTypeEnum,
+    ButtonVariantEnum,
+    InputTypeEnum,
+} from "@/enums";
 import { AuthLayout } from "@/layouts";
 import { api } from "@/services";
 import { validateEmailHandler, validatePasswordHandler } from "@/utils";
@@ -120,7 +126,7 @@ export const Register = () => {
                     </h1>
                     <Alert
                         className="mb-6"
-                        variant="success"
+                        variant={AlertVariantEnum.SUCCESS}
                     >
                         {strings.register.successMessage}
                     </Alert>
@@ -154,12 +160,12 @@ export const Register = () => {
                     </h1>
                     <Alert
                         className="mb-6"
-                        variant="error"
+                        variant={AlertVariantEnum.ERROR}
                     >
                         {strings.register.invalidToken}
                     </Alert>
                     <Button
-                        variant="link"
+                        variant={ButtonVariantEnum.LINK}
                         onClick={backToLoginHandler}
                     >
                         {strings.register.backToLogin}
@@ -189,7 +195,7 @@ export const Register = () => {
                 {error && (
                     <Alert
                         className="mb-6"
-                        variant="error"
+                        variant={AlertVariantEnum.ERROR}
                         onClose={clearErrorHandler}
                     >
                         {error}
@@ -203,7 +209,7 @@ export const Register = () => {
                         error={!!error}
                         label={strings.register.nameLabel}
                         placeholder={strings.register.namePlaceholder}
-                        type="text"
+                        type={InputTypeEnum.TEXT}
                         value={name}
                         onChange={(e) => {
                             const { target: { value } } = e;
@@ -217,7 +223,7 @@ export const Register = () => {
                         error={!!error}
                         label={strings.register.emailLabel}
                         placeholder={strings.register.emailPlaceholder}
-                        type="email"
+                        type={InputTypeEnum.EMAIL}
                         value={email}
                         onChange={(e) => {
                             const { target: { value } } = e;
@@ -231,7 +237,7 @@ export const Register = () => {
                         error={!!error}
                         label={strings.register.companyNameLabel}
                         placeholder={strings.register.companyNamePlaceholder}
-                        type="text"
+                        type={InputTypeEnum.TEXT}
                         value={companyName}
                         onChange={(e) => {
                             const { target: { value } } = e;
@@ -245,7 +251,7 @@ export const Register = () => {
                         error={!!error}
                         label={strings.register.phoneLabel}
                         placeholder={strings.register.phonePlaceholder}
-                        type="tel"
+                        type={InputTypeEnum.TEL}
                         value={phone}
                         onChange={(e) => {
                             const { target: { value } } = e;
@@ -259,7 +265,7 @@ export const Register = () => {
                         error={!!error}
                         label={strings.register.passwordLabel}
                         placeholder={strings.register.passwordPlaceholder}
-                        type="password"
+                        type={InputTypeEnum.PASSWORD}
                         value={password}
                         showPasswordToggle
                         onChange={(e) => {
@@ -274,7 +280,7 @@ export const Register = () => {
                         error={!!error}
                         label={strings.register.confirmPasswordLabel}
                         placeholder={strings.register.confirmPasswordPlaceholder}
-                        type="password"
+                        type={InputTypeEnum.PASSWORD}
                         value={confirmPassword}
                         showPasswordToggle
                         onChange={(e) => {
@@ -287,7 +293,7 @@ export const Register = () => {
                     />
                     <Button
                         loading={isLoading}
-                        type="submit"
+                        type={ButtonTypeEnum.SUBMIT}
                         fullWidth
                     >
                         {strings.register.submitButton}
@@ -295,7 +301,7 @@ export const Register = () => {
                 </form>
                 <div className="mt-4 text-center">
                     <Button
-                        variant="link"
+                        variant={ButtonVariantEnum.LINK}
                         onClick={backToLoginHandler}
                     >
                         {strings.register.backToLogin}

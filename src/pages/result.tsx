@@ -7,6 +7,7 @@ import { routes, strings } from "@/constants";
 import {
     CodeLayoutVariantEnum,
     GradientVariantEnum,
+    InputTypeEnum,
     JobStatusEnum,
     LanguageEnum,
     ResultPageStatusEnum,
@@ -198,7 +199,7 @@ export const Result = () => {
                     >
                         <div className="max-w-md flex-1">
                             <Input
-                                type="text"
+                                type={InputTypeEnum.TEXT}
                                 value={code}
                                 disabled
                             />
@@ -244,7 +245,7 @@ export const Result = () => {
                     >
                         <div className="max-w-md flex-1">
                             <Input
-                                type="text"
+                                type={InputTypeEnum.TEXT}
                                 value={code}
                                 disabled
                                 error

@@ -3,6 +3,13 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { Alert, Button, Input } from "@/atoms";
 import { routes, strings } from "@/constants";
+import {
+    AlertVariantEnum,
+    ButtonSizeEnum,
+    ButtonTypeEnum,
+    ButtonVariantEnum,
+    InputTypeEnum,
+} from "@/enums";
 import { useAuth } from "@/hooks";
 import { AuthLayout } from "@/layouts";
 import { validateLoginFormHandler } from "@/utils";
@@ -86,7 +93,7 @@ export const Login = () => {
                 {displayError && (
                     <Alert
                         className="mb-6"
-                        variant="error"
+                        variant={AlertVariantEnum.ERROR}
                         onClose={dismissErrorHandler}
                     >
                         {displayError}
@@ -100,7 +107,7 @@ export const Login = () => {
                         error={!!displayError}
                         label={strings.login.emailLabel}
                         placeholder={strings.login.emailPlaceholder}
-                        type="email"
+                        type={InputTypeEnum.EMAIL}
                         value={email}
                         onChange={(e) => {
                             const { target: { value } } = e;
@@ -114,7 +121,7 @@ export const Login = () => {
                         error={!!displayError}
                         label={strings.login.passwordLabel}
                         placeholder={strings.login.passwordPlaceholder}
-                        type="password"
+                        type={InputTypeEnum.PASSWORD}
                         value={password}
                         showPasswordToggle
                         onChange={(e) => {
@@ -135,9 +142,9 @@ export const Login = () => {
                     >
                         <span className="text-text-secondary">{strings.login.forgotPassword}</span>
                         <Button
-                            size="sm"
-                            type="button"
-                            variant="link"
+                            size={ButtonSizeEnum.SM}
+                            type={ButtonTypeEnum.BUTTON}
+                            variant={ButtonVariantEnum.LINK}
                             onClick={() => navigate(routes.forgotPassword)}
                         >
                             {strings.login.forgotPasswordLink}
@@ -145,7 +152,7 @@ export const Login = () => {
                     </div>
                     <Button
                         loading={isLoading}
-                        type="submit"
+                        type={ButtonTypeEnum.SUBMIT}
                         fullWidth
                     >
                         {strings.login.submitButton}

@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { StarIcon } from "@/assets/icons";
 import { Logo } from "@/atoms";
 import { strings } from "@/constants";
+import { LogoSizeEnum } from "@/enums";
 
 export const AuthLayout = ({
     children,
@@ -22,7 +23,7 @@ export const AuthLayout = ({
         "
     >
         <header className="p-6">
-            <Logo size="md" />
+            <Logo size={LogoSizeEnum.MD} />
         </header>
         <main className="flex flex-1">
             <div

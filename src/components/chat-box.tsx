@@ -3,7 +3,7 @@ import ReactMarkdown from "react-markdown";
 import { CopyIcon, SuccessIcon } from "@/assets/icons";
 import { Button } from "@/atoms";
 import { strings } from "@/constants";
-import { DirectionEnum } from "@/enums";
+import { ButtonSizeEnum, ButtonVariantEnum, DirectionEnum } from "@/enums";
 
 export const ChatBox = ({
     content,
@@ -42,8 +42,8 @@ export const ChatBox = ({
             <h2 className="text-lg font-semibold text-primary">{userName}</h2>
             <Button
                 className="flex items-center gap-2"
-                size="sm"
-                variant="ghost"
+                size={ButtonSizeEnum.SM}
+                variant={ButtonVariantEnum.GHOST}
                 onClick={onCopy}
             >
                 {copied ? strings.common.copied : strings.common.copy}

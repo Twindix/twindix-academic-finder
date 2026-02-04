@@ -3,6 +3,12 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { Alert, Button, Input } from "@/atoms";
 import { routes, strings } from "@/constants";
+import {
+    AlertVariantEnum,
+    ButtonTypeEnum,
+    ButtonVariantEnum,
+    InputTypeEnum,
+} from "@/enums";
 import { AuthLayout } from "@/layouts";
 import { api } from "@/services";
 import { validatePasswordHandler } from "@/utils";
@@ -103,7 +109,7 @@ export const ResetPassword = () => {
                     </h1>
                     <Alert
                         className="mb-6"
-                        variant="success"
+                        variant={AlertVariantEnum.SUCCESS}
                     >
                         {strings.resetPassword.successMessage}
                     </Alert>
@@ -137,12 +143,12 @@ export const ResetPassword = () => {
                     </h1>
                     <Alert
                         className="mb-6"
-                        variant="error"
+                        variant={AlertVariantEnum.ERROR}
                     >
                         {strings.resetPassword.invalidLink}
                     </Alert>
                     <Button
-                        variant="link"
+                        variant={ButtonVariantEnum.LINK}
                         onClick={backToLoginHandler}
                     >
                         {strings.resetPassword.backToLogin}
@@ -172,7 +178,7 @@ export const ResetPassword = () => {
                 {error && (
                     <Alert
                         className="mb-6"
-                        variant="error"
+                        variant={AlertVariantEnum.ERROR}
                         onClose={() => setError("")}
                     >
                         {error}
@@ -186,7 +192,7 @@ export const ResetPassword = () => {
                         error={!!error}
                         label={strings.resetPassword.passwordLabel}
                         placeholder={strings.resetPassword.passwordPlaceholder}
-                        type="password"
+                        type={InputTypeEnum.PASSWORD}
                         value={password}
                         showPasswordToggle
                         onChange={(e) => {
@@ -201,7 +207,7 @@ export const ResetPassword = () => {
                         error={!!error}
                         label={strings.resetPassword.confirmPasswordLabel}
                         placeholder={strings.resetPassword.confirmPasswordPlaceholder}
-                        type="password"
+                        type={InputTypeEnum.PASSWORD}
                         value={confirmPassword}
                         showPasswordToggle
                         onChange={(e) => {
@@ -214,7 +220,7 @@ export const ResetPassword = () => {
                     />
                     <Button
                         loading={isLoading}
-                        type="submit"
+                        type={ButtonTypeEnum.SUBMIT}
                         fullWidth
                     >
                         {strings.resetPassword.submitButton}
@@ -222,7 +228,7 @@ export const ResetPassword = () => {
                 </form>
                 <div className="mt-4 text-center">
                     <Button
-                        variant="link"
+                        variant={ButtonVariantEnum.LINK}
                         onClick={backToLoginHandler}
                     >
                         {strings.resetPassword.backToLogin}

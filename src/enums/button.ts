@@ -1,6 +1,12 @@
 export enum ButtonSizeEnum {
+    LG = "lg",
     MD = "md",
     SM = "sm",
+}
+
+export enum ButtonTypeEnum {
+    BUTTON = "button",
+    SUBMIT = "submit",
 }
 
 export enum ButtonVariantEnum {

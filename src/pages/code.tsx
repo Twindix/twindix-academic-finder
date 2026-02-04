@@ -10,10 +10,12 @@ import {
 import { GradientBackground } from "@/components";
 import { strings } from "@/constants";
 import {
+    ButtonTypeEnum,
     ButtonVariantEnum,
     CodeLayoutVariantEnum,
     CodePageStatusEnum,
     GradientVariantEnum,
+    InputTypeEnum,
     JobStatusEnum,
     LanguageEnum,
 } from "@/enums";
@@ -284,7 +286,7 @@ export const Code = () => {
                         <input
                             disabled={status === CodePageStatusEnum.LOADING}
                             placeholder={strings.code.inputPlaceholder}
-                            type="text"
+                            type={InputTypeEnum.TEXT}
                             value={code}
                             className="
                                 flex-1
@@ -311,7 +313,7 @@ export const Code = () => {
                         <Button
                             disabled={status === CodePageStatusEnum.LOADING || (status === CodePageStatusEnum.IDLE && !isCodeValid)}
                             loading={status === CodePageStatusEnum.LOADING}
-                            type={status === CodePageStatusEnum.ERROR ? strings.buttonTypes.button : strings.buttonTypes.submit}
+                            type={status === CodePageStatusEnum.ERROR ? ButtonTypeEnum.BUTTON : ButtonTypeEnum.SUBMIT}
                             variant={status === CodePageStatusEnum.ERROR ? ButtonVariantEnum.PRIMARY : !isCodeValid ? ButtonVariantEnum.MUTED : ButtonVariantEnum.PRIMARY}
                             onClick={status === CodePageStatusEnum.ERROR ? resetHandler : undefined}
                         >

@@ -3,7 +3,12 @@ import { useState } from "react";
 
 import { EyeIcon, EyeOffIcon } from "@/assets/icons";
 import { Button } from "@/atoms";
-import { InputVariantEnum } from "@/enums";
+import {
+    ButtonTypeEnum,
+    ButtonVariantEnum,
+    InputTypeEnum,
+    InputVariantEnum,
+} from "@/enums";
 import type { InputVariantType } from "@/types";
 
 export const Input = ({
@@ -12,7 +17,7 @@ export const Input = ({
     errorMessage,
     label,
     showPasswordToggle = false,
-    type = "text",
+    type = InputTypeEnum.TEXT,
     variant = InputVariantEnum.DEFAULT,
     ...props
 }: InputHTMLAttributes<HTMLInputElement> & {
@@ -24,7 +29,7 @@ export const Input = ({
 }) => {
     const [showPassword, setShowPassword] = useState(false);
 
-    const inputType = showPasswordToggle ? (showPassword ? "text" : "password") : type;
+    const inputType = showPasswordToggle ? (showPassword ? InputTypeEnum.TEXT : InputTypeEnum.PASSWORD) : type;
 
     const baseStyles = `
         px-5
@@ -97,8 +102,8 @@ export const Input = ({
                 />
                 {showPasswordToggle && (
                     <Button
-                        type="button"
-                        variant="ghost"
+                        type={ButtonTypeEnum.BUTTON}
+                        variant={ButtonVariantEnum.GHOST}
                         className="
                             absolute
                             top-1/2

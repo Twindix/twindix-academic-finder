@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 import { Button, Logo } from "@/atoms";
 import { routes, strings } from "@/constants";
+import { LogoSizeEnum } from "@/enums";
 
 export const NotFound = () => {
     const navigate = useNavigate();
@@ -16,7 +17,7 @@ export const NotFound = () => {
             "
         >
             <header className="p-6">
-                <Logo size="md" />
+                <Logo size={LogoSizeEnum.MD} />
             </header>
             <main
                 className="
