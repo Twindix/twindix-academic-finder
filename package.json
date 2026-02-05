@@ -14,7 +14,9 @@
         "academic",
         "career-guidance",
         "student-assessment",
-        "twindix"
+        "twindix",
+        "job-bar",
+        "exam-code"
     ],
     "scripts": {
         "dev": "vite",
