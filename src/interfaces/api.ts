@@ -42,7 +42,7 @@ export interface ApiProcessResponseInterface {
         status_url: string,
     },
     message: string,
-    success: boolean,
+    success: boolean, // eslint-disable-line code-style/prop-naming-convention -- Backend response
 }
 
 export interface RecommendedJobInterface {
@@ -79,5 +79,5 @@ export interface ApiStatusResponseInterface {
         started_at: string,
         status: JobStatusType,
     },
-    success: boolean,
+    success: boolean, // eslint-disable-line code-style/prop-naming-convention -- Backend response
 }

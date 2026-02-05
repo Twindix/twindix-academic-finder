@@ -4,15 +4,15 @@ import { useState } from "react";
 export const Tooltip = ({
     children,
     content,
-    disabled = false,
+    isDisabled = false,
 }: {
     children: ReactNode,
     content: string,
-    disabled?: boolean,
+    isDisabled?: boolean,
 }) => {
     const [isVisible, setIsVisible] = useState(false);
 
-    if (disabled) return <>{children}</>;
+    if (isDisabled) return <>{children}</>;
 
     return (
         <div

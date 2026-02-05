@@ -7,7 +7,7 @@ import { ButtonVariantEnum } from "@/enums";
 import { useAuth } from "@/hooks";
 import { CodeLayout } from "@/layouts";
 
-export const Profile = () => {
+export const ProfilePage = () => {
     const { user } = useAuth();
 
     return (

@@ -4,13 +4,13 @@ import { Sidebar } from "@/components";
 
 export const MainLayout = ({
     children,
-    showSidebar = true,
+    isShowSidebar = true,
 }: {
     children: ReactNode,
-    showSidebar?: boolean,
+    isShowSidebar?: boolean,
 }) => (
     <div className="flex min-h-screen bg-background">
-        {showSidebar && <Sidebar />}
+        {isShowSidebar && <Sidebar />}
         <main className="relative flex-1">{children}</main>
     </div>
 );

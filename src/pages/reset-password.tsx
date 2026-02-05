@@ -13,7 +13,7 @@ import { AuthLayout } from "@/layouts";
 import { api } from "@/services";
 import { validatePasswordHandler } from "@/utils";
 
-export const ResetPassword = () => {
+export const ResetPasswordPage = () => {
     const [token, setToken] = useState("");
 
     const [email, setEmail] = useState("");
@@ -114,7 +114,7 @@ export const ResetPassword = () => {
                         {strings.resetPassword.successMessage}
                     </Alert>
                     <Button
-                        fullWidth
+                        isFullWidth
                         onClick={backToLoginHandler}
                     >
                         {strings.resetPassword.goToLogin}
@@ -189,12 +189,12 @@ export const ResetPassword = () => {
                     onSubmit={submitHandler}
                 >
                     <Input
-                        error={!!error}
+                        hasError={!!error}
                         label={strings.resetPassword.passwordLabel}
                         placeholder={strings.resetPassword.passwordPlaceholder}
                         type={InputTypeEnum.PASSWORD}
                         value={password}
-                        showPasswordToggle
+                        isShowPasswordToggle
                         onChange={(e) => {
                             const { target: { value } } = e;
 
@@ -204,12 +204,12 @@ export const ResetPassword = () => {
                         }}
                     />
                     <Input
-                        error={!!error}
+                        hasError={!!error}
                         label={strings.resetPassword.confirmPasswordLabel}
                         placeholder={strings.resetPassword.confirmPasswordPlaceholder}
                         type={InputTypeEnum.PASSWORD}
                         value={confirmPassword}
-                        showPasswordToggle
+                        isShowPasswordToggle
                         onChange={(e) => {
                             const { target: { value } } = e;
 
@@ -219,9 +219,9 @@ export const ResetPassword = () => {
                         }}
                     />
                     <Button
-                        loading={isLoading}
+                        isLoading={isLoading}
                         type={ButtonTypeEnum.SUBMIT}
-                        fullWidth
+                        isFullWidth
                     >
                         {strings.resetPassword.submitButton}
                     </Button>

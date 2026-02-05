@@ -8,15 +8,15 @@ export const Button = ({
     children,
     className = "",
     disabled,
-    fullWidth = false,
-    loading = false,
+    isFullWidth = false,
+    isLoading = false,
     size = ButtonSizeEnum.MD,
     variant = ButtonVariantEnum.PRIMARY,
     ...props
 }: ButtonHTMLAttributes<HTMLButtonElement> & {
     children: ReactNode,
-    fullWidth?: boolean,
-    loading?: boolean,
+    isFullWidth?: boolean,
+    isLoading?: boolean,
     size?: ButtonSizeType,
     variant?: ButtonVariantType,
 }) => {
@@ -63,18 +63,18 @@ export const Button = ({
         `,
     };
 
-    const sizes = {
+    const sizes: Record<ButtonSizeType, string> = {
         md: variant === ButtonVariantEnum.GHOST || variant === ButtonVariantEnum.GHOST_DANGER || variant === ButtonVariantEnum.LINK ? "" : "px-8 py-3",
         sm: variant === ButtonVariantEnum.GHOST || variant === ButtonVariantEnum.GHOST_DANGER || variant === ButtonVariantEnum.LINK ? "text-sm" : "px-4 py-2 text-sm",
     };
 
-    const widthStyles = fullWidth ? "w-full" : "";
+    const widthStyles = isFullWidth ? "w-full" : "";
 
-    const loadingStyles = loading ? "cursor-wait" : "";
+    const loadingStyles = isLoading ? "cursor-wait" : "";
 
     return (
         <button
-            disabled={disabled || loading}
+            disabled={disabled || isLoading}
             className={`
                 ${baseStyles}
                 ${variants[variant]}
@@ -85,7 +85,7 @@ export const Button = ({
             `}
             {...props}
         >
-            {loading ? strings.common.loading : children}
+            {isLoading ? strings.common.loading : children}
         </button>
     );
 };

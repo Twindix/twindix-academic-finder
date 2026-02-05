@@ -13,23 +13,23 @@ import type { InputVariantType } from "@/types";
 
 export const Input = ({
     className = "",
-    error = false,
     errorMessage,
+    hasError = false,
+    isShowPasswordToggle = false,
     label,
-    showPasswordToggle = false,
     type = InputTypeEnum.TEXT,
     variant = InputVariantEnum.DEFAULT,
     ...props
 }: InputHTMLAttributes<HTMLInputElement> & {
-    error?: boolean,
     errorMessage?: string,
+    hasError?: boolean,
+    isShowPasswordToggle?: boolean,
     label?: string,
-    showPasswordToggle?: boolean,
     variant?: InputVariantType,
 }) => {
-    const [showPassword, setShowPassword] = useState(false);
+    const [isShowPassword, setIsShowPassword] = useState(false);
 
-    const inputType = showPasswordToggle ? (showPassword ? InputTypeEnum.TEXT : InputTypeEnum.PASSWORD) : type;
+    const inputType = isShowPasswordToggle ? (isShowPassword ? InputTypeEnum.TEXT : InputTypeEnum.PASSWORD) : type;
 
     const baseStyles = `
         px-5
@@ -46,7 +46,7 @@ export const Input = ({
     `;
 
     const getStateStylesHandler = () => {
-        if (error) {
+        if (hasError) {
             return `
                 text-error
                 border-error
@@ -95,12 +95,12 @@ export const Input = ({
                     className={`
                         ${baseStyles}
                         ${stateStyles}
-                        ${showPasswordToggle ? "pr-12" : ""}
+                        ${isShowPasswordToggle ? "pr-12" : ""}
                         ${className}
                     `}
                     {...props}
                 />
-                {showPasswordToggle && (
+                {isShowPasswordToggle && (
                     <Button
                         type={ButtonTypeEnum.BUTTON}
                         variant={ButtonVariantEnum.GHOST}
@@ -111,13 +111,13 @@ export const Input = ({
                             -translate-y-1/2
                             text-text-muted
                         "
-                        onClick={() => setShowPassword(!showPassword)}
+                        onClick={() => setIsShowPassword(!isShowPassword)}
                     >
-                        {showPassword ? <EyeOffIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
+                        {isShowPassword ? <EyeOffIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
                     </Button>
                 )}
             </div>
-            {errorMessage && error && <p className="mt-1 text-sm text-error">{errorMessage}</p>}
+            {errorMessage && hasError && <p className="mt-1 text-sm text-error">{errorMessage}</p>}
         </div>
     );
 };

@@ -19,7 +19,7 @@ export const useAuth = (): UseAuthReturnInterface => {
 
     const [error, setError] = useState<string | null>(null);
 
-    const login = useCallback(
+    const loginHandler = useCallback(
         async (
             email: string,
             password: string,
@@ -54,7 +54,7 @@ export const useAuth = (): UseAuthReturnInterface => {
         [],
     );
 
-    const logout = useCallback(
+    const logoutHandler = useCallback(
         async () => {
             setIsLoading(true);
 
@@ -80,7 +80,7 @@ export const useAuth = (): UseAuthReturnInterface => {
         [],
     );
 
-    const fetchUser = useCallback(
+    const fetchUserHandler = useCallback(
         async () => {
             if (!checkAuth()) {
                 setIsAuthenticated(false);
@@ -113,7 +113,7 @@ export const useAuth = (): UseAuthReturnInterface => {
         [],
     );
 
-    const clearError = useCallback(
+    const clearErrorHandler = useCallback(
         () => setError(null),
         [],
     );
@@ -132,13 +132,13 @@ export const useAuth = (): UseAuthReturnInterface => {
     );
 
     return {
-        clearError,
         error,
-        fetchUser,
         isAuthenticated,
         isLoading,
-        login,
-        logout,
+        onClearError: clearErrorHandler,
+        onFetchUser: fetchUserHandler,
+        onLogin: loginHandler,
+        onLogout: logoutHandler,
         user,
     };
 };

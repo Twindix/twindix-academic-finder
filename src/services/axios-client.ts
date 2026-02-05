@@ -65,8 +65,8 @@ const axiosClient = axios.create({
 let isRefreshing = false;
 
 let failedQueue: Array<{
-    reject: (reason?: unknown) => void,
-    resolve: (value?: unknown) => void,
+    reject: (reason?: unknown) => void, // eslint-disable-line code-style/prop-naming-convention -- Promise callback
+    resolve: (value?: unknown) => void, // eslint-disable-line code-style/prop-naming-convention -- Promise callback
 }> = [];
 
 const processQueueHandler = (error: NullableErrorType, token: string | null = null): void => {

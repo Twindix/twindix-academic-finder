@@ -24,7 +24,7 @@ import { CodeLayout } from "@/layouts";
 import { api } from "@/services";
 import type { CodePageStatusType, LanguageType } from "@/types";
 
-export const Code = () => {
+export const CodePage = () => {
     const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
     const jobIdRef = useRef<string | null>(null);
@@ -299,18 +299,18 @@ export const Code = () => {
                             onChange={({ target }) => setCode(target.value)}
                         />
                         <LanguageSelect
-                            disabled={status === CodePageStatusEnum.LOADING}
+                            isDisabled={status === CodePageStatusEnum.LOADING}
                             value={lang}
                             onChange={setLang}
                         />
                     </div>
                     <Tooltip
                         content={strings.code.codeLength}
-                        disabled={isCodeValid || status === CodePageStatusEnum.ERROR || status === CodePageStatusEnum.LOADING}
+                        isDisabled={isCodeValid || status === CodePageStatusEnum.ERROR || status === CodePageStatusEnum.LOADING}
                     >
                         <Button
                             disabled={status === CodePageStatusEnum.LOADING || (status === CodePageStatusEnum.IDLE && !isCodeValid)}
-                            loading={status === CodePageStatusEnum.LOADING}
+                            isLoading={status === CodePageStatusEnum.LOADING}
                             type={status === CodePageStatusEnum.ERROR ? ButtonTypeEnum.BUTTON : ButtonTypeEnum.SUBMIT}
                             variant={status === CodePageStatusEnum.ERROR ? ButtonVariantEnum.PRIMARY : !isCodeValid ? ButtonVariantEnum.MUTED : ButtonVariantEnum.PRIMARY}
                             onClick={status === CodePageStatusEnum.ERROR ? resetHandler : undefined}

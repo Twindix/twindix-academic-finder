@@ -19,10 +19,10 @@ import { api } from "@/services";
 import type { ResultPageStatusType } from "@/types";
 import { stripMarkdownHandler } from "@/utils";
 
-export const Result = () => {
+export const ResultPage = () => {
     const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-    const [copied, setCopied] = useState(false);
+    const [isCopied, setIsCopied] = useState(false);
 
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -68,10 +68,10 @@ export const Result = () => {
         if (result) {
             navigator.clipboard.writeText(stripMarkdownHandler(result.content));
 
-            setCopied(true);
+            setIsCopied(true);
 
             setTimeout(
-                () => setCopied(false),
+                () => setIsCopied(false),
                 2000,
             );
         }
@@ -248,7 +248,7 @@ export const Result = () => {
                                 type={InputTypeEnum.TEXT}
                                 value={code}
                                 disabled
-                                error
+                                hasError
                             />
                         </div>
                         <Button onClick={resetHandler}>{strings.code.buttonReenter}</Button>
@@ -269,7 +269,7 @@ export const Result = () => {
     }
 
     return (
-        <CodeLayout centered={false}>
+        <CodeLayout isCentered={false}>
             <div
                 className="
                     mx-auto
@@ -284,7 +284,7 @@ export const Result = () => {
                 <div className="min-h-0 flex-1">
                     <ChatBox
                         content={result.content}
-                        copied={copied}
+                        isCopied={isCopied}
                         isRtl={lang === LanguageEnum.AR}
                         userName={result.userName}
                         onCopy={copyHandler}

@@ -12,7 +12,7 @@ import reactHooks from "eslint-plugin-react-hooks";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
 import tailwind from "eslint-plugin-tailwindcss";
 import globals from "globals";
-import { dirname } from "path";
+import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -30,7 +30,19 @@ export default [ // eslint-disable-line
         ],
     },
     js.configs.recommended,
-    ...tailwind.configs["flat/recommended"],
+    ...tailwind.configs["flat/recommended"].map(config => ({
+        ...config,
+        settings: {
+            ...config.settings,
+            tailwindcss: {
+                config: join(
+                    __dirname,
+                    "src", // eslint-disable-line
+                    "index.css", // eslint-disable-line
+                ),
+            },
+        },
+    })),
     {
         files: ["**/*.{js,jsx,ts,tsx}"],
         languageOptions: {
@@ -167,6 +179,7 @@ export default [ // eslint-disable-line
             "code-style/enum-format": "error",
             "code-style/enum-type-enforcement": "error",
             "code-style/export-format": "error",
+            "code-style/folder-component-suffix": "error",
             "code-style/function-arguments-format": "error",
             "code-style/function-call-spacing": "error",
             "code-style/function-declaration-style": "error",
@@ -207,6 +220,7 @@ export default [ // eslint-disable-line
             "code-style/object-property-value-brace": "error",
             "code-style/object-property-value-format": "error",
             "code-style/opening-brackets-same-line": "error",
+            "code-style/prop-naming-convention": "error",
             "code-style/react-code-order": "error",
             "code-style/simple-call-single-line": "error",
             "code-style/single-argument-on-one-line": "error",
@@ -216,6 +230,7 @@ export default [ // eslint-disable-line
             "code-style/type-annotation-spacing": "error",
             "code-style/type-format": "error",
             "code-style/typescript-definition-location": "error",
+            "code-style/use-state-naming-convention": "error",
             "code-style/variable-naming-convention": "error",
             complexity: "off",
             "consistent-return": "off",
@@ -419,7 +434,6 @@ export default [ // eslint-disable-line
                 },
             },
             react: { version: "detect" },
-            tailwindcss: { config: __dirname + "/src/index.css" },
         },
     },
 ];

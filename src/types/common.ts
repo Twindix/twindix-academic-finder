@@ -2,7 +2,13 @@ export type AlertVariantType = "error" | "info" | "success" | "warning";
 
 export type ButtonSizeType = "md" | "sm";
 
-export type ButtonVariantType = "danger" | "ghost" | "ghost-danger" | "link" | "muted" | "primary";
+export type ButtonVariantType =
+    "danger"
+    | "ghost"
+    | "ghost-danger"
+    | "link"
+    | "muted"
+    | "primary";
 
 export type CodeLayoutVariantType = "default" | "error";
 

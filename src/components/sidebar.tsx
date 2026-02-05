@@ -9,13 +9,13 @@ import { useAuth } from "@/hooks";
 export const Sidebar = () => {
     const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-    const { logout } = useAuth();
+    const { onLogout } = useAuth();
 
     const clickLogoutHandler = async () => {
         setIsLoggingOut(true);
 
         try {
-            await logout();
+            await onLogout();
         } catch (error) {
             console.error(
                 strings.debug.logoutFailed,

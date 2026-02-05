@@ -13,7 +13,7 @@ import { AuthLayout } from "@/layouts";
 import { api } from "@/services";
 import { validateEmailHandler, validatePasswordHandler } from "@/utils";
 
-export const Register = () => {
+export const RegisterPage = () => {
     const [token, setToken] = useState("");
 
     const [name, setName] = useState("");
@@ -131,7 +131,7 @@ export const Register = () => {
                         {strings.register.successMessage}
                     </Alert>
                     <Button
-                        fullWidth
+                        isFullWidth
                         onClick={backToLoginHandler}
                     >
                         {strings.register.goToLogin}
@@ -206,7 +206,7 @@ export const Register = () => {
                     onSubmit={submitHandler}
                 >
                     <Input
-                        error={!!error}
+                        hasError={!!error}
                         label={strings.register.nameLabel}
                         placeholder={strings.register.namePlaceholder}
                         type={InputTypeEnum.TEXT}
@@ -220,7 +220,7 @@ export const Register = () => {
                         }}
                     />
                     <Input
-                        error={!!error}
+                        hasError={!!error}
                         label={strings.register.emailLabel}
                         placeholder={strings.register.emailPlaceholder}
                         type={InputTypeEnum.EMAIL}
@@ -234,7 +234,7 @@ export const Register = () => {
                         }}
                     />
                     <Input
-                        error={!!error}
+                        hasError={!!error}
                         label={strings.register.companyNameLabel}
                         placeholder={strings.register.companyNamePlaceholder}
                         type={InputTypeEnum.TEXT}
@@ -248,7 +248,7 @@ export const Register = () => {
                         }}
                     />
                     <Input
-                        error={!!error}
+                        hasError={!!error}
                         label={strings.register.phoneLabel}
                         placeholder={strings.register.phonePlaceholder}
                         type={InputTypeEnum.TEL}
@@ -262,12 +262,12 @@ export const Register = () => {
                         }}
                     />
                     <Input
-                        error={!!error}
+                        hasError={!!error}
                         label={strings.register.passwordLabel}
                         placeholder={strings.register.passwordPlaceholder}
                         type={InputTypeEnum.PASSWORD}
                         value={password}
-                        showPasswordToggle
+                        isShowPasswordToggle
                         onChange={(e) => {
                             const { target: { value } } = e;
 
@@ -277,12 +277,12 @@ export const Register = () => {
                         }}
                     />
                     <Input
-                        error={!!error}
+                        hasError={!!error}
                         label={strings.register.confirmPasswordLabel}
                         placeholder={strings.register.confirmPasswordPlaceholder}
                         type={InputTypeEnum.PASSWORD}
                         value={confirmPassword}
-                        showPasswordToggle
+                        isShowPasswordToggle
                         onChange={(e) => {
                             const { target: { value } } = e;
 
@@ -292,9 +292,9 @@ export const Register = () => {
                         }}
                     />
                     <Button
-                        loading={isLoading}
+                        isLoading={isLoading}
                         type={ButtonTypeEnum.SUBMIT}
-                        fullWidth
+                        isFullWidth
                     >
                         {strings.register.submitButton}
                     </Button>

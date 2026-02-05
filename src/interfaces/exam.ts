@@ -12,7 +12,7 @@ export interface ChatResultInterface {
 export interface ProcessResponseInterface {
     error?: string,
     jobId?: string,
-    success: boolean,
+    success: boolean, // eslint-disable-line code-style/prop-naming-convention -- Backend response
 }
 
 export interface StatusResponseInterface {
@@ -21,5 +21,5 @@ export interface StatusResponseInterface {
     progress: number,
     result?: ChatResultInterface,
     status: JobStatusType,
-    success: boolean,
+    success: boolean, // eslint-disable-line code-style/prop-naming-convention -- Backend response
 }

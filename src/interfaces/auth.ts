@@ -25,12 +25,12 @@ export interface ResetPasswordRequestInterface {
 export interface ResetPasswordResponseInterface { message: string }
 
 export interface UseAuthReturnInterface {
-    clearError: () => void,
     error: string | null,
-    fetchUser: () => Promise<void>,
     isAuthenticated: boolean,
     isLoading: boolean,
-    login: (email: string, password: string) => Promise<void>,
-    logout: () => Promise<void>,
+    onClearError: () => void,
+    onFetchUser: () => Promise<void>,
+    onLogin: (email: string, password: string) => Promise<void>,
+    onLogout: () => Promise<void>,
     user: UserInterface | null,
 }

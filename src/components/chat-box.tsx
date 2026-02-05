@@ -7,13 +7,13 @@ import { ButtonSizeEnum, ButtonVariantEnum, DirectionEnum } from "@/enums";
 
 export const ChatBox = ({
     content,
-    copied,
+    isCopied,
     isRtl = false,
     onCopy,
     userName,
 }: {
     content: string,
-    copied: boolean,
+    isCopied: boolean,
     isRtl?: boolean,
     onCopy: () => void,
     userName: string,
@@ -46,8 +46,8 @@ export const ChatBox = ({
                 variant={ButtonVariantEnum.GHOST}
                 onClick={onCopy}
             >
-                {copied ? strings.common.copied : strings.common.copy}
-                {copied ? <SuccessIcon className="h-4 w-4" /> : <CopyIcon className="h-4 w-4" />}
+                {isCopied ? strings.common.copied : strings.common.copy}
+                {isCopied ? <SuccessIcon className="h-4 w-4" /> : <CopyIcon className="h-4 w-4" />}
             </Button>
         </div>
         <div

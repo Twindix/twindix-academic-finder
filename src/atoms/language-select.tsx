@@ -6,18 +6,18 @@ import { ButtonTypeEnum, LanguageEnum } from "@/enums";
 import type { LanguageType } from "@/types";
 
 export const LanguageSelect = ({
-    disabled = false,
+    isDisabled = false,
     onChange,
     value,
 }: {
-    disabled?: boolean,
+    isDisabled?: boolean,
     onChange: (lang: LanguageType) => void,
     value: LanguageType,
 }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleOpenHandler = () => {
-        if (!disabled) setIsOpen(!isOpen);
+        if (!isDisabled) setIsOpen(!isOpen);
     };
 
     const selectLanguageHandler = (lang: LanguageType) => {
@@ -29,7 +29,7 @@ export const LanguageSelect = ({
     return (
         <div className="relative">
             <button
-                disabled={disabled}
+                disabled={isDisabled}
                 type={ButtonTypeEnum.BUTTON}
                 className="
                     flex

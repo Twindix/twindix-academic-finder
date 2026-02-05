@@ -1,8 +1,8 @@
-export { Code } from "./code";
-export { ForgotPassword } from "./forgot-password";
-export { Login } from "./login";
-export { NotFound } from "./not-found";
-export { Profile } from "./profile";
-export { Register } from "./register";
-export { ResetPassword } from "./reset-password";
-export { Result } from "./result";
+export { CodePage as Code } from "./code";
+export { ForgotPasswordPage as ForgotPassword } from "./forgot-password";
+export { LoginPage as Login } from "./login";
+export { NotFoundPage as NotFound } from "./not-found";
+export { ProfilePage as Profile } from "./profile";
+export { RegisterPage as Register } from "./register";
+export { ResetPasswordPage as ResetPassword } from "./reset-password";
+export { ResultPage as Result } from "./result";

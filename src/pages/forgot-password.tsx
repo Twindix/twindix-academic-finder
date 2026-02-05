@@ -13,7 +13,7 @@ import { AuthLayout } from "@/layouts";
 import { api } from "@/services";
 import { validateEmailHandler } from "@/utils";
 
-export const ForgotPassword = () => {
+export const ForgotPasswordPage = () => {
     const [email, setEmail] = useState("");
 
     const [isLoading, setIsLoading] = useState(false);
@@ -119,7 +119,7 @@ export const ForgotPassword = () => {
                     onSubmit={submitHandler}
                 >
                     <Input
-                        error={!!error}
+                        hasError={!!error}
                         label={strings.forgotPassword.emailLabel}
                         placeholder={strings.forgotPassword.emailPlaceholder}
                         type={InputTypeEnum.EMAIL}
@@ -133,9 +133,9 @@ export const ForgotPassword = () => {
                         }}
                     />
                     <Button
-                        loading={isLoading}
+                        isLoading={isLoading}
                         type={ButtonTypeEnum.SUBMIT}
-                        fullWidth
+                        isFullWidth
                     >
                         {strings.forgotPassword.submitButton}
                     </Button>

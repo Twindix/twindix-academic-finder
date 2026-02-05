@@ -14,7 +14,7 @@ import { useAuth } from "@/hooks";
 import { AuthLayout } from "@/layouts";
 import { validateLoginFormHandler } from "@/utils";
 
-export const Login = () => {
+export const LoginPage = () => {
     const [email, setEmail] = useState("");
 
     const [password, setPassword] = useState("");
@@ -26,10 +26,10 @@ export const Login = () => {
     const [searchParams] = useSearchParams();
 
     const {
-        clearError,
         error,
         isLoading,
-        login,
+        onClearError,
+        onLogin,
     } = useAuth();
 
     const returnUrl = searchParams.get("returnUrl") || routes.code;
@@ -41,7 +41,7 @@ export const Login = () => {
 
         setValidationError("");
 
-        clearError();
+        onClearError();
 
         const validation = validateLoginFormHandler(
             email,
@@ -55,7 +55,7 @@ export const Login = () => {
         }
 
         try {
-            await login(
+            await onLogin(
                 email,
                 password,
             );
@@ -72,7 +72,7 @@ export const Login = () => {
     const dismissErrorHandler = () => {
         setValidationError("");
 
-        clearError();
+        onClearError();
     };
 
     return (
@@ -104,7 +104,7 @@ export const Login = () => {
                     onSubmit={submitHandler}
                 >
                     <Input
-                        error={!!displayError}
+                        hasError={!!displayError}
                         label={strings.login.emailLabel}
                         placeholder={strings.login.emailPlaceholder}
                         type={InputTypeEnum.EMAIL}
@@ -118,12 +118,12 @@ export const Login = () => {
                         }}
                     />
                     <Input
-                        error={!!displayError}
+                        hasError={!!displayError}
                         label={strings.login.passwordLabel}
                         placeholder={strings.login.passwordPlaceholder}
                         type={InputTypeEnum.PASSWORD}
                         value={password}
-                        showPasswordToggle
+                        isShowPasswordToggle
                         onChange={(e) => {
                             const { target: { value } } = e;
 
@@ -151,9 +151,9 @@ export const Login = () => {
                         </Button>
                     </div>
                     <Button
-                        loading={isLoading}
+                        isLoading={isLoading}
                         type={ButtonTypeEnum.SUBMIT}
-                        fullWidth
+                        isFullWidth
                     >
                         {strings.login.submitButton}
                     </Button>

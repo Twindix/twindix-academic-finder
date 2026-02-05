@@ -4,7 +4,7 @@ import { Button, Logo } from "@/atoms";
 import { routes, strings } from "@/constants";
 import { LogoSizeEnum } from "@/enums";
 
-export const NotFound = () => {
+export const NotFoundPage = () => {
     const navigate = useNavigate();
 
     return (

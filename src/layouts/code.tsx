@@ -11,12 +11,12 @@ import { useAuth } from "@/hooks";
 import type { CodeLayoutVariantType } from "@/types";
 
 export const CodeLayout = ({
-    centered = true,
     children,
+    isCentered = true,
     variant = CodeLayoutVariantEnum.DEFAULT,
 }: {
-    centered?: boolean,
     children: ReactNode,
+    isCentered?: boolean,
     variant?: CodeLayoutVariantType,
 }) => {
     const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -24,7 +24,7 @@ export const CodeLayout = ({
     const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
     const {
-        logout,
+        onLogout,
         user,
     } = useAuth();
 
@@ -40,7 +40,7 @@ export const CodeLayout = ({
         setIsLoggingOut(true);
 
         try {
-            await logout();
+            await onLogout();
         } catch (error) {
             console.error(
                 strings.debug.logoutFailed,
@@ -97,7 +97,7 @@ export const CodeLayout = ({
                         md:block
                     "
                 />
-                {centered ? (
+                {isCentered ? (
                     <>
                         <header
                             className="
