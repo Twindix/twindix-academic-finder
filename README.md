@@ -21,24 +21,44 @@ Twindix Academic Finder provides accurate recommendations for suitable academic 
 - **Vite** - Build tool and dev server
 - **Tailwind CSS v4** - Styling
 - **React Router v7** - Client-side routing
-- **Zustand** - State management
 - **ESLint v9** - Code linting
 
 ## Project Structure
 
 ```
-src/
-├── assets/           # Images and icons
-├── components/
-│   ├── ui/           # Reusable UI components (Button, Input, Logo)
-│   ├── layout/       # Layout components (AuthLayout, MainLayout, Sidebar)
-│   └── features/     # Feature-specific components (ChatBox)
-├── pages/            # Page components (Login, Code, Result, Profile)
-├── store/            # Zustand state management
-├── services/         # API services
-├── routes/           # React Router configuration
-├── types/            # TypeScript type definitions
-└── hooks/            # Custom React hooks
+├── public/                    # Static assets
+│   ├── favicon.ico
+│   ├── favicon-32x32.png
+│   ├── apple-touch-icon.png
+│   ├── offline.html           # PWA offline fallback
+│   └── _redirects             # Netlify redirects
+├── src/
+│   ├── assets/                # Static assets
+│   │   ├── icons/             # SVG/TSX icon components
+│   │   └── images/            # Image files (logo, etc.)
+│   ├── atoms/                 # Custom UI components (project identity)
+│   ├── components/            # Shared components with logic
+│   ├── constants/             # App constants, routes, and strings
+│   ├── enums/                 # TypeScript enums
+│   ├── hooks/                 # Custom React hooks
+│   ├── interfaces/            # TypeScript interfaces
+│   ├── layouts/               # Page layouts (AuthLayout, CodeLayout, MainLayout)
+│   ├── pages/                 # Full page components
+│   ├── routes/                # React Router configuration
+│   ├── services/              # API services & Axios client
+│   ├── types/                 # TypeScript type aliases
+│   ├── utils/                 # Utility functions
+│   ├── app.tsx                # Root application component
+│   ├── main.tsx               # Application entry point
+│   └── index.css              # Global styles & Tailwind theme
+├── scripts/                   # Build scripts
+├── eslint.config.js           # ESLint flat config
+├── vite.config.ts             # Vite configuration with PWA
+├── tsconfig.json              # TypeScript configuration
+├── package.json               # Dependencies & scripts
+├── AGENTS.md                  # AI agent instructions
+├── CLAUDE.md                  # Claude-specific configuration
+└── README.md                  # Project documentation
 ```
 
 ## Getting Started
@@ -91,7 +111,13 @@ VITE_API_URL=https://your-api-url.com
 | `/profile` | User profile management |
 | `*` | 404 Not found page |
 
+---
+
 ## License
 
-Proprietary - Twindix Global Inc.
+This project is proprietary software. See the [LICENSE](./LICENSE) file for full details.
+
+Copyright (c) 2025 Twindix Global Inc. All rights reserved.
+
+---
 
